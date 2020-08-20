@@ -1,30 +1,18 @@
-import React, { useContext } from 'react';
-import { Text, View } from 'react-native';
-import { globalContext } from '../App';
+import React from 'react';
+import {Text, View} from 'react-native';
+import {INFO, INFO_DESCRIPTION, INFO_TITLE} from '../Config/Styles.js';
 
-export default Info = () => {
-  const info = useContext(globalContext).info;
+const Info = props => {
   return (
-    <View style={{
-      width: '100%',
-      height: 250,
-      marginLeft: 30,
-      backgroundColor: '#000'
-    }}>
-      <Text style={{
-          lineHeight: 100,
-          fontSize: 30,
-          fontWeight: 'bold',
-          color: '#FFF',
-      }}>
-        { info.title }
+    <View style={INFO}>
+      <Text style={[INFO_TITLE, {color: props.infoTextColor}]}>
+        {props.info.title}
       </Text>
-      <Text style={{
-        color: '#FFF',
-        fontSize: 25
-      }}>
-        { info.description }
+      <Text style={[INFO_DESCRIPTION, {color: props.infoTextColor}]}>
+        {props.info.description}
       </Text>
     </View>
   );
-}
+};
+
+export default Info;

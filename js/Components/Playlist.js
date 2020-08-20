@@ -1,26 +1,22 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import {Text, View} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import Thumbnail from './Thumbnail.js'
+import Thumbnail from './Thumbnail.js';
+import {PLAYLIST, PLAYLIST_TEXT} from '../Config/Styles.js';
 
 export default class Playlist extends React.Component {
-  renderItem = ({item}) => <Thumbnail payload={item}/>;
- 
-  render () {
+  renderItem = ({item}) => <Thumbnail thumbnail={item.thumbnail} />;
+
+  render() {
     return (
-      <View style={{marginLeft: 30}}>
-        <Text style={{
-          color:'#FFF',
-          fontSize: 35,
-          lineHeight: 100,
-          fontWeight: 'bold'
-        }}>
+      <View style={PLAYLIST}>
+        <Text style={[PLAYLIST_TEXT, {color: this.props.playlistTitleColor}]}>
           {this.props.title}
         </Text>
         <Carousel
-          ref={(e) => { this.playlistRow = e; }}
+          ref={e => (this.playlistRow = e)}
           data={this.props.videos}
-          layout={"default"}
+          layout={'default'}
           activeSlideAlignment={'start'}
           renderItem={this.renderItem}
           sliderWidth={1920}

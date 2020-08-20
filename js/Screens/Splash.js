@@ -1,15 +1,8 @@
 import React from 'react';
-import { Image, View } from 'react-native';
-import { IMG } from '../Config/Constants.js';
-import { BODY, FULLSCREEN } from '../Config/Styles.js'
+import {Image} from 'react-native';
+import {IMG} from '../Config/Constants.js';
+import {FILLSCREEN} from '../Config/Styles.js';
 
-export default Splash = () => {
-  return (
-    <View style={BODY}>
-      <Image
-        style={FULLSCREEN}
-        source={{ uri: IMG.SPLASH }}
-      />
-    </View>
-  );
-};
+const Splash = () => <Image style={FILLSCREEN} source={{uri: IMG.SPLASH}} />;
+
+export default Splash;

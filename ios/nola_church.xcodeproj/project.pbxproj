@@ -10,6 +10,8 @@
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		B3322D2A24EDB9BF002026ED /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B3322D2924EDB9BF002026ED /* GoogleService-Info.plist */; };
+		B3322D2C24EECAF8002026ED /* splash.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B3322D2B24EECAF8002026ED /* splash.jpg */; };
 		B33D544D24E30B5700A2B7E1 /* libPods-nola_church-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B33D544C24E30B4E00A2B7E1 /* libPods-nola_church-tvOS.a */; };
 /* End PBXBuildFile section */
 
@@ -161,6 +163,8 @@
 		97200F3746A0C535DFCC35C5 /* Pods-nola_church-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nola_church-tvOS.release.xcconfig"; path = "Target Support Files/Pods-nola_church-tvOS/Pods-nola_church-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		B30D129624E306420073E060 /* dev */ = {isa = PBXFileReference; lastKnownFileType = folder; name = dev; path = ../..; sourceTree = "<group>"; };
 		B30D129724E306690073E060 /* RCTVideo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVideo.xcodeproj; path = "../node_modules/react-native-video/ios/RCTVideo.xcodeproj"; sourceTree = "<group>"; };
+		B3322D2924EDB9BF002026ED /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "nola_church/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B3322D2B24EECAF8002026ED /* splash.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = splash.jpg; path = "nola_church-tvOS/splash.jpg"; sourceTree = "<group>"; };
 		B33D541924E30A0A00A2B7E1 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		B33D544C24E30B4E00A2B7E1 /* libPods-nola_church-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libPods-nola_church-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8056499030A4F6AE68DBF72 /* Pods-nola_church-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nola_church-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-nola_church-tvOSTests/Pods-nola_church-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -205,6 +209,8 @@
 		13B07FAE1A68108700A75B9A /* nola_church */ = {
 			isa = PBXGroup;
 			children = (
+				B3322D2B24EECAF8002026ED /* splash.jpg */,
+				B3322D2924EDB9BF002026ED /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -509,7 +515,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3322D2C24EECAF8002026ED /* splash.jpg in Resources */,
 				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
+				B3322D2A24EDB9BF002026ED /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

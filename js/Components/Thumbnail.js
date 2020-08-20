@@ -1,22 +1,13 @@
 import React from 'react';
-import { Image, View } from 'react-native';
+import {Image, View} from 'react-native';
+import {THUMBNAIL, THUMBNAIL_IMAGE} from '../Config/Styles.js';
 
-export default Thumbnail = props => {
+const Thumbnail = props => {
   return (
-    <View
-      ref={(e) => { this.foo = e; }}
-      style={{
-          width: 420,
-          height: 230
-      }}
-    >
-    <Image
-      style={{
-          width: 410,
-          height: 220
-      }}
-      source={{uri: props.payload.thumbnail }}
-    />
+    <View style={THUMBNAIL}>
+      <Image style={THUMBNAIL_IMAGE} source={{uri: props.thumbnail}} />
     </View>
   );
 };
+
+export default Thumbnail;

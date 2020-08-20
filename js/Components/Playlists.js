@@ -1,27 +1,31 @@
 import React from 'react';
+import {View} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import { View } from 'react-native';
+import Highlight from './Highlight.js';
 import Playlist from './Playlist.js';
+import {PLAYLIST} from '../Config/Styles.js';
 
 export default class Playlists extends React.Component {
   renderItem = ({item, index}) => {
     const ref = `playlist${index}`;
     return (
       <Playlist
-        ref={(e) => { this[ref] = e; }}
+        ref={e => (this[ref] = e)}
         title={item.title}
         videos={item.videos}
         onSnapToItemRow={this.props.onSnapToItemRow}
+        playlistTitleColor={this.props.playlistTitleColor}
       />
     );
-  }
-  render () {
+  };
+  render() {
     return (
-      <View style={{marginLeft: 30}}>
+      <View style={PLAYLIST}>
+        <Highlight highlightColor={this.props.highlightColor} />
         <Carousel
-          ref={(e) => { this.playlistCol = e; }}
-          data={ this.props.playlists }
-          layout={"default"}
+          ref={e => (this.playlistCol = e)}
+          data={this.props.playlists}
+          layout={'default'}
           vertical={true}
           activeSlideAlignment={'start'}
           renderItem={this.renderItem}

@@ -1,48 +1,94 @@
 import React from 'react';
-import { TVEventHandler, View } from 'react-native';
-import { Error, Home, Player, Splash } from './Screens';
-import { ERR, URL, REMOTE, SCREEN } from './Config/Constants.js';
-
-export const globalContext = React.createContext({});
+import {TVEventHandler, TVMenuControl, View} from 'react-native';
+import {Error, Home, Splash} from './Screens';
+import {Player} from './Components';
+import {
+  ERR,
+  IMG,
+  URL,
+  REMOTE,
+  SCREEN,
+  TRACKING_ID,
+} from './Config/Constants.js';
+import {FILLSCREEN, HIDDEN} from './Config/Styles.js';
+import ReactGA from 'react-ga';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.init = this.init.bind(this);
-    this.updateInfo = this.updateInfo.bind(this);
-    this.getUrl = this.getUrl.bind(this);
+  constructor() {
+    super();
     this.state = {
       isFeedReady: false,
       screen: SCREEN.SPLASH,
-      showPlayer: false,
-      err: "",
-      info: {
-        title: "",
-        description: ""
-      },
+      playlists: [],
       positionMap: {},
       position: {
         colIndex: 0,
-        rowIndex: 0
+        rowIndex: 0,
       },
-      playlists: []
-    }
+      info: {
+        title: '',
+        description: '',
+      },
+      player: {
+        enabled: false,
+        visible: false,
+        paused: false,
+        url: '',
+        nextUrl: '',
+      },
+      settings: {
+        logo: IMG.LOGO,
+        bgColor: '#000',
+        infoTextColor: '#FFF',
+        playlistTitleColor: '#FFF',
+        highlightColor: 'lightblue',
+      },
+    };
   }
 
   componentDidMount() {
+    this.fetchSettings();
     this.fetchFeed();
     this.enableTVEventHandler();
+    ReactGA.initialize(TRACKING_ID);
   }
 
   componentWillUnmount() {
+    ReactGA.pageview('home');
+    ReactGA.event({
+      category: 'Test Unmount',
+      action: 'App was closed!',
+    });
     this.disableTVEventHandler();
+  }
+
+  getNextUrl() {
+    const colIndex = this.state.position.colIndex;
+    const rowIndex = this.state.position.rowIndex;
+    return this.state.playlists[colIndex].videos[rowIndex].url;
   }
 
   fetchFeed() {
     fetch(URL.FEED)
       .then(res => res.json())
-      .then(data => this.init(data))
-      .catch(err => this.setState({ err: err }));
+      .then(feed => this.initFeed(feed))
+      .catch(() => this.setScreen(SCREEN.ERROR));
+  }
+
+  fetchSettings() {
+    fetch(URL.SETTINGS)
+      .then(res => res.json())
+      .then(settings => this.initSettings(settings))
+      .catch(() => {});
+  }
+
+  initSettings(settings) {
+    const newSettings = {};
+    const defaults = this.state.settings;
+    for (const key in defaults) {
+      newSettings[key] = settings[key] || defaults[key];
+    }
+    this.setState({settings: newSettings});
   }
 
   updateInfo() {
@@ -50,31 +96,24 @@ class App extends React.Component {
     const rowIndex = this.state.position.rowIndex;
     const currVideo = this.state.playlists[colIndex].videos[rowIndex];
 
-    this.setState({
+    this.setState(prevState => ({
       info: {
         title: currVideo.title,
-        description: currVideo.description
-      }
-    })
-  };
-
-  getUrl() {
-    const colIndex = this.state.position.colIndex;
-    const rowIndex = this.state.position.rowIndex;
-    return this.state.playlists[colIndex].videos[rowIndex].url;
+        description: currVideo.description,
+      },
+      player: {
+        ...prevState.player,
+        nextUrl: currVideo.url,
+      },
+    }));
   }
 
-  getColRowRef() {
+  getRefs() {
     const colIndex = this.state.position.colIndex;
     const playlist = `playlist${colIndex}`;
-    const col = this.home &&
-      this.home.playlists &&
-      this.home.playlists.playlistCol;
-    const row = this.home &&
-      this.home.playlists &&
-      this.home.playlists[playlist] &&
-      this.home.playlists[playlist].playlistRow;
-    return { col: col, row: row };
+    const col = this.home.playlists.playlistCol;
+    const row = this.home.playlists[playlist].playlistRow;
+    return {col: col, row: row};
   }
 
   retry() {
@@ -84,38 +123,101 @@ class App extends React.Component {
   }
 
   handleBtnByScreen(btn) {
-    if (this.isSplashScreen()) return false;
+    if (this.isSplashScreen()) {
+      return false;
+    }
     if (this.isErrorScreen()) {
       if (btn === REMOTE.SELECT || btn === REMOTE.PLAYPAUSE) {
-        this.setState({ isFeedReady: true });
         return this.retry();
       }
     }
     if (this.isHomeScreen()) {
-      const ref = this.getColRowRef();
-      switch (btn) {
-        case REMOTE.UP: return ref.col.snapToPrev();
-        case REMOTE.DOWN: return ref.col.snapToNext();
-        case REMOTE.LEFT: return ref.row.snapToPrev();
-        case REMOTE.RIGHT: return ref.row.snapToNext();
-        case REMOTE.PLAYPAUSE:
-        case REMOTE.SELECT: return this.setScreen(SCREEN.PLAYER);
-        default: return;
+      const refs = this.getRefs();
+      if (this.state.player.visible) {
+        switch (btn) {
+          case REMOTE.MENU:
+            return this.returnFromPlayer();
+          default:
+            return;
+        }
+      } else {
+        switch (btn) {
+          case REMOTE.UP:
+            return refs.col.snapToPrev();
+          case REMOTE.DOWN:
+            return refs.col.snapToNext();
+          case REMOTE.LEFT:
+            return refs.row.snapToPrev();
+          case REMOTE.RIGHT:
+            return refs.row.snapToNext();
+          case REMOTE.PLAYPAUSE:
+          case REMOTE.SELECT:
+            return this.player &&
+              this.player.props.url === this.state.player.nextUrl
+              ? this.resumePlayer()
+              : this.startPlayer();
+          default:
+            return;
+        }
       }
     }
-    if (this.isPlayerScreen()) {
-      switch (btn) {
-        case REMOTE.MENU: return this.setScreen(SCREEN.HOME);
-        default: return;
-      }
-    }
+  }
+
+  returnFromPlayer() {
+    this.setState(
+      prevState => ({
+        player: {
+          ...prevState.player,
+          paused: true,
+          visible: false,
+        },
+      }),
+      () => this.disableTVMenuControl(),
+    );
+  }
+
+  startPlayer() {
+    this.setState(
+      prevState => ({
+        player: {
+          ...prevState.player,
+          enabled: false,
+        },
+      }),
+      () => this.enablePlayer(),
+    );
+  }
+
+  enablePlayer() {
+    this.setState(
+      prevState => ({
+        player: {
+          nextUrl: prevState.player.nextUrl,
+          url: prevState.player.nextUrl,
+          enabled: true,
+          visible: true,
+          paused: false,
+        },
+      }),
+      () => this.enableTVMenuControl(),
+    );
+  }
+
+  enableTVMenuControl() {
+    TVMenuControl.enableTVMenuKey();
+  }
+
+  disableTVMenuControl() {
+    TVMenuControl.disableTVMenuKey();
   }
 
   enableTVEventHandler() {
     this.tvEventHandler = new TVEventHandler();
     this.tvEventHandler.enable(this, (root, evt) => {
       const btn = evt && evt.eventType;
-      if (btn) return this.handleBtnByScreen(btn);
+      if (btn) {
+        return this.handleBtnByScreen(btn);
+      }
     });
   }
 
@@ -126,36 +228,39 @@ class App extends React.Component {
     }
   }
 
-  init(data) {
+  initFeed(feed) {
     const positionMap = {};
-    let playlists = [];
+    const playlists = [];
     let playlist;
+    let itemIds;
 
-    data.categories.forEach((category, index) => {
+    feed.categories.forEach((category, index) => {
       playlist = playlists[index] = {};
       playlist.title = category.name;
       playlist.videos = [];
-      let itemIds;
 
-      data.playlists.some((playlist) => {
-        if (playlist.name === category.playlistName) {
-          itemIds = playlist.itemIds;
+      feed.playlists.some(feedPlaylist => {
+        if (feedPlaylist.name === category.playlistName) {
+          itemIds = feedPlaylist.itemIds;
         }
       });
 
-      data.shortFormVideos.forEach((video, i) => {
+      feed.shortFormVideos.forEach((video, i) => {
         if (itemIds.includes(video.id)) {
           playlist.videos.push({
             title: video.title,
             description: video.shortDescription,
             thumbnail: video.thumbnail,
-            url: video.content.videos[0].url
+            url:
+              i === 0
+                ? 'https://nolachurch.com/stream/dev/1/1080/1080.m3u8'
+                : 'https://nolachurch.com/stream/dev/2/1080/1080.m3u8',
           });
           playlist.videos.push({
             title: `test ${i}`,
             description: `test ${i}`,
             thumbnail: video.thumbnail,
-            url: video.content.videos[0].url
+            url: video.content.videos[0].url,
           });
         }
       });
@@ -165,8 +270,8 @@ class App extends React.Component {
 
     this.setState({
       playlists: playlists,
-      positionMap: positionMap
-      // isFeedReady: false
+      positionMap: positionMap,
+      isFeedReady: true,
     });
   }
 
@@ -181,65 +286,119 @@ class App extends React.Component {
     }, 1000);
   }
 
-  setScreen(newScreen) { this.setState({ screen: newScreen}); }
-  isSplashScreen() { return this.state.screen === SCREEN.SPLASH; }
-  isHomeScreen() { return this.state.screen === SCREEN.HOME; }
-  isPlayerScreen() { return this.state.screen === SCREEN.PLAYER; }
-  isErrorScreen() { return this.state.screen === SCREEN.ERROR; }
+  setScreen(newScreen) {
+    this.setState({screen: newScreen});
+  }
+  isSplashScreen() {
+    return this.state.screen === SCREEN.SPLASH;
+  }
+  isHomeScreen() {
+    return this.state.screen === SCREEN.HOME;
+  }
+  isErrorScreen() {
+    return this.state.screen === SCREEN.ERROR;
+  }
 
   onSnapToItemRow(rowIndex) {
-    this.setState(prevState => ({
-      positionMap: {
-        ...prevState.positionMap,
-        [prevState.position.colIndex]: rowIndex
-      },
-      position: {
-        colIndex: prevState.position.colIndex,
-        rowIndex: rowIndex
-      }
-    }), this.updateInfo);
+    this.setState(
+      prevState => ({
+        positionMap: {
+          ...prevState.positionMap,
+          [prevState.position.colIndex]: rowIndex,
+        },
+        position: {
+          colIndex: prevState.position.colIndex,
+          rowIndex: rowIndex,
+        },
+      }),
+      this.updateInfo,
+    );
   }
 
   onSnapToItemCol(colIndex) {
+    this.setState(
+      prevState => ({
+        position: {
+          colIndex: colIndex,
+          rowIndex: prevState.positionMap[colIndex],
+        },
+      }),
+      this.updateInfo,
+    );
+  }
+
+  getHomeStyle() {
+    return this.state.player.visible
+      ? HIDDEN
+      : [FILLSCREEN, {backgroundColor: this.state.settings.bgColor}];
+  }
+
+  getPlayerStyle() {
+    return this.state.player.visible
+      ? [FILLSCREEN, {backgroundColor: this.state.settings.bgColor}]
+      : HIDDEN;
+  }
+
+  onPlayerError() {
     this.setState(prevState => ({
-      position: {
-        colIndex: colIndex,
-        rowIndex: prevState.positionMap[colIndex]
-      }
-    }), this.updateInfo);
+      player: {
+        ...prevState.player,
+        visible: false,
+        enabled: false,
+      },
+    }));
+  }
+
+  resumePlayer() {
+    this.setState(prevState => ({
+      player: {
+        ...prevState.player,
+        visible: true,
+        paused: false,
+      },
+    }));
   }
 
   renderScreen() {
     switch (this.state.screen) {
-      case SCREEN.SPLASH: return <Splash/>;
+      case SCREEN.SPLASH:
+        return <Splash />;
       case SCREEN.HOME:
         return (
-          <Home
-            ref={(e) => { this.home = e; }}
-            onSnapToItemRow={rowIndex => this.onSnapToItemRow(rowIndex)}
-            onSnapToItemCol={colIndex => this.onSnapToItemCol(colIndex)}
-            playlists={this.state.playlists}
-          />
+          <View>
+            <Home
+              style={this.getHomeStyle()}
+              ref={e => (this.home = e)}
+              onSnapToItemRow={rowIndex => this.onSnapToItemRow(rowIndex)}
+              onSnapToItemCol={colIndex => this.onSnapToItemCol(colIndex)}
+              playlists={this.state.playlists}
+              info={this.state.info}
+              highlightColor={this.state.settings.highlightColor}
+              infoTextColor={this.state.settings.infoTextColor}
+              playlistTitleColor={this.state.settings.playlistTitleColor}
+              logo={this.state.settings.logo}
+            />
+            {this.state.player.enabled && (
+              <Player
+                ref={e => (this.player = e)}
+                style={this.getPlayerStyle()}
+                paused={this.state.player.paused}
+                onError={() => this.onPlayerError()}
+                url={this.state.player.url}
+              />
+            )}
+          </View>
         );
-      case SCREEN.PLAYER: return <Player url={this.getUrl()}/>
-      case SCREEN.ERROR: return <Error err={this.state.err}/>
-      default: return alert(`${ERR.INVALID_SCREEN}: ${this.state.screen}`);
-    }
-  }
-
-  initSplashScreen() {
-    if (this.isSplashScreen()) {
-      this.startSplashTimeout();
+      case SCREEN.ERROR:
+        return <Error />;
+      default:
+        return console.error(`${ERR.INVALID_SCREEN}: ${this.state.screen}`);
     }
   }
 
   render() {
-    this.initSplashScreen();
-    return (
-      <globalContext.Provider value={ this.state }>
-        { this.renderScreen() }
-      </globalContext.Provider>
-    );
+    this.startSplashTimeout();
+    return this.renderScreen();
   }
 }
 

@@ -1,17 +1,9 @@
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
+import {HIGHLIGHT} from '../Config/Styles.js';
 
-export default Highlight = () => {
-  return (
-    <View style={{
-      position: 'absolute',
-      top: 440,
-      left: 50,
-      width: 430,
-      height: 240,
-      borderWidth: 5,
-      borderColor: 'lightblue',
-      borderRadius: 8
-    }}/>
-  );
+const Highlight = props => {
+  return <View style={[HIGHLIGHT, {borderColor: props.highlightColor}]} />;
 };
+
+export default Highlight;
