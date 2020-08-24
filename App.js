@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TVEventHandler,
-  TVMenuControl,
-  View,
-} from 'react-native';
+import {Image, Text, TVEventHandler, TVMenuControl, View} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import Video from 'react-native-video';
 
@@ -37,128 +30,13 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    this.fetchSettings();
     this.fetchFeed();
     this.enableTVEventHandler();
   }
 
   componentWillUnmount() {
     this.disableTVEventHandler();
-  }
-
-  getNextUrl() {
-    const colIndex = this.config.position.colIndex;
-    const rowIndex = this.config.position.rowIndex;
-    return this.config.playlists[colIndex].videos[rowIndex].url;
-  }
-
-  fetchFeed() {
-    fetch('https://nolachurch.com/stream/feed.json')
-      .then((res) => res.json())
-      .then((feed) => this.initFeed(feed))
-      .catch(() => (this.config.screen = 'error'));
-  }
-
-  updateInfo() {
-    const colIndex = this.config.position.colIndex;
-    const rowIndex = this.config.position.rowIndex;
-    const currVideo = this.config.playlists[colIndex].videos[rowIndex];
-
-    this.config.info = {
-      title: currVideo.title,
-      description: currVideo.description,
-    };
-    this.config.player.nextUrl = currVideo.url;
-    this.forceUpdate();
-  }
-
-  getRefs() {
-    const colIndex = this.config.position.colIndex;
-    const playlist = `playlist${colIndex}`;
-    const col = this.playlists.playlistCol;
-    const row = this.playlists[playlist].playlistRow;
-    return {col: col, row: row};
-  }
-
-  retry() {
-    this.fetchFeed();
-    this.config.screen = 'splash';
-    this.startSplashTimeout();
-  }
-
-  handleBtnByScreen(btn) {
-    switch (this.config.screen) {
-      case 'splash':
-        return false;
-      case 'error':
-        if (btn === 'select' || btn === 'playPause') {
-          return this.retry();
-        }
-        return false;
-      case 'home':
-        const refs = this.getRefs();
-        if (this.config.player.visible) {
-          switch (btn) {
-            case 'menu':
-              return this.returnFromPlayer();
-            default:
-              return;
-          }
-        } else {
-          switch (btn) {
-            case 'up':
-              return refs.col.snapToPrev();
-            case 'down':
-              return refs.col.snapToNext();
-            case 'left':
-              return refs.row.snapToPrev();
-            case 'right':
-              return refs.row.snapToNext();
-            case 'playPause':
-            case 'select':
-              return this.config.player.url === this.config.player.nextUrl
-                ? this.resumePlayer()
-                : this.startPlayer();
-            default:
-              return;
-          }
-        }
-      default:
-        return;
-    }
-  }
-
-  returnFromPlayer() {
-    this.disableTVMenuControl();
-    this.config.player.paused = true;
-    this.config.player.visible = false;
-    this.forceUpdate();
-  }
-
-  startPlayer() {
-    this.config.player.enabled = false;
-    this.forceUpdate();
-    this.enablePlayer();
-  }
-
-  enablePlayer() {
-    this.enableTVMenuControl();
-    const nextUrl = this.config.player.nextUrl;
-    this.config.player = {
-      nextUrl: nextUrl,
-      url: nextUrl,
-      enabled: true,
-      visible: true,
-      paused: false,
-    };
-    this.forceUpdate();
-  }
-
-  enableTVMenuControl() {
-    TVMenuControl.enableTVMenuKey();
-  }
-
-  disableTVMenuControl() {
-    TVMenuControl.disableTVMenuKey();
   }
 
   enableTVEventHandler() {
@@ -175,6 +53,39 @@ class App extends React.Component {
     if (this.tvEventHandler) {
       this.tvEventHandler.disable();
       delete this.tvEventHandler;
+    }
+  }
+
+  fetchSettings() {
+    fetch('https://nolachurch.com/stream/appletv/settings.json')
+      .then((res) => res.json())
+      .then((settings) => this.initSettings(settings))
+      .catch(() => {});
+  }
+
+  fetchFeed() {
+    fetch('https://nolachurch.com/stream/feed.json')
+      .then((res) => res.json())
+      .then((feed) => this.initFeed(feed))
+      .catch(() => (this.config.screen = 'error'));
+  }
+
+  initSettings(settings) {
+    if (settings.bgColor) {
+      styles.fullscreen.backgroundColor = settings.bgColor;
+    }
+    if (settings.highlightColor) {
+      styles.highlight.borderColor = settings.highlightColor;
+    }
+    if (settings.infoTextColor) {
+      styles.infoTitle.color = settings.infoTextColor;
+      styles.infoDescription.color = settings.infoTextColor;
+    }
+    if (settings.playlistTitleColor) {
+      styles.playlistText.color = settings.playlistTitleColor;
+    }
+    if (settings.logo) {
+      styles.logoSource = settings.logo;
     }
   }
 
@@ -223,6 +134,25 @@ class App extends React.Component {
     this.config.isFeedReady = true;
   }
 
+  retry() {
+    this.fetchFeed();
+    this.config.screen = 'splash';
+    this.startSplashTimeout();
+  }
+
+  updateInfo() {
+    const colIndex = this.config.position.colIndex;
+    const rowIndex = this.config.position.rowIndex;
+    const currVideo = this.config.playlists[colIndex].videos[rowIndex];
+
+    this.config.info = {
+      title: currVideo.title,
+      description: currVideo.description,
+    };
+    this.config.player.nextUrl = currVideo.url;
+    this.forceUpdate();
+  }
+
   startSplashTimeout() {
     setTimeout(() => {
       if (this.config.isFeedReady) {
@@ -233,6 +163,98 @@ class App extends React.Component {
         this.forceUpdate();
       }
     }, 1000);
+  }
+
+  handleBtnByScreen(btn) {
+    switch (this.config.screen) {
+      case 'splash':
+        return false;
+      case 'error':
+        if (btn === 'select' || btn === 'playPause') {
+          return this.retry();
+        }
+        return false;
+      case 'home':
+        const refs = this.getRefs();
+        if (this.config.player.visible) {
+          return btn === 'menu' ? this.returnFromPlayer() : false;
+        } else {
+          switch (btn) {
+            case 'up':
+              return refs.col.snapToPrev();
+            case 'down':
+              return refs.col.snapToNext();
+            case 'left':
+              return refs.row.snapToPrev();
+            case 'right':
+              return refs.row.snapToNext();
+            case 'playPause':
+            case 'select':
+              return this.config.player.url === this.config.player.nextUrl
+                ? this.resumePlayer()
+                : this.initPlayer();
+            default:
+              return;
+          }
+        }
+      default:
+        return;
+    }
+  }
+
+  getNextUrl() {
+    const colIndex = this.config.position.colIndex;
+    const rowIndex = this.config.position.rowIndex;
+    return this.config.playlists[colIndex].videos[rowIndex].url;
+  }
+
+  getRefs() {
+    const colIndex = this.config.position.colIndex;
+    const playlist = `playlist${colIndex}`;
+    const col = this.playlists.playlistCol;
+    const row = this.playlists[playlist].playlistRow;
+    return {col: col, row: row};
+  }
+
+  returnFromPlayer() {
+    TVMenuControl.disableTVMenuKey();
+    this.config.player.paused = true;
+    this.config.player.visible = false;
+    this.forceUpdate();
+  }
+
+  initPlayer() {
+    if (this.config.player.enabled) {
+      this.config.player.enabled = false;
+      this.forceUpdate();
+    }
+    this.enablePlayer();
+  }
+
+  enablePlayer() {
+    TVMenuControl.enableTVMenuKey();
+    const nextUrl = this.config.player.nextUrl;
+    this.config.player = {
+      nextUrl: nextUrl,
+      url: nextUrl,
+      enabled: true,
+      visible: true,
+      paused: false,
+    };
+    this.forceUpdate();
+  }
+
+  resumePlayer() {
+    TVMenuControl.enableTVMenuKey();
+    this.config.player.visible = true;
+    this.config.player.paused = false;
+    this.forceUpdate();
+  }
+
+  onPlayerError() {
+    this.config.player.visible = false;
+    this.config.player.enabled = false;
+    this.forceUpdate();
   }
 
   onSnapToItemRow(rowIndex) {
@@ -254,19 +276,6 @@ class App extends React.Component {
     this.updateInfo();
   }
 
-  onPlayerError() {
-    this.config.player.visible = false;
-    this.config.player.enabled = false;
-    this.forceUpdate();
-  }
-
-  resumePlayer() {
-    this.enableTVMenuControl();
-    this.config.player.visible = true;
-    this.config.player.paused = false;
-    this.forceUpdate();
-  }
-
   renderScreen() {
     switch (this.config.screen) {
       case 'splash':
@@ -279,7 +288,7 @@ class App extends React.Component {
                 this.config.player.visible ? styles.hidden : styles.fullscreen
               }>
               <View style={styles.header}>
-                <Image style={styles.logo} source={{uri: 'logo.png'}} />
+                <Image style={styles.logo} source={{uri: styles.logoSource}} />
               </View>
               <View style={styles.info}>
                 <Text style={styles.infoTitle}>{this.config.info.title}</Text>
@@ -302,7 +311,7 @@ class App extends React.Component {
                 source={{uri: this.config.player.url, type: 'm3u8'}}
                 controls={true}
                 onError={() => this.onPlayerError()}
-                rate={this.config.player.paused ? 0 : 1}
+                paused={this.config.player.paused}
               />
             )}
           </View>
@@ -311,7 +320,7 @@ class App extends React.Component {
         return (
           <View style={styles.fullscreen}>
             <View style={styles.header}>
-              <Image style={styles.logo} source={{uri: 'logo.png'}} />
+              <Image style={styles.logo} source={{uri: styles.logoSource}} />
             </View>
             <View style={styles.center}>
               <Text style={styles.errorText}>
@@ -338,7 +347,7 @@ class App extends React.Component {
 }
 
 class Playlists extends React.Component {
-  renderItem = ({item, index}) => {
+  renderPlaylist = ({item, index}) => {
     const ref = `playlist${index}`;
     return (
       <Playlist
@@ -359,7 +368,7 @@ class Playlists extends React.Component {
           layout={'default'}
           vertical={true}
           activeSlideAlignment={'start'}
-          renderItem={this.renderItem}
+          renderItem={this.renderPlaylist}
           sliderWidth={1920}
           sliderHeight={1080}
           itemWidth={1920}
@@ -402,7 +411,7 @@ class Playlist extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   fullscreen: {
     width: '100%',
     height: '100%',
@@ -463,6 +472,7 @@ const styles = StyleSheet.create({
     height: 100,
     resizeMode: 'contain',
   },
+  logoSource: 'logo.png',
   playlist: {
     marginLeft: 30,
   },
@@ -480,6 +490,6 @@ const styles = StyleSheet.create({
     width: 410,
     height: 220,
   },
-});
+};
 
 export default App;
