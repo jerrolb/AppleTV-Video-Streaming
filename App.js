@@ -248,29 +248,23 @@ class App extends React.Component {
 
   resumePlayer() {
     TVMenuControl.enableTVMenuKey();
+    this.config.player.enabled = true;
     this.config.player.visible = true;
     this.config.player.paused = false;
     this.forceUpdate();
   }
 
   onPlayerError() {
+    TVMenuControl.disableTVMenuKey();
     this.config.player.visible = false;
     this.config.player.enabled = false;
     this.forceUpdate();
   }
 
-  onSnapToItemRow(rowIndex) {
-    const colIndex = this.config.position.colIndex;
-    this.config.positionMap[colIndex] = rowIndex;
-    this.config.position = {
-      colIndex: colIndex,
-      rowIndex: rowIndex,
-    };
-    this.updateInfo();
-  }
-
-  onSnapToItemCol(colIndex) {
-    const rowIndex = this.config.positionMap[colIndex];
+  onSnapToItem() {
+    const colIndex = this.playlists.playlistCol.currentIndex;
+    const playlist = `playlist${colIndex}`;
+    const rowIndex = this.playlists[playlist].playlistRow.currentIndex;
     this.config.position = {
       colIndex: colIndex,
       rowIndex: rowIndex,
@@ -301,8 +295,7 @@ class App extends React.Component {
               <Playlists
                 ref={(e) => (this.playlists = e)}
                 playlists={this.config.playlists}
-                onSnapToItemRow={(rowIndex) => this.onSnapToItemRow(rowIndex)}
-                onSnapToItemCol={(colIndex) => this.onSnapToItemCol(colIndex)}
+                onSnapToItem={() => { this.onSnapToItem() }}
               />
             </View>
             {this.config.player.enabled && (
@@ -356,7 +349,7 @@ class Playlists extends React.Component {
         ref={(e) => (this[ref] = e)}
         title={item.title}
         videos={item.videos}
-        onSnapToItemRow={this.props.onSnapToItemRow}
+        onSnapToItem={this.props.onSnapToItem}
       />
     );
   };
@@ -375,7 +368,7 @@ class Playlists extends React.Component {
           sliderHeight={1080}
           itemWidth={1920}
           itemHeight={315}
-          onSnapToItem={this.props.onSnapToItemCol}
+          onSnapToItem={this.props.onSnapToItem}
         />
       </View>
     );
@@ -406,7 +399,7 @@ class Playlist extends React.Component {
           sliderHeight={300}
           itemWidth={420}
           itemHeight={210}
-          onSnapToItem={this.props.onSnapToItemRow}
+          onSnapToItem={this.props.onSnapToItem}
         />
       </View>
     );
