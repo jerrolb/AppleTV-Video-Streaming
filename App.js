@@ -117,12 +117,14 @@ class App extends React.Component {
                 ? 'https://nolachurch.com/stream/dev/1/1080/1080.m3u8'
                 : 'https://nolachurch.com/stream/dev/2/1080/1080.m3u8',
           });
-          playlist.videos.push({
-            title: `test ${i}`,
-            description: `test ${i}`,
-            thumbnail: video.thumbnail,
-            url: video.content.videos[0].url,
-          });
+          for (var j = 0; j < 10; j++) {
+            playlist.videos.push({
+              title: `test ${j}`,
+              description: `test ${j}`,
+              thumbnail: video.thumbnail,
+              url: video.content.videos[0].url,
+            });
+          }
         }
       });
 
