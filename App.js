@@ -9,8 +9,8 @@ class App extends React.Component {
     this.config = {
       screen: 'splash',
       isFeedReady: false,
+      isItemSnapping: false,
       playlists: [],
-      positionMap: {},
       position: {
         colIndex: 0,
         rowIndex: 0,
@@ -90,7 +90,6 @@ class App extends React.Component {
   }
 
   initFeed(feed) {
-    const positionMap = {};
     const playlists = [];
     let playlist;
     let itemIds;
@@ -128,11 +127,9 @@ class App extends React.Component {
         }
       });
 
-      positionMap[index] = 0;
     });
 
     this.config.playlists = playlists;
-    this.config.positionMap = positionMap;
     this.config.isFeedReady = true;
   }
 
@@ -152,6 +149,7 @@ class App extends React.Component {
       description: currVideo.description,
     };
     this.config.player.nextUrl = currVideo.url;
+    this.config.isItemSnapping = false;
     this.forceUpdate();
   }
 
@@ -183,18 +181,24 @@ class App extends React.Component {
         } else {
           switch (btn) {
             case 'up':
+              this.config.isItemSnapping = true;
               return refs.col.snapToPrev();
             case 'down':
+              this.config.isItemSnapping = true;
               return refs.col.snapToNext();
             case 'left':
+              this.config.isItemSnapping = true;
               return refs.row.snapToPrev();
             case 'right':
+              this.config.isItemSnapping = true;
               return refs.row.snapToNext();
             case 'playPause':
             case 'select':
-              return this.config.player.url === this.config.player.nextUrl
-                ? this.resumePlayer()
-                : this.initPlayer();
+              if (!this.config.isItemSnapping) {
+                return this.config.player.url === this.config.player.nextUrl
+                  ? this.resumePlayer()
+                  : this.initPlayer();
+              }
             default:
               return;
           }
