@@ -1,7 +1,11 @@
 import React from 'react';
-import {Image, Text, TVEventHandler, TVMenuControl, View} from 'react-native';
+import {Dimensions, Image, Text, TVEventHandler, TVMenuControl, View} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import Video from 'react-native-video';
+
+const carouselPadding = 100;
+const screenHeight = Dimensions.get('screen').height;
+const screenWidth = Dimensions.get('screen').width + carouselPadding;
 
 class App extends React.Component {
   constructor() {
@@ -368,9 +372,9 @@ class Playlists extends React.Component {
           vertical={true}
           activeSlideAlignment={'start'}
           renderItem={this.renderPlaylist}
-          sliderWidth={1920}
-          sliderHeight={1080}
-          itemWidth={1920}
+          sliderWidth={screenWidth}
+          sliderHeight={screenHeight}
+          itemWidth={screenWidth}
           itemHeight={315}
           onSnapToItem={this.props.onSnapToItem}
         />
@@ -399,7 +403,7 @@ class Playlist extends React.Component {
               </View>
             );
           }}
-          sliderWidth={1920}
+          sliderWidth={screenWidth}
           sliderHeight={300}
           itemWidth={420}
           itemHeight={210}
