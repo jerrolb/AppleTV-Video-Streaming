@@ -1,0 +1,16 @@
+config:
+  target: "https://nolachurch.com"
+  plugins:
+    hls: {}
+scenarios:
+  - name: "Load test 1"
+    flow:
+      - get:
+          url: "/stream/wbs/7222020/master.m3u8"
+          hls:
+            concurrency: 100
+            streamSelector:
+              resolution:
+                width: 1920
+                height: 1080
+            throttle: 100
