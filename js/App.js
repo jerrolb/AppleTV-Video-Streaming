@@ -72,9 +72,11 @@ class App extends React.Component {
   }
 
   initFeed(feed) {
+    const videoLength = feed.shortFormVideos.length;
     const playlists = [];
+    let itemIds = [];
     let playlist;
-    let itemIds;
+    let video;
 
     feed.categories.forEach((category, index) => {
       playlist = playlists[index] = {};
@@ -87,14 +89,18 @@ class App extends React.Component {
         }
       });
 
-      feed.shortFormVideos.forEach((video) => {
-        if (itemIds.includes(video.id)) {
-          playlist.videos.push({
-            title: video.title,
-            description: video.shortDescription,
-            thumbnail: video.thumbnail,
-            url: video.content.videos[0].url,
-          });
+      itemIds.forEach((id) => {
+        for (let i = 0; i < videoLength; ++i) {
+          video = feed.shortFormVideos[i];
+          if (id === video.id) {
+            playlist.videos.push({
+              title: video.title,
+              description: video.shortDescription,
+              thumbnail: video.thumbnail,
+              url: video.content.videos[0].url,
+            });
+            break;
+          }
         }
       });
     });
@@ -137,7 +143,7 @@ class App extends React.Component {
       } else {
         this.setScreen(SCREEN.ERROR);
       }
-    }, 1000);
+    }, 1500);
   }
 
   handleBtnByScreen(btn) {
