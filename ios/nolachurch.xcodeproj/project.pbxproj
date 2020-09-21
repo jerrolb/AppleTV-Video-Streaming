@@ -10,6 +10,8 @@
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		B33EAC7B25191F6500085A8B /* chevronUp.png in Resources */ = {isa = PBXBuildFile; fileRef = B33EAC7925191F6500085A8B /* chevronUp.png */; };
+		B33EAC7C25191F6500085A8B /* chevronDown.png in Resources */ = {isa = PBXBuildFile; fileRef = B33EAC7A25191F6500085A8B /* chevronDown.png */; };
 		B374EEF324F0CFC700C5964D /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B374EEF224F0CFC700C5964D /* logo.png */; };
 		B374EEF524F0CFD900C5964D /* splash.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B374EEF424F0CFD900C5964D /* splash.jpg */; };
 		F147813B21DF2B6969C18A4A /* libPods-nolachurch-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD4E4854617C02D61CBF1B2 /* libPods-nolachurch-tvOS.a */; };
@@ -27,6 +29,8 @@
 		1C245455A94696747CAB1268 /* Pods-nolachurch-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nolachurch-tvOS.release.xcconfig"; path = "Target Support Files/Pods-nolachurch-tvOS/Pods-nolachurch-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* nolachurch-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "nolachurch-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = nolachurch/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		B33EAC7925191F6500085A8B /* chevronUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = chevronUp.png; path = "nolachurch-tvOS/chevronUp.png"; sourceTree = "<group>"; };
+		B33EAC7A25191F6500085A8B /* chevronDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = chevronDown.png; path = "nolachurch-tvOS/chevronDown.png"; sourceTree = "<group>"; };
 		B374EEF224F0CFC700C5964D /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = "nolachurch-tvOS/logo.png"; sourceTree = "<group>"; };
 		B374EEF424F0CFD900C5964D /* splash.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = splash.jpg; path = "nolachurch-tvOS/splash.jpg"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -67,6 +71,8 @@
 		13B07FAE1A68108700A75B9A /* nolachurch */ = {
 			isa = PBXGroup;
 			children = (
+				B33EAC7A25191F6500085A8B /* chevronDown.png */,
+				B33EAC7925191F6500085A8B /* chevronUp.png */,
 				B374EEF424F0CFD900C5964D /* splash.jpg */,
 				B374EEF224F0CFC700C5964D /* logo.png */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -163,6 +169,7 @@
 				TargetAttributes = {
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 36MF6MP5ZT;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -190,8 +197,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B33EAC7C25191F6500085A8B /* chevronDown.png in Resources */,
 				B374EEF524F0CFD900C5964D /* splash.jpg in Resources */,
 				B374EEF324F0CFC700C5964D /* logo.png in Resources */,
+				B33EAC7B25191F6500085A8B /* chevronUp.png in Resources */,
 				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -297,7 +306,10 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 36MF6MP5ZT;
 				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -308,8 +320,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.nolachurch.stream;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nolachurch.appletv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 13.3;
@@ -326,8 +339,11 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 36MF6MP5ZT;
 				ENABLE_BITCODE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "nolachurch-tvOS/Info.plist";
@@ -337,8 +353,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.nolachurch.stream;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nolachurch.appletv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 13.3;
