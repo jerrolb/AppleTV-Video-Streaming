@@ -57,13 +57,6 @@ class App extends React.Component {
     }
   }
 
-  fetchSettings() {
-    fetch(URL.SETTINGS)
-      .then((res) => res.json())
-      .then((settings) => this.initSettings(settings))
-      .catch(() => {});
-  }
-
   fetchFeed() {
     fetch(URL.FEED)
       .then((res) => res.json())
@@ -143,7 +136,7 @@ class App extends React.Component {
       } else {
         this.setScreen(SCREEN.ERROR);
       }
-    }, 1500);
+    }, 1750);
   }
 
   handleBtnByScreen(btn) {
