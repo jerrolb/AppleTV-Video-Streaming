@@ -20,7 +20,10 @@ export default class Playlist extends Component {
                 onFocus={() => {
                   this.playlistRow.snapToItem(index);
                 }}>
-                  <Image style={styles.thumbnailImage} source={{uri: item.thumbnail}} />
+                <Image
+                  style={styles.thumbnailImage}
+                  source={{uri: item.thumbnail}}
+                />
               </TouchableHighlight>
             );
           }}
@@ -51,5 +54,5 @@ const styles = {
   thumbnailImage: {
     width: 410,
     height: 220,
-  }
+  },
 };

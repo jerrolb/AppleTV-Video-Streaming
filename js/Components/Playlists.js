@@ -21,7 +21,9 @@ export default class Playlists extends Component {
       <View style={styles.fillArea}>
         <View style={styles.highlight} />
         <Carousel
-          pointerEvents={this.props.doDisableTouchableHighlight ? 'none' : 'auto'}
+          pointerEvents={
+            this.props.doDisableTouchableHighlight ? 'none' : 'auto'
+          }
           ref={(e) => (this.playlistCol = e)}
           data={this.props.playlists}
           layout={'default'}

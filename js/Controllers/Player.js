@@ -40,7 +40,7 @@ const init = (that) => {
     enable(that);
   }
 };
-  
+
 const minimize = (that) => {
   TVMenuControl.disableTVMenuKey();
   that.setState((prevState) => ({
@@ -63,11 +63,5 @@ const resume = (that) => {
     },
   }));
 };
-    
-export {
-  enable,
-  error,
-  init,
-  minimize,
-  resume,
-};
+
+export {enable, error, init, minimize, resume};

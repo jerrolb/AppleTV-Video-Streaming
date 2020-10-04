@@ -38,7 +38,7 @@ const SCREEN = {
 };
 
 const URL = {
-  FEED: 'https://nolachurch.com/stream/feed.json'
+  FEED: 'https://nolachurch.com/stream/feed.json',
 };
 
 export {DIMENSIONS, IMG, REMOTE, SCREEN, URL};

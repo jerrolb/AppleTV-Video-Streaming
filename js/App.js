@@ -69,7 +69,10 @@ class App extends React.Component {
             } else {
               if (isSelectBtn) {
                 return this.state.player.url === this.state.player.nextUrl
-                  ? Player.resume(this) : Player.init(this);
+                  ? Player.resume(this)
+                  : Player.init(this);
+              } else {
+                return false;
               }
             }
           default:
@@ -203,7 +206,9 @@ class App extends React.Component {
             info={this.state.info}
             player={this.state.player}
             playlists={this.state.playlists}
-            onPlayerError={() => {Player.error(this)}}
+            onPlayerError={() => {
+              Player.error(this);
+            }}
             onSnapToItem={this.onSnapToItem}
             colIndex={this.state.position.colIndex}
             doDisableTouchableHighlight={this.state.player.visible}
