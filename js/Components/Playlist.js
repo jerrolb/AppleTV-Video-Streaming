@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
+import {Text, Image, View, TouchableHighlight} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import {DIMENSIONS} from '../Constants';
-import Thumbnail from './Thumbnail';
 
 export default class Playlist extends Component {
   render() {
@@ -14,7 +13,20 @@ export default class Playlist extends Component {
           data={this.props.videos}
           layout={'default'}
           activeSlideAlignment={'start'}
-          renderItem={Thumbnail}
+          renderItem={({item, index}) => {
+            return (
+              <TouchableHighlight
+                style={styles.marginLeft}
+                onFocus={() => {
+                  this.playlistRow.snapToItem(index);
+                }}>
+                <Image
+                  style={styles.thumbnailImage}
+                  source={{uri: item.thumbnail}}
+                />
+              </TouchableHighlight>
+            );
+          }}
           sliderWidth={DIMENSIONS.WIDTH}
           sliderHeight={300}
           itemWidth={430}
@@ -22,7 +34,6 @@ export default class Playlist extends Component {
           onSnapToItem={this.props.onSnapToItem}
           inactiveSlideScale={1}
           inactiveSlideOpacity={1}
-          contentContainerCustomStyle={styles.leftPadding}
         />
       </View>
     );
@@ -37,7 +48,11 @@ const styles = {
     fontWeight: 'bold',
     color: '#FFF',
   },
-  leftPadding: {
-    paddingLeft: 100,
+  marginLeft: {
+    marginLeft: 100,
+  },
+  thumbnailImage: {
+    width: 410,
+    height: 220,
   },
 };

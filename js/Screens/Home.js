@@ -21,6 +21,7 @@ export default class Home extends React.Component {
             ref={(e) => (this.playlists = e)}
             playlists={this.props.playlists}
             onSnapToItem={this.props.onSnapToItem}
+            doDisableTouchableHighlight={this.props.doDisableTouchableHighlight}
           />
           {doShowChevronDown && <ChevronDown />}
         </View>
