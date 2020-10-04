@@ -1,16 +1,15 @@
 import React from 'react';
-import {TVEventHandler, TVMenuControl} from 'react-native';
+import {TVEventHandler} from 'react-native';
 import {REMOTE, SCREEN, URL} from './Constants';
 import {Error, Home, Splash} from './Screens';
+import * as Player from './Controllers/Player';
 
 class App extends React.Component {
   constructor() {
     super();
     this.onSnapToItem = this.onSnapToItem.bind(this);
-    this.onPlayerError = this.onPlayerError.bind(this);
     this.state = {
       isFeedReady: false,
-      isItemSnapping: false,
       playlists: [],
       screen: SCREEN.SPLASH,
       info: {
@@ -43,9 +42,39 @@ class App extends React.Component {
   enableTVEventHandler() {
     this.tvEventHandler = new TVEventHandler();
     this.tvEventHandler.enable(this, (root, evt) => {
+      const checkIsSelectBtn = (btn) => {
+        switch (btn) {
+          case REMOTE.SELECT:
+          case REMOTE.LONGSELECT:
+          case REMOTE.PLAYPAUSE:
+            return true;
+          default:
+            return false;
+        }
+      };
       const btn = evt && evt.eventType;
+      const isSelectBtn = checkIsSelectBtn(btn);
       if (btn) {
-        return this.handleBtnByScreen(btn);
+        switch (this.state.screen) {
+          case SCREEN.SPLASH:
+            return false;
+          case SCREEN.ERROR:
+            if (isSelectBtn) {
+              return this.retry();
+            }
+            return false;
+          case SCREEN.HOME:
+            if (this.state.player.visible) {
+              return btn === REMOTE.MENU ? Player.minimize(this) : false;
+            } else {
+              if (isSelectBtn) {
+                return this.state.player.url === this.state.player.nextUrl
+                  ? Player.resume(this) : Player.init(this);
+              }
+            }
+          default:
+            return false;
+        }
       }
     });
   }
@@ -91,6 +120,12 @@ class App extends React.Component {
               description: video.shortDescription,
               thumbnail: video.thumbnail,
               url: video.content.videos[0].url,
+              /**
+               * Debug
+               * url: i === 0 ?
+               * 'https://nolachurch.com/stream/dev/1/1080/1080.m3u8':
+               * 'https://nolachurch.com/stream/dev/2/1080/1080.m3u8'
+               */
             });
             break;
           }
@@ -110,24 +145,6 @@ class App extends React.Component {
     this.startSplashTimeout();
   }
 
-  updateInfo() {
-    const colIndex = this.state.position.colIndex;
-    const rowIndex = this.state.position.rowIndex;
-    const currVideo = this.state.playlists[colIndex].videos[rowIndex];
-
-    this.setState((prevState) => ({
-      info: {
-        title: currVideo.title,
-        description: currVideo.description,
-      },
-      player: {
-        ...prevState.player,
-        nextUrl: currVideo.url,
-      },
-      isItemSnapping: false,
-    }));
-  }
-
   startSplashTimeout() {
     setTimeout(() => {
       if (this.state.isFeedReady) {
@@ -137,133 +154,6 @@ class App extends React.Component {
         this.setScreen(SCREEN.ERROR);
       }
     }, 1750);
-  }
-
-  handleBtnByScreen(btn) {
-    switch (this.state.screen) {
-      case SCREEN.SPLASH:
-        return false;
-      case SCREEN.ERROR:
-        if (
-          btn === REMOTE.SELECT ||
-          btn === REMOTE.LONGSELECT ||
-          btn === REMOTE.PLAYPAUSE
-        ) {
-          return this.retry();
-        }
-        return false;
-      case SCREEN.HOME:
-        const refs = this.getRefs();
-        if (this.state.player.visible) {
-          return btn === REMOTE.MENU ? this.returnFromPlayer() : false;
-        } else {
-          switch (btn) {
-            case REMOTE.UP:
-              this.setState({isItemSnapping: true});
-              return refs.col.snapToPrev();
-            case REMOTE.DOWN:
-              this.setState({isItemSnapping: true});
-              return refs.col.snapToNext();
-            case REMOTE.LEFT:
-              this.setState({isItemSnapping: true});
-              return refs.row.snapToPrev();
-            case REMOTE.RIGHT:
-              this.setState({isItemSnapping: true});
-              return refs.row.snapToNext();
-            case REMOTE.PLAYPAUSE:
-            case REMOTE.SELECT:
-            case REMOTE.LONGSELECT:
-              if (!this.state.isItemSnapping) {
-                return this.state.player.url === this.state.player.nextUrl
-                  ? this.resumePlayer()
-                  : this.initPlayer();
-              }
-              return;
-            default:
-              return;
-          }
-        }
-      default:
-        return;
-    }
-  }
-
-  getNextUrl() {
-    const colIndex = this.state.position.colIndex;
-    const rowIndex = this.state.position.rowIndex;
-    return this.state.playlists[colIndex].videos[rowIndex].url;
-  }
-
-  getRefs() {
-    const colIndex = this.state.position.colIndex;
-    const playlist = `playlist${colIndex}`;
-    const col = this.home.playlists.playlistCol;
-    const row = this.home.playlists[playlist].playlistRow;
-    return {col: col, row: row};
-  }
-
-  returnFromPlayer() {
-    TVMenuControl.disableTVMenuKey();
-    this.setState((prevState) => ({
-      player: {
-        ...prevState.player,
-        paused: true,
-        visible: false,
-      },
-    }));
-  }
-
-  initPlayer() {
-    if (this.state.player.enabled) {
-      this.setState(
-        (prevState) => ({
-          player: {
-            ...prevState.player,
-            enabled: false,
-          },
-        }),
-        this.enablePlayer,
-      );
-    } else {
-      this.enablePlayer();
-    }
-  }
-
-  enablePlayer() {
-    TVMenuControl.enableTVMenuKey();
-    const nextUrl = this.state.player.nextUrl;
-    this.setState({
-      player: {
-        nextUrl: nextUrl,
-        url: nextUrl,
-        enabled: true,
-        visible: true,
-        paused: false,
-      },
-    });
-  }
-
-  resumePlayer() {
-    TVMenuControl.enableTVMenuKey();
-    this.setState((prevState) => ({
-      player: {
-        ...prevState.player,
-        enabled: true,
-        visible: true,
-        paused: false,
-      },
-    }));
-  }
-
-  onPlayerError() {
-    TVMenuControl.disableTVMenuKey();
-    this.setState((prevState) => ({
-      player: {
-        ...prevState.player,
-        visible: false,
-        enabled: false,
-      },
-    }));
   }
 
   onSnapToItem() {
@@ -281,6 +171,23 @@ class App extends React.Component {
     );
   }
 
+  updateInfo() {
+    const colIndex = this.state.position.colIndex;
+    const rowIndex = this.state.position.rowIndex;
+    const currVideo = this.state.playlists[colIndex].videos[rowIndex];
+
+    this.setState((prevState) => ({
+      info: {
+        title: currVideo.title,
+        description: currVideo.description,
+      },
+      player: {
+        ...prevState.player,
+        nextUrl: currVideo.url,
+      },
+    }));
+  }
+
   setScreen(newScreen) {
     this.setState({screen: newScreen});
   }
@@ -296,9 +203,10 @@ class App extends React.Component {
             info={this.state.info}
             player={this.state.player}
             playlists={this.state.playlists}
-            onPlayerError={this.onPlayerError}
+            onPlayerError={() => {Player.error(this)}}
             onSnapToItem={this.onSnapToItem}
             colIndex={this.state.position.colIndex}
+            doDisableTouchableHighlight={this.state.player.visible}
           />
         );
       case SCREEN.ERROR:
