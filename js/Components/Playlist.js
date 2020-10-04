@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Text, Image, View, TouchableHighlight} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import {DIMENSIONS} from '../Constants';
@@ -39,6 +40,12 @@ export default class Playlist extends Component {
     );
   }
 }
+
+Playlist.propTypes = {
+  title: PropTypes.string.isRequired,
+  videos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onSnapToItem: PropTypes.func.isRequired,
+};
 
 const styles = {
   playlistText: {

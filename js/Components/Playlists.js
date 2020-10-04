@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {View} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import Playlist from './Playlist';
@@ -42,6 +43,12 @@ export default class Playlists extends Component {
     );
   }
 }
+
+Playlists.propTypes = {
+  onSnapToItem: PropTypes.func.isRequired,
+  doDisableTouchableHighlight: PropTypes.bool.isRequired,
+  playlists: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 const styles = {
   fillArea: {

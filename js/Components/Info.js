@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Text, View} from 'react-native';
 
 const Info = (props) => {
@@ -26,6 +27,13 @@ const styles = {
     fontWeight: 'bold',
     color: '#FFF',
   },
+};
+
+Info.propTypes = {
+  info: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+  }),
 };
 
 export default Info;

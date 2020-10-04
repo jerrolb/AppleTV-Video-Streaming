@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {View} from 'react-native';
 import {ChevronDown, ChevronUp, Header, Info} from '../Components';
 import Playlists from '../Components/Playlists';
@@ -40,6 +41,25 @@ export default class Home extends React.Component {
     );
   }
 }
+
+Home.propTypes = {
+  colIndex: PropTypes.number.isRequired,
+  info: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+  }),
+  playlists: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onSnapToItem: PropTypes.func.isRequired,
+  doDisableTouchableHighlight: PropTypes.bool.isRequired,
+  player: PropTypes.shape({
+    enabled: PropTypes.bool.isRequired,
+    visible: PropTypes.bool.isRequired,
+    paused: PropTypes.bool.isRequired,
+    url: PropTypes.string.isRequired,
+    nextUrl: PropTypes.string.isRequired,
+  }),
+  onPlayerError: PropTypes.func.isRequired,
+};
 
 const styles = {
   fullscreen: {
