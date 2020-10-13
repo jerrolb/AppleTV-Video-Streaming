@@ -14,20 +14,23 @@ export default class Playlists extends Component {
         title={item.title}
         videos={item.videos}
         onSnapToItem={this.props.onSnapToItem}
+        snapToCol={() => {
+          this.playlistCol.snapToItem(index);
+        }}
       />
     );
   };
   render() {
     return (
-      <View style={styles.fillArea}>
+      <View>
         <View style={styles.highlight} />
+        <View style={styles.marginHider} />
         <Carousel
           pointerEvents={
             this.props.doDisableTouchableHighlight ? 'none' : 'auto'
           }
           ref={(e) => (this.playlistCol = e)}
           data={this.props.playlists}
-          layout={'default'}
           vertical={true}
           activeSlideAlignment={'start'}
           renderItem={this.renderPlaylist}
@@ -51,18 +54,22 @@ Playlists.propTypes = {
 };
 
 const styles = {
-  fillArea: {
-    width: '100%',
-    height: '100%',
-  },
   highlight: {
     position: 'absolute',
-    top: 90,
+    top: 190,
     left: 90,
     width: 430,
     height: 240,
     borderWidth: 5,
     borderRadius: 5,
     borderColor: 'lightblue',
+  },
+  marginHider: {
+    position: 'absolute',
+    left: 0,
+    width: '100%',
+    height: 100,
+    backgroundColor: 'black',
+    zIndex: 1,
   },
 };

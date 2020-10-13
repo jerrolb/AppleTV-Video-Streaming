@@ -14,7 +14,7 @@ const Info = (props) => {
 const styles = {
   info: {
     width: '100%',
-    height: 225,
+    height: 125,
     marginLeft: 100,
   },
   infoDescription: {

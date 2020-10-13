@@ -12,11 +12,14 @@ const ChevronUp = () => {
 
 const styles = {
   chevron: {
+    position: 'absolute',
+    top: 75,
     width: 50,
     height: 35,
     opacity: 0.7,
   },
   container: {
+    zIndex: 1,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

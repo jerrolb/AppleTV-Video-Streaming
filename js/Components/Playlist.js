@@ -7,12 +7,11 @@ import {DIMENSIONS} from '../Constants';
 export default class Playlist extends Component {
   render() {
     return (
-      <View>
+      <View style={styles.marginTop}>
         <Text style={styles.playlistText}>{this.props.title}</Text>
         <Carousel
           ref={(e) => (this.playlistRow = e)}
           data={this.props.videos}
-          layout={'default'}
           activeSlideAlignment={'start'}
           renderItem={({item, index}) => {
             return (
@@ -20,6 +19,7 @@ export default class Playlist extends Component {
                 style={styles.marginLeft}
                 onFocus={() => {
                   this.playlistRow.snapToItem(index);
+                  this.props.snapToCol();
                 }}>
                 <Image
                   style={styles.thumbnailImage}
@@ -57,6 +57,9 @@ const styles = {
   },
   marginLeft: {
     marginLeft: 100,
+  },
+  marginTop: {
+    marginTop: 100,
   },
   thumbnailImage: {
     width: 410,
