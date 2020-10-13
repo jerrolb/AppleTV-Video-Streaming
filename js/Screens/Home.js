@@ -28,11 +28,14 @@ export default class Home extends React.Component {
         </View>
         {this.props.player.enabled && (
           <Video
+            pointerEvents={
+              this.props.doDisableTouchableHighlight ? 'auto' : 'none'
+            }
             style={
               this.props.player.visible ? styles.fullscreen : styles.hidden
             }
             source={{uri: this.props.player.url, type: 'm3u8'}}
-            controls={true}
+            controls={this.props.doDisableTouchableHighlight}
             onError={this.props.onPlayerError}
             paused={this.props.player.paused}
           />
