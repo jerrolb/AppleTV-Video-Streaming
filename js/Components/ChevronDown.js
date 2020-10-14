@@ -21,7 +21,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    bottom: 15,
+    bottom: 35,
     left: 0,
     width: '100%',
   },

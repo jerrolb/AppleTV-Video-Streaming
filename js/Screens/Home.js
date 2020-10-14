@@ -17,7 +17,7 @@ export default class Home extends React.Component {
           style={this.props.player.visible ? styles.hidden : styles.fullscreen}>
           <Header />
           <Info info={this.props.info} />
-          {(doShowChevronUp && <ChevronUp />) || <View style={styles.spacer} />}
+          {doShowChevronUp && <ChevronUp />}
           <Playlists
             ref={(e) => (this.playlists = e)}
             playlists={this.props.playlists}
@@ -28,9 +28,6 @@ export default class Home extends React.Component {
         </View>
         {this.props.player.enabled && (
           <Video
-            pointerEvents={
-              this.props.doDisableTouchableHighlight ? 'auto' : 'none'
-            }
             style={
               this.props.player.visible ? styles.fullscreen : styles.hidden
             }

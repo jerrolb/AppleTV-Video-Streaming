@@ -10,10 +10,10 @@
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		B33D0D6B252FBD3600FC68EC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B33D0D6A252FBD3600FC68EC /* Images.xcassets */; };
-		B33EAC7B25191F6500085A8B /* chevronUp.png in Resources */ = {isa = PBXBuildFile; fileRef = B33EAC7925191F6500085A8B /* chevronUp.png */; };
-		B33EAC7C25191F6500085A8B /* chevronDown.png in Resources */ = {isa = PBXBuildFile; fileRef = B33EAC7A25191F6500085A8B /* chevronDown.png */; };
 		B374EEF324F0CFC700C5964D /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B374EEF224F0CFC700C5964D /* logo.png */; };
 		B374EEF524F0CFD900C5964D /* splash.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B374EEF424F0CFD900C5964D /* splash.jpg */; };
+		B3A7648A2537A869002C6A9F /* chevronUp.png in Resources */ = {isa = PBXBuildFile; fileRef = B3A764882537A869002C6A9F /* chevronUp.png */; };
+		B3A7648B2537A869002C6A9F /* chevronDown.png in Resources */ = {isa = PBXBuildFile; fileRef = B3A764892537A869002C6A9F /* chevronDown.png */; };
 		F147813B21DF2B6969C18A4A /* libPods-nolachurch-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD4E4854617C02D61CBF1B2 /* libPods-nolachurch-tvOS.a */; };
 /* End PBXBuildFile section */
 
@@ -24,13 +24,13 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = nolachurch/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = nolachurch/main.m; sourceTree = "<group>"; };
 		1C245455A94696747CAB1268 /* Pods-nolachurch-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nolachurch-tvOS.release.xcconfig"; path = "Target Support Files/Pods-nolachurch-tvOS/Pods-nolachurch-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		2D02E47B1E0B4A5D006451C7 /* nolachurch-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "nolachurch-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E47B1E0B4A5D006451C7 /* NOLA Church.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NOLA Church.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = nolachurch/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B33D0D6A252FBD3600FC68EC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "nolachurch-tvOS/Images.xcassets"; sourceTree = "<group>"; };
-		B33EAC7925191F6500085A8B /* chevronUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = chevronUp.png; path = "nolachurch-tvOS/chevronUp.png"; sourceTree = "<group>"; };
-		B33EAC7A25191F6500085A8B /* chevronDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = chevronDown.png; path = "nolachurch-tvOS/chevronDown.png"; sourceTree = "<group>"; };
 		B374EEF224F0CFC700C5964D /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = "nolachurch-tvOS/logo.png"; sourceTree = "<group>"; };
 		B374EEF424F0CFD900C5964D /* splash.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = splash.jpg; path = "nolachurch-tvOS/splash.jpg"; sourceTree = "<group>"; };
+		B3A764882537A869002C6A9F /* chevronUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chevronUp.png; sourceTree = "<group>"; };
+		B3A764892537A869002C6A9F /* chevronDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chevronDown.png; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		EF744D9F431F93611E291037 /* Pods-nolachurch-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nolachurch-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-nolachurch-tvOS/Pods-nolachurch-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -52,9 +52,9 @@
 		13B07FAE1A68108700A75B9A /* nolachurch */ = {
 			isa = PBXGroup;
 			children = (
+				B3A764892537A869002C6A9F /* chevronDown.png */,
+				B3A764882537A869002C6A9F /* chevronUp.png */,
 				B33D0D6A252FBD3600FC68EC /* Images.xcassets */,
-				B33EAC7A25191F6500085A8B /* chevronDown.png */,
-				B33EAC7925191F6500085A8B /* chevronUp.png */,
 				B374EEF424F0CFD900C5964D /* splash.jpg */,
 				B374EEF224F0CFC700C5964D /* logo.png */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -101,7 +101,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2D02E47B1E0B4A5D006451C7 /* nolachurch-tvOS.app */,
+				2D02E47B1E0B4A5D006451C7 /* NOLA Church.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -136,7 +136,7 @@
 			);
 			name = "nolachurch-tvOS";
 			productName = "nolachurch-tvOS";
-			productReference = 2D02E47B1E0B4A5D006451C7 /* nolachurch-tvOS.app */;
+			productReference = 2D02E47B1E0B4A5D006451C7 /* NOLA Church.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -177,11 +177,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B33EAC7C25191F6500085A8B /* chevronDown.png in Resources */,
+				B3A7648B2537A869002C6A9F /* chevronDown.png in Resources */,
 				B33D0D6B252FBD3600FC68EC /* Images.xcassets in Resources */,
 				B374EEF524F0CFD900C5964D /* splash.jpg in Resources */,
+				B3A7648A2537A869002C6A9F /* chevronUp.png in Resources */,
 				B374EEF324F0CFC700C5964D /* logo.png in Resources */,
-				B33EAC7B25191F6500085A8B /* chevronUp.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,7 +288,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = S8AN6Z9A24;
 				ENABLE_BITCODE = NO;
@@ -296,14 +296,14 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "nolachurch-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nolachurch.tvos;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "NOLA Church";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -324,14 +324,14 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = S8AN6Z9A24;
 				ENABLE_BITCODE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "nolachurch-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -339,7 +339,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nolachurch.tvos;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "NOLA Church";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
