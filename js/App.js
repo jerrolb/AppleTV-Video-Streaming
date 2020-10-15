@@ -123,11 +123,11 @@ class App extends React.Component {
               title: video.title,
               description: video.shortDescription,
               thumbnail: video.thumbnail,
-              url: debug ?
-                i === 0 ?
-                  'https://nolachurch.com/stream/dev/1/1080/1080.m3u8' :
-                  'https://nolachurch.com/stream/dev/2/1080/1080.m3u8' :
-                video.content.videos[0].url,
+              url: debug
+                ? i === 0
+                  ? 'https://nolachurch.com/stream/dev/1/1080/1080.m3u8'
+                  : 'https://nolachurch.com/stream/dev/2/1080/1080.m3u8'
+                : video.content.videos[0].url,
             });
             break;
           }
