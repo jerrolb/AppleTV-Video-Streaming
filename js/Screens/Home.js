@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {View} from 'react-native';
+import {ImageBackground, View} from 'react-native';
 import {ChevronDown, ChevronUp, Header, Info} from '../Components';
 import Playlists from '../Components/Playlists';
 import Video from 'react-native-video';
+import {IMG} from '../Constants';
 
 export default class Home extends React.Component {
   render() {
@@ -15,16 +16,23 @@ export default class Home extends React.Component {
       <View>
         <View
           style={this.props.player.visible ? styles.hidden : styles.fullscreen}>
-          <Header />
-          <Info info={this.props.info} />
-          {doShowChevronUp && <ChevronUp />}
-          <Playlists
-            ref={(e) => (this.playlists = e)}
-            playlists={this.props.playlists}
-            onSnapToItem={this.props.onSnapToItem}
-            doDisableTouchableHighlight={this.props.doDisableTouchableHighlight}
-          />
-          {doShowChevronDown && <ChevronDown />}
+          <ImageBackground
+            style={styles.imageBackground}
+            imageStyle={styles.imageOpacity}
+            source={{uri: IMG.SPLASH}}>
+            <Header />
+            <Info info={this.props.info} />
+            {doShowChevronUp && <ChevronUp />}
+            <Playlists
+              ref={(e) => (this.playlists = e)}
+              playlists={this.props.playlists}
+              onSnapToItem={this.props.onSnapToItem}
+              doDisableTouchableHighlight={
+                this.props.doDisableTouchableHighlight
+              }
+            />
+            {doShowChevronDown && <ChevronDown />}
+          </ImageBackground>
         </View>
         {this.props.player.enabled && (
           <Video
@@ -70,6 +78,13 @@ const styles = {
   hidden: {
     width: 0,
     height: 0,
+  },
+  imageBackground: {
+    width: '100%',
+    height: '100%',
+  },
+  imageOpacity: {
+    opacity: 0.1,
   },
   spacer: {
     height: 35,

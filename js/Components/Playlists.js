@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {View} from 'react-native';
+import {Image, View} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import Playlist from './Playlist';
-import {DIMENSIONS} from '../Constants';
+import {DIMENSIONS, IMG} from '../Constants';
 
 export default class Playlists extends Component {
   renderPlaylist = ({item, index}) => {
@@ -25,6 +25,7 @@ export default class Playlists extends Component {
       <View>
         <View style={styles.highlight} />
         <View style={styles.marginHider} />
+        <Image style={styles.imageFill} source={{uri: IMG.SPLASH_FILL}} />
         <Carousel
           pointerEvents={
             this.props.doDisableTouchableHighlight ? 'none' : 'auto'
@@ -63,6 +64,14 @@ const styles = {
     borderWidth: 5,
     borderRadius: 5,
     borderColor: 'lightblue',
+  },
+  imageFill: {
+    position: 'absolute',
+    left: 0,
+    width: '100%',
+    height: 100,
+    opacity: 0.1,
+    zIndex: 2,
   },
   marginHider: {
     position: 'absolute',

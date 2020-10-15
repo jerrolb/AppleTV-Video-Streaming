@@ -14,6 +14,7 @@ const IMG = {
   CHEVRON_UP: 'chevronUp.png',
   LOGO: 'logo.png',
   SPLASH: 'splash.jpg',
+  SPLASH_FILL: 'splashFill.png',
 };
 
 const REMOTE = {
