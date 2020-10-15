@@ -104,6 +104,7 @@ class App extends React.Component {
     let video;
 
     feed.categories.forEach((category, index) => {
+      const debug = false;
       playlist = playlists[index] = {};
       playlist.title = category.name;
       playlist.videos = [];
@@ -122,13 +123,11 @@ class App extends React.Component {
               title: video.title,
               description: video.shortDescription,
               thumbnail: video.thumbnail,
-              url: video.content.videos[0].url,
-              /**
-               * Debug
-               * url: i === 0 ?
-               * 'https://nolachurch.com/stream/dev/1/1080/1080.m3u8':
-               * 'https://nolachurch.com/stream/dev/2/1080/1080.m3u8'
-               */
+              url: debug ?
+                i === 0 ?
+                  'https://nolachurch.com/stream/dev/1/1080/1080.m3u8' :
+                  'https://nolachurch.com/stream/dev/2/1080/1080.m3u8' :
+                video.content.videos[0].url,
             });
             break;
           }
