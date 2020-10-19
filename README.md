@@ -17,3 +17,18 @@
   * OR from root of project...
   * Run `react-native run-ios --simulator "Apple TV" --scheme "nolachurch-tvOS"`
     > Requires React Native CLI: `npm i -g @react-native-community/cli`
+
+## For React Native 63.1.1
+* In node_modules/react-native/Libraries/Image/RCTUIImageViewAnimated.m
+
+>#pragma mark - CALayerDelegate
+>
+>- (void)displayLayer:(CALayer *)layer
+>{
+>  if (_currentFrame) {
+>    layer.contentsScale = self.animatedImageScale;
+>    layer.contents = (__bridge id)_currentFrame.CGImage;
+> } else {
+>   [super displayLayer:layer];
+> }
+>}
