@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "nolachurch-tvOS.app"
+               BuildableName = "NOLA Church.app"
                BlueprintName = "nolachurch-tvOS"
                ReferencedContainer = "container:nolachurch.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "nolachurch-tvOS.app"
+            BuildableName = "NOLA Church.app"
             BlueprintName = "nolachurch-tvOS"
             ReferencedContainer = "container:nolachurch.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "nolachurch-tvOS.app"
+            BuildableName = "NOLA Church.app"
             BlueprintName = "nolachurch-tvOS"
             ReferencedContainer = "container:nolachurch.xcodeproj">
          </BuildableReference>
