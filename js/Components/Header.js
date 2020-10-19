@@ -15,6 +15,7 @@ const styles = {
     width: '100%',
     height: 100,
     marginLeft: 80,
+    zIndex: 1,
   },
   logo: {
     width: 400,

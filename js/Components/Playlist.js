@@ -20,6 +20,7 @@ export default class Playlist extends Component {
                 onFocus={() => {
                   this.playlistRow.snapToItem(index);
                   this.props.snapToCol();
+                  this.props.setFocus();
                 }}>
                 <Image
                   style={styles.thumbnailImage}

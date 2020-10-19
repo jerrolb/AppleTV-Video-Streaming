@@ -5,7 +5,9 @@ import {Text, View} from 'react-native';
 const Info = (props) => {
   return (
     <View style={styles.info}>
+      <View style={{height: 50}} />
       <Text style={styles.infoTitle}>{props.info.title}</Text>
+      <View style={{height: 50}} />
       <Text style={styles.infoDescription}>{props.info.description}</Text>
     </View>
   );
@@ -14,18 +16,19 @@ const Info = (props) => {
 const styles = {
   info: {
     width: '100%',
-    height: 150,
+    height: 275,
     marginLeft: 100,
   },
   infoDescription: {
     fontSize: 25,
     color: '#FFF',
+    width: 575,
   },
   infoTitle: {
-    lineHeight: 100,
     fontSize: 30,
     fontWeight: 'bold',
     color: '#FFF',
+    width: 575,
   },
 };
 

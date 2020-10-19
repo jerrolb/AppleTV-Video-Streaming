@@ -12,8 +12,8 @@
 		7FF6BF25B43BA0E113A3DAAC /* libPods-nolachurch-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 89594E99C2D7D4591319E8E5 /* libPods-nolachurch-tvOS.a */; };
 		B30C7E85253BDEBC006CF42A /* chevronDown.png in Resources */ = {isa = PBXBuildFile; fileRef = B30C7E82253BDEBC006CF42A /* chevronDown.png */; };
 		B30C7E86253BDEBC006CF42A /* chevronUp.png in Resources */ = {isa = PBXBuildFile; fileRef = B30C7E83253BDEBC006CF42A /* chevronUp.png */; };
-		B30C7E87253BDEBC006CF42A /* splashFill.png in Resources */ = {isa = PBXBuildFile; fileRef = B30C7E84253BDEBC006CF42A /* splashFill.png */; };
 		B33D0D6B252FBD3600FC68EC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B33D0D6A252FBD3600FC68EC /* Images.xcassets */; };
+		B344D7E2253DE17C00712D6C /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = B344D7E1253DE17C00712D6C /* gradient.png */; };
 		B374EEF324F0CFC700C5964D /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B374EEF224F0CFC700C5964D /* logo.png */; };
 		B374EEF524F0CFD900C5964D /* splash.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B374EEF424F0CFD900C5964D /* splash.jpg */; };
 /* End PBXBuildFile section */
@@ -30,8 +30,8 @@
 		89594E99C2D7D4591319E8E5 /* libPods-nolachurch-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-nolachurch-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B30C7E82253BDEBC006CF42A /* chevronDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = chevronDown.png; path = "nolachurch-tvOS/chevronDown.png"; sourceTree = "<group>"; };
 		B30C7E83253BDEBC006CF42A /* chevronUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = chevronUp.png; path = "nolachurch-tvOS/chevronUp.png"; sourceTree = "<group>"; };
-		B30C7E84253BDEBC006CF42A /* splashFill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splashFill.png; path = "nolachurch-tvOS/splashFill.png"; sourceTree = "<group>"; };
 		B33D0D6A252FBD3600FC68EC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "nolachurch-tvOS/Images.xcassets"; sourceTree = "<group>"; };
+		B344D7E1253DE17C00712D6C /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gradient.png; path = "nolachurch-tvOS/gradient.png"; sourceTree = "<group>"; };
 		B374EEF224F0CFC700C5964D /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = "nolachurch-tvOS/logo.png"; sourceTree = "<group>"; };
 		B374EEF424F0CFD900C5964D /* splash.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = splash.jpg; path = "nolachurch-tvOS/splash.jpg"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -53,9 +53,9 @@
 		13B07FAE1A68108700A75B9A /* nolachurch */ = {
 			isa = PBXGroup;
 			children = (
+				B344D7E1253DE17C00712D6C /* gradient.png */,
 				B30C7E82253BDEBC006CF42A /* chevronDown.png */,
 				B30C7E83253BDEBC006CF42A /* chevronUp.png */,
-				B30C7E84253BDEBC006CF42A /* splashFill.png */,
 				B33D0D6A252FBD3600FC68EC /* Images.xcassets */,
 				B374EEF424F0CFD900C5964D /* splash.jpg */,
 				B374EEF224F0CFC700C5964D /* logo.png */,
@@ -181,7 +181,7 @@
 				B33D0D6B252FBD3600FC68EC /* Images.xcassets in Resources */,
 				B374EEF524F0CFD900C5964D /* splash.jpg in Resources */,
 				B30C7E86253BDEBC006CF42A /* chevronUp.png in Resources */,
-				B30C7E87253BDEBC006CF42A /* splashFill.png in Resources */,
+				B344D7E2253DE17C00712D6C /* gradient.png in Resources */,
 				B374EEF324F0CFC700C5964D /* logo.png in Resources */,
 				B30C7E85253BDEBC006CF42A /* chevronDown.png in Resources */,
 			);
@@ -298,7 +298,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "nolachurch-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -333,7 +333,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "nolachurch-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.5;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

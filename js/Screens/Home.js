@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ImageBackground, View} from 'react-native';
+import {Image, ImageBackground, View} from 'react-native';
 import {ChevronDown, ChevronUp, Header, Info} from '../Components';
 import Playlists from '../Components/Playlists';
 import Video from 'react-native-video';
@@ -16,23 +16,38 @@ export default class Home extends React.Component {
       <View>
         <View
           style={this.props.player.visible ? styles.hidden : styles.fullscreen}>
-          <ImageBackground
-            style={styles.imageBackground}
-            imageStyle={styles.imageOpacity}
-            source={{uri: IMG.SPLASH}}>
-            <Header />
-            <Info info={this.props.info} />
-            {doShowChevronUp && <ChevronUp />}
-            <Playlists
-              ref={(e) => (this.playlists = e)}
-              playlists={this.props.playlists}
-              onSnapToItem={this.props.onSnapToItem}
-              doDisableTouchableHighlight={
-                this.props.doDisableTouchableHighlight
-              }
-            />
-            {doShowChevronDown && <ChevronDown />}
-          </ImageBackground>
+          <Header />
+
+          <Image
+            style={{
+              width: '100%',
+              height: 575,
+              position: 'absolute',
+              top: 0,
+              left: 550,
+            }}
+            source={{uri: this.props.info.thumbnail}}
+          />
+          <Image
+            style={{
+              width: '100%',
+              height: 575,
+              position: 'absolute',
+              top: 0,
+              left: 0,
+            }}
+            source={{uri: 'gradient.png'}}
+          />
+
+          <Info info={this.props.info} />
+          {/* {doShowChevronUp && <ChevronUp />} */}
+          <Playlists
+            ref={(e) => (this.playlists = e)}
+            playlists={this.props.playlists}
+            onSnapToItem={this.props.onSnapToItem}
+            doDisableTouchableHighlight={this.props.doDisableTouchableHighlight}
+          />
+          {/* {doShowChevronDown && <ChevronDown />} */}
         </View>
         {this.props.player.enabled && (
           <Video

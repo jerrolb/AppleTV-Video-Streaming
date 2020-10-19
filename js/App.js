@@ -15,6 +15,7 @@ class App extends React.Component {
       info: {
         title: '',
         description: '',
+        thumbnail: undefined,
       },
       player: {
         enabled: false,
@@ -182,6 +183,7 @@ class App extends React.Component {
       info: {
         title: currVideo.title,
         description: currVideo.description,
+        thumbnail: currVideo.thumbnail,
       },
       player: {
         ...prevState.player,

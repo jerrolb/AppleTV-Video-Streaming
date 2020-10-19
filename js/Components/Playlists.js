@@ -22,10 +22,8 @@ export default class Playlists extends Component {
   };
   render() {
     return (
-      <View>
+      <View style={{zIndex: -1}}>
         <View style={styles.highlight} />
-        <View style={styles.marginHider} />
-        <Image style={styles.imageFill} source={{uri: IMG.SPLASH_FILL}} />
         <Carousel
           pointerEvents={
             this.props.doDisableTouchableHighlight ? 'none' : 'auto'
@@ -64,21 +62,5 @@ const styles = {
     borderWidth: 5,
     borderRadius: 5,
     borderColor: 'lightblue',
-  },
-  imageFill: {
-    position: 'absolute',
-    left: 0,
-    width: '100%',
-    height: 100,
-    opacity: 0.1,
-    zIndex: 2,
-  },
-  marginHider: {
-    position: 'absolute',
-    left: 0,
-    width: '100%',
-    height: 100,
-    backgroundColor: 'black',
-    zIndex: 1,
   },
 };
