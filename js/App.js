@@ -1,14 +1,26 @@
 import React from 'react';
-import {TVEventHandler} from 'react-native';
+import {AppState, TVEventHandler} from 'react-native';
 import {REMOTE, SCREEN, URL} from './Constants';
-import {Error, Home, Splash} from './Screens';
+import {
+  Contact,
+  Error,
+  Giving,
+  Home,
+  Search,
+  Splash,
+  WatchLive,
+} from './Screens';
 import * as Player from './Controllers/Player';
 
 class App extends React.Component {
   constructor() {
     super();
     this.onSnapToItem = this.onSnapToItem.bind(this);
+    this.onAppStateChanged = this.onAppStateChanged.bind(this);
     this.state = {
+      returningFromPlayer: false,
+      appLoaded: false,
+      isHeaderFocused: true,
       isFeedReady: false,
       playlists: [],
       screen: SCREEN.SPLASH,
@@ -31,9 +43,45 @@ class App extends React.Component {
     };
   }
 
+  setReturningFromPlayer(boo) {
+    this.setState({returningFromPlayer: boo});
+  }
+
   componentDidMount() {
     this.fetchFeed();
     this.enableTVEventHandler();
+    AppState.addEventListener('change', this.onAppStateChanged);
+  }
+
+  onAppStateChanged(nextAppState) {
+    if (nextAppState === 'active') {
+      this.setState(
+        {
+          appLoaded: false,
+          isHeaderFocused: true,
+          isFeedReady: false,
+          playlists: [],
+          screen: 'splash',
+          info: {
+            title: '',
+            description: '',
+            thumbnail: undefined,
+          },
+          player: {
+            enabled: false,
+            visible: false,
+            paused: false,
+            url: '',
+            nextUrl: '',
+          },
+          position: {
+            colIndex: 0,
+            rowIndex: 0,
+          },
+        },
+        this.retry(),
+      );
+    }
   }
 
   componentWillUnmount() {
@@ -65,6 +113,9 @@ class App extends React.Component {
             }
             return false;
           case SCREEN.HOME:
+            if (this.state.isHeaderFocused) {
+              return false;
+            }
             if (this.state.player.visible) {
               return btn === REMOTE.MENU ? Player.minimize(this) : false;
             } else {
@@ -72,6 +123,14 @@ class App extends React.Component {
                 return this.state.player.url === this.state.player.nextUrl
                   ? Player.resume(this)
                   : Player.init(this);
+              } else if (btn === REMOTE.UP || btn === REMOTE.SWIPEUP) {
+                if (this.state.position.colIndex === 0) {
+                  this.home.header.sermons.Sermons.setNativeProps({
+                    hasTVPreferredFocus: true,
+                  });
+                }
+                return false;
+              } else if (btn === REMOTE.DOWN || btn === REMOTE.SWIPEDOWN) {
               } else {
                 return false;
               }
@@ -91,7 +150,7 @@ class App extends React.Component {
   }
 
   fetchFeed() {
-    fetch(URL.FEED)
+    fetch(URL.FEED, {cache: 'no-cache'})
       .then((res) => res.json())
       .then((feed) => this.initFeed(feed))
       .catch(() => this.setScreen(SCREEN.ERROR));
@@ -105,10 +164,14 @@ class App extends React.Component {
     let video;
 
     feed.categories.forEach((category, index) => {
-      const debug = false;
+      const debug = true;
       playlist = playlists[index] = {};
       playlist.title = category.name;
       playlist.videos = [];
+
+      playlistDupe = playlists[index + feed.categories.length] = {};
+      playlistDupe.title = category.name;
+      playlistDupe.videos = [];
 
       feed.playlists.some((feedPlaylist) => {
         if (feedPlaylist.name === category.playlistName) {
@@ -116,24 +179,36 @@ class App extends React.Component {
         }
       });
 
-      itemIds.forEach((id) => {
-        for (let i = 0; i < videoLength; ++i) {
-          video = feed.shortFormVideos[i];
-          if (id === video.id) {
-            playlist.videos.push({
-              title: video.title,
-              description: video.shortDescription,
-              thumbnail: video.thumbnail,
-              url: debug
-                ? i === 0
-                  ? 'https://nolachurch.com/stream/dev/1/1080/1080.m3u8'
-                  : 'https://nolachurch.com/stream/dev/2/1080/1080.m3u8'
-                : video.content.videos[0].url,
-            });
-            break;
+      for (let dupe = 0; dupe < 2; dupe++) {
+        itemIds.forEach((id) => {
+          for (let i = 0; i < videoLength; ++i) {
+            video = feed.shortFormVideos[i];
+            if (id === video.id) {
+              playlist.videos.push({
+                title: video.title,
+                description: video.shortDescription,
+                thumbnail: video.thumbnail,
+                url: debug
+                  ? i === 0
+                    ? 'https://nolachurch.com/stream/dev/1/1080/1080.m3u8'
+                    : 'https://nolachurch.com/stream/dev/2/1080/1080.m3u8'
+                  : video.content.videos[0].url,
+              });
+              playlistDupe.videos.push({
+                title: video.title,
+                description: video.shortDescription,
+                thumbnail: video.thumbnail,
+                url: debug
+                  ? i === 0
+                    ? 'https://nolachurch.com/stream/dev/1/1080/1080.m3u8'
+                    : 'https://nolachurch.com/stream/dev/2/1080/1080.m3u8'
+                  : video.content.videos[0].url,
+              });
+              break;
+            }
           }
-        }
-      });
+        });
+      }
     });
 
     this.setState({
@@ -157,6 +232,22 @@ class App extends React.Component {
         this.setScreen(SCREEN.ERROR);
       }
     }, 1750);
+  }
+
+  realI() {
+    if (!this.home || !this.home.playlists) {
+      return {
+        row: null,
+        col: null,
+      };
+    }
+    const colIndex = this.home.playlists.playlistCol.currentIndex;
+    const playlist = `playlist${colIndex}`;
+    const rowIndex = this.home.playlists[playlist].playlistRow.currentIndex;
+    return {
+      col: colIndex,
+      row: rowIndex,
+    };
   }
 
   onSnapToItem() {
@@ -193,7 +284,29 @@ class App extends React.Component {
   }
 
   setScreen(newScreen) {
-    this.setState({screen: newScreen});
+    if (newScreen === 'home') {
+      this.setState(
+        {
+          position: {
+            colIndex: 0,
+            rowIndex: 0,
+          },
+        },
+        () => {
+          this.updateInfo();
+          this.setState({screen: newScreen});
+        },
+      );
+    } else {
+      this.setState({screen: newScreen});
+    }
+  }
+
+  setIsHeaderFocused(isHeaderFocused) {
+    this.home &&
+      this.home.playlists &&
+      this.home.playlists.playlist0.playlistRow.snapToItem(0);
+    this.setState({isHeaderFocused: isHeaderFocused});
   }
 
   renderScreen() {
@@ -213,10 +326,62 @@ class App extends React.Component {
             onSnapToItem={this.onSnapToItem}
             colIndex={this.state.position.colIndex}
             doDisableTouchableHighlight={this.state.player.visible}
+            setIsHeaderFocused={(isHeaderFocused) =>
+              this.setIsHeaderFocused(isHeaderFocused)
+            }
+            isHeaderFocused={this.state.isHeaderFocused}
+            setScreen={(screen) => this.setScreen(screen)}
+            position={this.state.position}
+            realI={this.realI()}
+            appLoaded={() => {
+              this.setState({appLoaded: true});
+            }}
+            isAppLoaded={this.state.appLoaded}
+            onEnd={() => {
+              Player.exit(this);
+            }}
+            returningFromPlayer={this.state.returningFromPlayer}
+            setReturningFromPlayer={(boo) => this.setReturningFromPlayer(boo)}
           />
         );
       case SCREEN.ERROR:
         return <Error />;
+      case SCREEN.CONTACT:
+        return (
+          <Contact
+            setScreen={(screen) => this.setScreen(screen)}
+            setIsHeaderFocused={(isHeaderFocused) =>
+              this.setIsHeaderFocused(isHeaderFocused)
+            }
+          />
+        );
+      case SCREEN.GIVING:
+        return (
+          <Giving
+            setScreen={(screen) => this.setScreen(screen)}
+            setIsHeaderFocused={(isHeaderFocused) =>
+              this.setIsHeaderFocused(isHeaderFocused)
+            }
+          />
+        );
+      case SCREEN.WATCHLIVE:
+        return (
+          <WatchLive
+            setScreen={(screen) => this.setScreen(screen)}
+            setIsHeaderFocused={(isHeaderFocused) =>
+              this.setIsHeaderFocused(isHeaderFocused)
+            }
+          />
+        );
+      case SCREEN.SEARCH:
+        return (
+          <Search
+            setScreen={(screen) => this.setScreen(screen)}
+            setIsHeaderFocused={(isHeaderFocused) =>
+              this.setIsHeaderFocused(isHeaderFocused)
+            }
+          />
+        );
       default:
         return;
     }

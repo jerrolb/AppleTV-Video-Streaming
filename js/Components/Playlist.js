@@ -16,10 +16,16 @@ export default class Playlist extends Component {
           renderItem={({item, index}) => {
             return (
               <TouchableHighlight
+                ref={(e) => (this[`d${index}`] = e)}
                 style={styles.marginLeft}
                 onFocus={() => {
-                  this.playlistRow.snapToItem(index);
-                  this.props.snapToCol();
+                  this.props.setFocus(index);
+                }}
+                onBlur={() => {
+                  this[`d${index}`] &&
+                    this[`d${index}`].setNativeProps({
+                      hasTVPreferredFocus: false,
+                    });
                 }}>
                 <Image
                   style={styles.thumbnailImage}

@@ -1,22 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Image, ImageBackground, View} from 'react-native';
-import {ChevronDown, ChevronUp, Header, Info} from '../Components';
+import {Image, View} from 'react-native';
+import {Header, Info} from '../Components';
 import Playlists from '../Components/Playlists';
 import Video from 'react-native-video';
-import {IMG} from '../Constants';
 
 export default class Home extends React.Component {
   render() {
-    const doShowChevronUp = this.props.colIndex > 0;
-    const doShowChevronDown = Boolean(
-      this.props.playlists[this.props.colIndex + 2],
-    );
     return (
       <View>
         <View
           style={this.props.player.visible ? styles.hidden : styles.fullscreen}>
-          <Header />
+          <Header
+            isAppLoaded={this.props.isAppLoaded}
+            doDisableTouchableHighlight={this.props.doDisableTouchableHighlight}
+            screen={'Sermons'}
+            ref={(e) => (this.header = e)}
+            setIsHeaderFocused={this.props.setIsHeaderFocused}
+            setScreen={this.props.setScreen}
+          />
 
           <Image
             style={{
@@ -40,25 +42,34 @@ export default class Home extends React.Component {
           />
 
           <Info info={this.props.info} />
-          {/* {doShowChevronUp && <ChevronUp />} */}
           <Playlists
             ref={(e) => (this.playlists = e)}
             playlists={this.props.playlists}
             onSnapToItem={this.props.onSnapToItem}
             doDisableTouchableHighlight={this.props.doDisableTouchableHighlight}
+            setIsHeaderFocused={this.props.setIsHeaderFocused}
+            isHeaderFocused={this.props.isHeaderFocused}
+            position={this.props.position}
+            realI={this.props.realI}
+            appLoaded={this.props.appLoaded}
+            isAppLoaded={this.props.isAppLoaded}
+            returningFromPlayer={this.props.returningFromPlayer}
+            setReturningFromPlayer={this.props.setReturningFromPlayer}
           />
-          {/* {doShowChevronDown && <ChevronDown />} */}
         </View>
         {this.props.player.enabled && (
-          <Video
-            style={
-              this.props.player.visible ? styles.fullscreen : styles.hidden
-            }
-            source={{uri: this.props.player.url, type: 'm3u8'}}
-            controls={this.props.doDisableTouchableHighlight}
-            onError={this.props.onPlayerError}
-            paused={this.props.player.paused}
-          />
+          <View hasTVPreferredFocus={this.props.player.visible}>
+            <Video
+              style={
+                this.props.player.visible ? styles.fullscreen : styles.hidden
+              }
+              source={{uri: this.props.player.url, type: 'm3u8'}}
+              controls={this.props.doDisableTouchableHighlight}
+              onError={this.props.onPlayerError}
+              paused={this.props.player.paused}
+              onEnd={this.props.onEnd}
+            />
+          </View>
         )}
       </View>
     );
@@ -91,6 +102,9 @@ const styles = {
     backgroundColor: '#000',
   },
   hidden: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
     width: 0,
     height: 0,
   },

@@ -17,13 +17,45 @@ export default class Playlists extends Component {
         snapToCol={() => {
           this.playlistCol.snapToItem(index);
         }}
+        setIsHeaderFocused={this.props.setIsHeaderFocused}
+        isHeaderFocused={() => this.props.isHeaderFocused}
+        setFocus={(i) => {
+          if (!this.props.isAppLoaded) {
+            this.props.appLoaded();
+            return;
+          }
+          if (this.props.returningFromPlayer) {
+            this[`playlist${this.props.realI.col}`][
+              `d${this.props.realI.row}`
+            ].setNativeProps({hasTVPreferredFocus: true});
+            this.props.setReturningFromPlayer(false);
+            return;
+          }
+          if (
+            this.props.isHeaderFocused &&
+            this[`playlist${this.props.realI.col}`] &&
+            this[`playlist${this.props.realI.row}`]
+          ) {
+            this[`playlist${this.props.realI.col}`][
+              `d${this.props.realI.row}`
+            ].setNativeProps({hasTVPreferredFocus: true});
+            this.playlistCol.snapToItem(this.props.realI.col);
+            this[`playlist${this.props.realI.col}`].playlistRow.snapToItem(
+              this.props.realI.row,
+            );
+            this.props.setIsHeaderFocused(false);
+          } else {
+            this.playlistCol.snapToItem(index);
+            this[ref].playlistRow.snapToItem(i);
+          }
+        }}
       />
     );
   };
   render() {
     return (
       <View style={{zIndex: -1}}>
-        <View style={styles.highlight} />
+        {!this.props.isHeaderFocused && <View style={styles.highlight} />}
         <Carousel
           pointerEvents={
             this.props.doDisableTouchableHighlight ? 'none' : 'auto'

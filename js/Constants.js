@@ -33,9 +33,13 @@ const REMOTE = {
 };
 
 const SCREEN = {
+  CONTACT: 'contact',
   ERROR: 'error',
+  GIVING: 'giving',
   HOME: 'home',
+  SEARCH: 'search',
   SPLASH: 'splash',
+  WATCHLIVE: 'watchLive',
 };
 
 const URL = {

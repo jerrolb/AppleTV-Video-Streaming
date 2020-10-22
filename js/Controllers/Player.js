@@ -17,6 +17,7 @@ const enable = (that) => {
 const error = (that) => {
   TVMenuControl.disableTVMenuKey();
   that.setState((prevState) => ({
+    returningFromPlayer: true,
     player: {
       ...prevState.player,
       visible: false,
@@ -44,6 +45,7 @@ const init = (that) => {
 const minimize = (that) => {
   TVMenuControl.disableTVMenuKey();
   that.setState((prevState) => ({
+    returningFromPlayer: true,
     player: {
       ...prevState.player,
       paused: true,
@@ -64,4 +66,17 @@ const resume = (that) => {
   }));
 };
 
-export {enable, error, init, minimize, resume};
+const exit = (that) => {
+  TVMenuControl.disableTVMenuKey();
+  that.setState((prevState) => ({
+    returningFromPlayer: true,
+    player: {
+      ...prevState.player,
+      enabled: false,
+      visible: false,
+      paused: false,
+    },
+  }));
+};
+
+export {enable, error, exit, init, minimize, resume};
