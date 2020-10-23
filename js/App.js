@@ -55,32 +55,42 @@ class App extends React.Component {
 
   onAppStateChanged(nextAppState) {
     if (nextAppState === 'active') {
-      this.setState(
-        {
-          appLoaded: false,
-          isHeaderFocused: true,
-          isFeedReady: false,
-          playlists: [],
-          screen: 'splash',
-          info: {
-            title: '',
-            description: '',
-            thumbnail: undefined,
+      const setDefaultState = () => {
+        this.setState(
+          {
+            appLoaded: false,
+            isHeaderFocused: true,
+            isFeedReady: false,
+            playlists: [],
+            screen: SCREEN.SPLASH,
+            info: {
+              title: '',
+              description: '',
+              thumbnail: undefined,
+            },
+            player: {
+              enabled: false,
+              visible: false,
+              paused: false,
+              url: '',
+              nextUrl: '',
+            },
+            position: {
+              colIndex: 0,
+              rowIndex: 0,
+            },
           },
-          player: {
-            enabled: false,
-            visible: false,
-            paused: false,
-            url: '',
-            nextUrl: '',
-          },
-          position: {
-            colIndex: 0,
-            rowIndex: 0,
-          },
-        },
-        this.retry(),
-      );
+          this.retry(),
+        );
+      };
+      const trySetDefaultState = () => {
+        if (this && this.setState) {
+          setDefaultState();
+        } else {
+          setTimeout(trySetDefaultState, 100);
+        }
+      };
+      trySetDefaultState();
     }
   }
 
@@ -104,6 +114,7 @@ class App extends React.Component {
       const btn = evt && evt.eventType;
       const isSelectBtn = checkIsSelectBtn(btn);
       if (btn) {
+        this.setState({lastBtnPressed: btn});
         switch (this.state.screen) {
           case SCREEN.SPLASH:
             return false;
@@ -135,6 +146,7 @@ class App extends React.Component {
                 return false;
               }
             }
+            return false;
           default:
             return false;
         }
@@ -150,7 +162,10 @@ class App extends React.Component {
   }
 
   fetchFeed() {
-    fetch(URL.FEED, {cache: 'no-cache'})
+    const headers = {
+      cache: 'no-cache',
+    };
+    fetch(URL.FEED, headers)
       .then((res) => res.json())
       .then((feed) => this.initFeed(feed))
       .catch(() => this.setScreen(SCREEN.ERROR));
@@ -164,14 +179,10 @@ class App extends React.Component {
     let video;
 
     feed.categories.forEach((category, index) => {
-      const debug = true;
+      const debug = false;
       playlist = playlists[index] = {};
       playlist.title = category.name;
       playlist.videos = [];
-
-      playlistDupe = playlists[index + feed.categories.length] = {};
-      playlistDupe.title = category.name;
-      playlistDupe.videos = [];
 
       feed.playlists.some((feedPlaylist) => {
         if (feedPlaylist.name === category.playlistName) {
@@ -179,36 +190,24 @@ class App extends React.Component {
         }
       });
 
-      for (let dupe = 0; dupe < 2; dupe++) {
-        itemIds.forEach((id) => {
-          for (let i = 0; i < videoLength; ++i) {
-            video = feed.shortFormVideos[i];
-            if (id === video.id) {
-              playlist.videos.push({
-                title: video.title,
-                description: video.shortDescription,
-                thumbnail: video.thumbnail,
-                url: debug
-                  ? i === 0
-                    ? 'https://nolachurch.com/stream/dev/1/1080/1080.m3u8'
-                    : 'https://nolachurch.com/stream/dev/2/1080/1080.m3u8'
-                  : video.content.videos[0].url,
-              });
-              playlistDupe.videos.push({
-                title: video.title,
-                description: video.shortDescription,
-                thumbnail: video.thumbnail,
-                url: debug
-                  ? i === 0
-                    ? 'https://nolachurch.com/stream/dev/1/1080/1080.m3u8'
-                    : 'https://nolachurch.com/stream/dev/2/1080/1080.m3u8'
-                  : video.content.videos[0].url,
-              });
-              break;
-            }
+      itemIds.forEach((id) => {
+        for (let i = 0; i < videoLength; ++i) {
+          video = feed.shortFormVideos[i];
+          if (id === video.id) {
+            playlist.videos.push({
+              title: video.title,
+              description: video.shortDescription,
+              thumbnail: video.thumbnail,
+              url: debug
+                ? i === 0
+                  ? 'https://nolachurch.com/stream/dev/1/1080/1080.m3u8'
+                  : 'https://nolachurch.com/stream/dev/2/1080/1080.m3u8'
+                : video.content.videos[0].url,
+            });
+            break;
           }
-        });
-      }
+        }
+      });
     });
 
     this.setState({

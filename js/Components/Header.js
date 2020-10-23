@@ -1,6 +1,5 @@
 import React from 'react';
-import {Image, Text, TouchableHighlight, View, ScrollView} from 'react-native';
-import {IMG} from '../Constants';
+import {View, ScrollView} from 'react-native';
 import Tab from './Tab';
 
 class Header extends React.Component {
@@ -11,20 +10,10 @@ class Header extends React.Component {
         pointerEvents={() => {
           this.props.doDisableTouchableHighlight ? 'none' : 'auto';
         }}>
-        <Image style={styles.logo} source={{uri: IMG.LOGO}} />
+        <View style={styles.transparentBackground} />
         <ScrollView
-          contentContainerStyle={{
-            opacity: 0.75,
-            height: 88,
-            width: 650,
-            justifyContent: 'center',
-            backgroundColor: '#808080',
-          }}
-          style={{
-            borderRadius: 50,
-            height: 80,
-            width: 650,
-          }}
+          contentContainerStyle={styles.scrollViewContent}
+          style={styles.scrollViewContainer}
           horizontal={true}>
           {/* <Tab
           ref={(e) => (this.search = e)}
@@ -85,6 +74,26 @@ const styles = {
     width: 400,
     height: 80,
     resizeMode: 'contain',
+  },
+  scrollViewContainer: {
+    zIndex: 3,
+    height: 80,
+    width: 650,
+  },
+  scrollViewContent: {
+    height: 78,
+    width: 650,
+    justifyContent: 'center',
+    zIndex: 3,
+  },
+  transparentBackground: {
+    position: 'absolute',
+    top: 10,
+    height: 80,
+    width: 650,
+    backgroundColor: '#808080',
+    borderRadius: 50,
+    opacity: 0.3,
   },
 };
 

@@ -21,25 +21,10 @@ export default class Home extends React.Component {
           />
 
           <Image
-            style={{
-              width: '100%',
-              height: 575,
-              position: 'absolute',
-              top: 0,
-              left: 550,
-            }}
+            style={styles.heroImage}
             source={{uri: this.props.info.thumbnail}}
           />
-          <Image
-            style={{
-              width: '100%',
-              height: 575,
-              position: 'absolute',
-              top: 0,
-              left: 0,
-            }}
-            source={{uri: 'gradient.png'}}
-          />
+          <Image style={styles.gradient} source={{uri: 'gradient.png'}} />
 
           <Info info={this.props.info} />
           <Playlists
@@ -101,12 +86,26 @@ const styles = {
     height: '100%',
     backgroundColor: '#000',
   },
+  gradient: {
+    width: '100%',
+    height: 575,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
   hidden: {
     position: 'absolute',
     top: '50%',
     left: '50%',
     width: 0,
     height: 0,
+  },
+  heroImage: {
+    width: '100%',
+    height: 575,
+    position: 'absolute',
+    top: 0,
+    left: 550,
   },
   imageBackground: {
     width: '100%',

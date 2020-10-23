@@ -10,11 +10,9 @@ const DIMENSIONS = {
 };
 
 const IMG = {
-  CHEVRON_DOWN: 'chevronDown.png',
-  CHEVRON_UP: 'chevronUp.png',
-  LOGO: 'logo.png',
   SPLASH: 'splash.jpg',
-  SPLASH_FILL: 'splashFill.png',
+  GIVING: 'give_layout.jpg',
+  CONTACT: 'contact_layout.jpg',
 };
 
 const REMOTE = {

@@ -39,12 +39,16 @@ class Tab extends React.Component {
       textStyle: {
         marginTop: 37,
         fontSize: 32,
-        color: this.props.screen === this.props.label ? '#88c4dd' : 'white',
-        fontWeight:
-          this.state.isFocused || this.props.screen === this.props.label
-            ? 'bold'
-            : 'normal',
-        textDecorationLine: this.state.isFocused ? 'underline' : 'none',
+        color: this.state.isFocused ? '#88c4dd' : '#F0F0F0',
+        fontWeight: this.state.isFocused ? '800' : '700',
+      },
+      searchIcon: {
+        marginTop: 32,
+        width: this.state.isFocused ? 60 : 50,
+        height: this.state.isFocused ? 60 : 50,
+      },
+      flexDirectionRow: {
+        flexDirection: 'row',
       },
     };
     const screen = this.getScreen();
@@ -61,13 +65,9 @@ class Tab extends React.Component {
         onPress={() => this.props.setScreen(screen)}
         hasTVPreferredFocus={this.props.screen === this.props.label}>
         {(isSearch && (
-          <View style={{flexDirection: 'row'}}>
+          <View style={styles.flexDirectionRow}>
             <Image
-              style={{
-                marginTop: 32,
-                width: this.state.isFocused ? 60 : 50,
-                height: this.state.isFocused ? 60 : 50,
-              }}
+              style={styles.searchIcon}
               source={{
                 uri:
                   this.props.screen === this.props.label

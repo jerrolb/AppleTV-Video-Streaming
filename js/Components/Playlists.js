@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Image, View} from 'react-native';
+import {View} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import Playlist from './Playlist';
-import {DIMENSIONS, IMG} from '../Constants';
+import {DIMENSIONS} from '../Constants';
 
 export default class Playlists extends Component {
   renderPlaylist = ({item, index}) => {
@@ -54,7 +54,7 @@ export default class Playlists extends Component {
   };
   render() {
     return (
-      <View style={{zIndex: -1}}>
+      <View style={styles.hideBehind}>
         {!this.props.isHeaderFocused && <View style={styles.highlight} />}
         <Carousel
           pointerEvents={
@@ -94,5 +94,8 @@ const styles = {
     borderWidth: 5,
     borderRadius: 5,
     borderColor: 'lightblue',
+  },
+  hideBehind: {
+    zIndex: -1,
   },
 };

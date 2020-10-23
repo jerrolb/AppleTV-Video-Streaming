@@ -1,6 +1,7 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Image, View} from 'react-native';
 import {Header} from '../Components';
+import {IMG} from '../Constants';
 
 const Contact = (props) => {
   return (
@@ -10,11 +11,7 @@ const Contact = (props) => {
         setScreen={props.setScreen}
         setIsHeaderFocused={props.setIsHeaderFocused}
       />
-      <View style={styles.center}>
-        <Text style={styles.errorText}>
-          <Text>Contact with QR code</Text>
-        </Text>
-      </View>
+      <Image style={styles.image} source={{uri: IMG.CONTACT}} />
     </View>
   );
 };
@@ -22,6 +19,11 @@ const Contact = (props) => {
 export default Contact;
 
 const styles = {
+  image: {
+    width: '100%',
+    height: '100%',
+    marginTop: -100,
+  },
   fullscreen: {
     width: '100%',
     height: '100%',
