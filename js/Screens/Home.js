@@ -1,58 +1,41 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Image, View} from 'react-native';
 import {Header, Info} from '../Components';
 import Playlists from '../Components/Playlists';
 import Video from 'react-native-video';
+import {IMG} from '../Constants';
+import * as Player from '../Controllers/Player';
 
-export default class Home extends React.Component {
+class Home extends React.Component {
   render() {
     return (
       <View>
         <View
-          style={this.props.player.visible ? styles.hidden : styles.fullscreen}>
-          <Header
-            isAppLoaded={this.props.isAppLoaded}
-            doDisableTouchableHighlight={this.props.doDisableTouchableHighlight}
-            screen={'Sermons'}
-            ref={(e) => (this.header = e)}
-            setIsHeaderFocused={this.props.setIsHeaderFocused}
-            setScreen={this.props.setScreen}
-          />
+          style={styles[this.props.player.visible ? 'hidden' : 'fullscreen']}>
+          <Header ref={(e) => (this.header = e)} />
 
           <Image
             style={styles.heroImage}
             source={{uri: this.props.info.thumbnail}}
           />
-          <Image style={styles.gradient} source={{uri: 'gradient.png'}} />
+          <Image style={styles.gradient} source={{uri: IMG.GRADIENT}} />
 
-          <Info info={this.props.info} />
-          <Playlists
-            ref={(e) => (this.playlists = e)}
-            playlists={this.props.playlists}
-            onSnapToItem={this.props.onSnapToItem}
-            doDisableTouchableHighlight={this.props.doDisableTouchableHighlight}
-            setIsHeaderFocused={this.props.setIsHeaderFocused}
-            isHeaderFocused={this.props.isHeaderFocused}
-            position={this.props.position}
-            realI={this.props.realI}
-            appLoaded={this.props.appLoaded}
-            isAppLoaded={this.props.isAppLoaded}
-            returningFromPlayer={this.props.returningFromPlayer}
-            setReturningFromPlayer={this.props.setReturningFromPlayer}
-          />
+          <Info />
+          <Playlists ref={(e) => (this.playlists = e)} />
         </View>
         {this.props.player.enabled && (
           <View hasTVPreferredFocus={this.props.player.visible}>
             <Video
               style={
-                this.props.player.visible ? styles.fullscreen : styles.hidden
+                styles[this.props.player.visible ? 'fullscreen' : 'hidden']
               }
               source={{uri: this.props.player.url, type: 'm3u8'}}
-              controls={this.props.doDisableTouchableHighlight}
-              onError={this.props.onPlayerError}
+              controls={this.props.player.visible}
               paused={this.props.player.paused}
-              onEnd={this.props.onEnd}
+              onEnd={Player.exit}
+              onError={Player.error}
             />
           </View>
         )}
@@ -61,15 +44,22 @@ export default class Home extends React.Component {
   }
 }
 
+const mapState = (state) => {
+  return {
+    info: state.info,
+    player: state.player,
+    playlists: state.playlists,
+  };
+};
+
+export default connect(mapState, null, null, {forwardRef: true})(Home);
+
 Home.propTypes = {
-  colIndex: PropTypes.number.isRequired,
   info: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
   }),
   playlists: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onSnapToItem: PropTypes.func.isRequired,
-  doDisableTouchableHighlight: PropTypes.bool.isRequired,
   player: PropTypes.shape({
     enabled: PropTypes.bool.isRequired,
     visible: PropTypes.bool.isRequired,
@@ -77,7 +67,6 @@ Home.propTypes = {
     url: PropTypes.string.isRequired,
     nextUrl: PropTypes.string.isRequired,
   }),
-  onPlayerError: PropTypes.func.isRequired,
 };
 
 const styles = {

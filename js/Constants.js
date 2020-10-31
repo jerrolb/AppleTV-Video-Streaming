@@ -10,9 +10,12 @@ const DIMENSIONS = {
 };
 
 const IMG = {
-  SPLASH: 'splash.jpg',
-  GIVING: 'give_layout.jpg',
   CONTACT: 'contact_layout.jpg',
+  GIVING: 'give_layout.jpg',
+  GRADIENT: 'gradient.png',
+  SEARCH: 'search.png',
+  SEARCH_BLUE: 'searchBlue.png',
+  SPLASH: 'splash.jpg',
 };
 
 const REMOTE = {
@@ -31,17 +34,17 @@ const REMOTE = {
 };
 
 const SCREEN = {
-  CONTACT: 'contact',
-  ERROR: 'error',
-  GIVING: 'giving',
-  HOME: 'home',
-  SEARCH: 'search',
-  SPLASH: 'splash',
-  WATCHLIVE: 'watchLive',
+  CONTACT: 'Contact',
+  ERROR: 'Error',
+  GIVING: 'Giving',
+  SERMONS: 'Sermons',
+  SEARCH: 'Search',
+  SPLASH: 'Splash',
+  WATCHLIVE: 'Watch Live',
 };
 
 const URL = {
-  FEED: 'https://nolachurch.com/stream/feed.json',
+  FEED: 'http://nolachurch.com/stream/feed.json',
 };
 
 export {DIMENSIONS, IMG, REMOTE, SCREEN, URL};

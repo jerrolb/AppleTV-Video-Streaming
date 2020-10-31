@@ -5,11 +5,7 @@ import {Header} from '../Components';
 const WatchLive = (props) => {
   return (
     <View style={styles.fullscreen}>
-      <Header
-        screen={'Watch Live'}
-        setScreen={props.setScreen}
-        setIsHeaderFocused={props.setIsHeaderFocused}
-      />
+      <Header screen={'Watch Live'} />
       <View style={styles.center}>
         <Text style={styles.errorText}>
           <Text>Watch Live</Text>

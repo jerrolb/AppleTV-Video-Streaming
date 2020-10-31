@@ -6,11 +6,7 @@ import {IMG} from '../Constants';
 const Giving = (props) => {
   return (
     <View style={styles.fullscreen}>
-      <Header
-        screen={'Giving'}
-        setScreen={props.setScreen}
-        setIsHeaderFocused={props.setIsHeaderFocused}
-      />
+      <Header screen={'Giving'} />
       <Image style={styles.image} source={{uri: IMG.GIVING}} />
     </View>
   );

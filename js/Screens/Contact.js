@@ -6,11 +6,7 @@ import {IMG} from '../Constants';
 const Contact = (props) => {
   return (
     <View style={styles.fullscreen}>
-      <Header
-        screen={'Contact'}
-        setScreen={props.setScreen}
-        setIsHeaderFocused={props.setIsHeaderFocused}
-      />
+      <Header screen={'Contact'} />
       <Image style={styles.image} source={{uri: IMG.CONTACT}} />
     </View>
   );

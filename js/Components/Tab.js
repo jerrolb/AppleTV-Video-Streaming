@@ -1,12 +1,46 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {
+  setIsHeaderFocused,
+  setScreen,
+  setShouldSermonsBeFocused,
+  setInfo,
+  setNextUrl,
+  setPosition,
+  setIsAppLoaded,
+} from '../redux/actions/actions';
 import {Image, View, Text, TouchableHighlight} from 'react-native';
+import {IMG} from '../Constants';
 
 class Tab extends React.Component {
   constructor() {
     super();
     this.state = {
       isFocused: false,
+      isSermons: false,
+      isSearch: false,
     };
+  }
+
+  componentDidMount() {
+    if (this.props.label === 'Sermons') {
+      this.setState({isSermons: true});
+    }
+    if (this.props.label === 'Search') {
+      this.SetState({isSearch: true});
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const didFocusChange =
+      prevProps.shouldSermonsBeFocused !== this.props.shouldSermonsBeFocused;
+    if (
+      didFocusChange &&
+      this.state.isSermons &&
+      this.props.shouldSermonsBeFocused
+    ) {
+      this.Sermons.setNativeProps({hasTVPreferredFocus: true});
+    }
   }
 
   focus() {
@@ -14,24 +48,8 @@ class Tab extends React.Component {
     this.setState({isFocused: true});
   }
   blur() {
+    this.state.isSermons && this.props.setShouldSermonsBeFocused(false);
     this.setState({isFocused: false});
-  }
-  getScreen() {
-    if (this.props.label === 'Watch Live') {
-      return 'watchLive';
-    }
-    if (this.props.label === 'Sermons') {
-      return 'home';
-    }
-    if (this.props.label === 'Giving') {
-      return 'giving';
-    }
-    if (this.props.label === 'Contact') {
-      return 'contact';
-    }
-    if (this.props.label === 'Search') {
-      return 'search';
-    }
   }
 
   render() {
@@ -51,19 +69,33 @@ class Tab extends React.Component {
         flexDirection: 'row',
       },
     };
-    const screen = this.getScreen();
     const isSearch = this.props.label === 'Search';
 
     return (
       <TouchableHighlight
-        underlayColor="none"
         ref={(e) => {
           this[this.props.label] = e;
         }}
         onFocus={() => this.focus()}
         onBlur={() => this.blur()}
-        onPress={() => this.props.setScreen(screen)}
-        hasTVPreferredFocus={this.props.screen === this.props.label}>
+        onPress={() => {
+          if (this.state.isSermons && this.props.screen !== this.props.label) {
+            this.props.setIsAppLoaded(false);
+            this.props.setInfo({
+              title: this.props.firstVideo.title,
+              description: this.props.firstVideo.description,
+              thumbnail: this.props.firstVideo.thumbnail,
+            });
+            this.props.setNextUrl(this.props.firstVideo.url);
+            this.props.setPosition({
+              colIndex: 0,
+              rowIndex: 0,
+            });
+          }
+          this.props.setScreen(this.props.label);
+        }}
+        hasTVPreferredFocus={this.props.screen === this.props.label}
+        underlayColor="none">
         {(isSearch && (
           <View style={styles.flexDirectionRow}>
             <Image
@@ -71,8 +103,8 @@ class Tab extends React.Component {
               source={{
                 uri:
                   this.props.screen === this.props.label
-                    ? 'searchBlue.png'
-                    : 'search.png',
+                    ? IMG.SEARCH_BLUE
+                    : IMG.SEARCH,
               }}
             />
             <Text> </Text>
@@ -88,4 +120,26 @@ class Tab extends React.Component {
   }
 }
 
-export default Tab;
+const mapState = (state) => {
+  return {
+    screen: state.screen,
+    shouldSermonsBeFocused: state.shouldSermonsBeFocused,
+    firstVideo: state.playlists[0].videos[0],
+  };
+};
+
+const mapDispatch = (dispatch) => {
+  return {
+    setIsHeaderFocused: (isHeaderFocused) =>
+      dispatch(setIsHeaderFocused(isHeaderFocused)),
+    setScreen: (screen) => dispatch(setScreen(screen)),
+    setShouldSermonsBeFocused: (shouldSermonsBeFocused) =>
+      dispatch(setShouldSermonsBeFocused(shouldSermonsBeFocused)),
+    setInfo: (info) => dispatch(setInfo(info)),
+    setNextUrl: (nextUrl) => dispatch(setNextUrl(nextUrl)),
+    setPosition: (position) => dispatch(setPosition(position)),
+    setIsAppLoaded: (isAppLoaded) => dispatch(setIsAppLoaded(isAppLoaded)),
+  };
+};
+
+export default connect(mapState, mapDispatch, null, {forwardRef: true})(Tab);

@@ -1,82 +1,81 @@
 import {TVMenuControl} from 'react-native';
+import store from '../redux/store/index';
+import {setPlayer, setIsReturningFromPlayer} from '../redux/actions/actions';
 
-const enable = (that) => {
+const enable = () => {
   TVMenuControl.enableTVMenuKey();
-  const nextUrl = that.state.player.nextUrl;
-  that.setState({
-    player: {
+  const nextUrl = store.getState().player.nextUrl;
+  store.dispatch(
+    setPlayer({
       nextUrl: nextUrl,
       url: nextUrl,
       enabled: true,
       visible: true,
       paused: false,
-    },
-  });
+    }),
+  );
 };
 
-const error = (that) => {
+const disable = () => {
+  store.dispatch(
+    setPlayer({
+      enabled: false,
+    }),
+  );
+};
+
+const error = () => {
   TVMenuControl.disableTVMenuKey();
-  that.setState((prevState) => ({
-    returningFromPlayer: true,
-    player: {
-      ...prevState.player,
+  store.dispatch(setIsReturningFromPlayer(true));
+  store.dispatch(
+    setPlayer({
       visible: false,
       enabled: false,
-    },
-  }));
+    }),
+  );
 };
 
-const init = (that) => {
-  if (that.state.player.enabled) {
-    that.setState(
-      (prevState) => ({
-        player: {
-          ...prevState.player,
-          enabled: false,
-        },
-      }),
-      () => enable(that),
-    );
+const init = () => {
+  if (store.getState().player.enabled) {
+    disable();
+    enable();
   } else {
-    enable(that);
+    enable();
   }
 };
 
-const minimize = (that) => {
+const minimize = () => {
   TVMenuControl.disableTVMenuKey();
-  that.setState((prevState) => ({
-    returningFromPlayer: true,
-    player: {
-      ...prevState.player,
+  store.dispatch(setIsReturningFromPlayer(true));
+  store.dispatch(
+    setPlayer({
       paused: true,
       visible: false,
-    },
-  }));
+    }),
+  );
 };
 
-const resume = (that) => {
+const resume = () => {
   TVMenuControl.enableTVMenuKey();
-  that.setState((prevState) => ({
-    player: {
-      ...prevState.player,
+  store.dispatch(
+    setPlayer({
       enabled: true,
       visible: true,
       paused: false,
-    },
-  }));
+    }),
+  );
 };
 
-const exit = (that) => {
+const exit = () => {
   TVMenuControl.disableTVMenuKey();
-  that.setState((prevState) => ({
-    returningFromPlayer: true,
-    player: {
-      ...prevState.player,
+  store.dispatch(setIsReturningFromPlayer(true));
+  store.dispatch(
+    setPlayer({
       enabled: false,
       visible: false,
       paused: false,
-    },
-  }));
+    }),
+  );
 };
 
 export {enable, error, exit, init, minimize, resume};

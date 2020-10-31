@@ -13,19 +13,14 @@ export default class Playlist extends Component {
           ref={(e) => (this.playlistRow = e)}
           data={this.props.videos}
           activeSlideAlignment={'start'}
+          onSnapToItem={() => this.props.setInfo()}
           renderItem={({item, index}) => {
             return (
               <TouchableHighlight
-                ref={(e) => (this[`d${index}`] = e)}
+                ref={(e) => (this[`thumbnail${index}`] = e)}
                 style={styles.marginLeft}
                 onFocus={() => {
                   this.props.setFocus(index);
-                }}
-                onBlur={() => {
-                  this[`d${index}`] &&
-                    this[`d${index}`].setNativeProps({
-                      hasTVPreferredFocus: false,
-                    });
                 }}>
                 <Image
                   style={styles.thumbnailImage}
@@ -38,7 +33,6 @@ export default class Playlist extends Component {
           sliderHeight={300}
           itemWidth={430}
           itemHeight={210}
-          onSnapToItem={this.props.onSnapToItem}
           inactiveSlideScale={1}
           inactiveSlideOpacity={1}
         />
@@ -50,19 +44,18 @@ export default class Playlist extends Component {
 Playlist.propTypes = {
   title: PropTypes.string.isRequired,
   videos: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onSnapToItem: PropTypes.func.isRequired,
 };
 
 const styles = {
   playlistText: {
-    marginLeft: 100,
+    marginLeft: 90,
     fontSize: 35,
     lineHeight: 100,
     fontWeight: 'bold',
     color: '#FFF',
   },
   marginLeft: {
-    marginLeft: 100,
+    marginLeft: 90,
   },
   marginTop: {
     marginTop: 100,

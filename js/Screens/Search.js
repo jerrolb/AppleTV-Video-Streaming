@@ -5,11 +5,7 @@ import {Header} from '../Components';
 const Search = (props) => {
   return (
     <View style={styles.fullscreen}>
-      <Header
-        screen={'Search'}
-        setScreen={props.setScreen}
-        setIsHeaderFocused={props.setIsHeaderFocused}
-      />
+      <Header screen={'Search'} />
       <View style={styles.center}>
         <Text style={styles.errorText}>
           <Text>Search</Text>

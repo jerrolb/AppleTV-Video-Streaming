@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Text, View} from 'react-native';
 
@@ -17,7 +18,7 @@ const styles = {
   info: {
     width: '100%',
     height: 295,
-    marginLeft: 100,
+    marginLeft: 90,
   },
   infoDescription: {
     fontSize: 35,
@@ -42,4 +43,10 @@ Info.propTypes = {
   }),
 };
 
-export default Info;
+const mapState = (state) => {
+  return {
+    info: state.info,
+  };
+};
+
+export default connect(mapState)(Info);

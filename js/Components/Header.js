@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {View, ScrollView} from 'react-native';
 import Tab from './Tab';
 
@@ -8,7 +9,7 @@ class Header extends React.Component {
       <View
         style={styles.header}
         pointerEvents={() => {
-          this.props.doDisableTouchableHighlight ? 'none' : 'auto';
+          this.props.player.visible ? 'none' : 'auto';
         }}>
         <View style={styles.transparentBackground} />
         <ScrollView
@@ -18,39 +19,14 @@ class Header extends React.Component {
           {/* <Tab
           ref={(e) => (this.search = e)}
           label={'Search'}
-          setIsHeaderFocused={this.props.setIsHeaderFocused}
-          setScreen={this.props.setScreen}
-          screen={this.props.screen}
         /> */}
-          <Tab
-            ref={(e) => (this.sermons = e)}
-            label={'Sermons'}
-            setIsHeaderFocused={this.props.setIsHeaderFocused}
-            setScreen={this.props.setScreen}
-            screen={this.props.screen}
-            isAppLoaded={this.props.isAppLoaded}
-          />
+          <Tab ref={(e) => (this.sermons = e)} label={'Sermons'} />
           {/* <Tab
           ref={(e) => (this.watchlive = e)}
           label={'Watch Live'}
-          setIsHeaderFocused={this.props.setIsHeaderFocused}
-          setScreen={this.props.setScreen}
-          screen={this.props.screen}
         /> */}
-          <Tab
-            ref={(e) => (this.giving = e)}
-            label={'Giving'}
-            setIsHeaderFocused={this.props.setIsHeaderFocused}
-            setScreen={this.props.setScreen}
-            screen={this.props.screen}
-          />
-          <Tab
-            ref={(e) => (this.contact = e)}
-            label={'Contact'}
-            setIsHeaderFocused={this.props.setIsHeaderFocused}
-            setScreen={this.props.setScreen}
-            screen={this.props.screen}
-          />
+          <Tab ref={(e) => (this.giving = e)} label={'Giving'} />
+          <Tab ref={(e) => (this.contact = e)} label={'Contact'} />
         </ScrollView>
       </View>
     );
@@ -60,7 +36,6 @@ class Header extends React.Component {
 const styles = {
   header: {
     padding: 10,
-    display: 'flex',
     alignItems: 'center',
     width: '100%',
     height: 80,
@@ -76,7 +51,7 @@ const styles = {
     resizeMode: 'contain',
   },
   scrollViewContainer: {
-    zIndex: 3,
+    zIndex: 2,
     height: 80,
     width: 650,
   },
@@ -84,7 +59,7 @@ const styles = {
     height: 78,
     width: 650,
     justifyContent: 'center',
-    zIndex: 3,
+    zIndex: 2,
   },
   transparentBackground: {
     position: 'absolute',
@@ -97,4 +72,10 @@ const styles = {
   },
 };
 
-export default Header;
+const mapState = (state) => {
+  return {
+    player: state.player,
+  };
+};
+
+export default connect(mapState, null, null, {forwardRef: true})(Header);
