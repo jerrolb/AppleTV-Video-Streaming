@@ -48,7 +48,7 @@ Playlist.propTypes = {
 
 const styles = {
   playlistText: {
-    marginLeft: 90,
+    marginLeft: 85,
     fontSize: 35,
     lineHeight: 100,
     fontWeight: 'bold',

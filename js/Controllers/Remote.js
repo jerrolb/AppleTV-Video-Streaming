@@ -52,11 +52,6 @@ const enable = () => {
                 store.getState().player.nextUrl
                 ? Player.resume()
                 : Player.init();
-            } else if (btn === REMOTE.UP || btn === REMOTE.SWIPEUP) {
-              if (store.getState().position.colIndex === 0) {
-                store.dispatch(setShouldSermonsBeFocused(true));
-              }
-              return false;
             } else {
               return false;
             }

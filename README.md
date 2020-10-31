@@ -2,7 +2,7 @@
 
 ## Legal Issues
 * Using HTTPS encryption legally requires NOLA Church to annually report and file paperwork.
-* Pass any HTTPS requests through httpsToHtts and don't hardcode HTTPS calls
+* Pass any HTTPS requests through httpsToHttps and don't hardcode HTTPS calls
 
 ## Local install (MacOS only)
 * Clone repo: `git clone git@github.com/jerrolb/video-streaming`

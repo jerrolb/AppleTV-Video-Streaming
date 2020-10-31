@@ -80,7 +80,11 @@ class Playlists extends Component {
               this.props.setIsAppLoaded(true);
               return;
             }
-            this.forceCurrentThumbnailActiveFocus();
+            if (this.props.isHeaderFocused || this.props.isReturningFromPlayer) {
+              this.forceCurrentThumbnailActiveFocus();
+            } else {
+              this.props.setShouldSermonsBeFocused(true);
+            }
             this.props.setIsHeaderFocused(false);
           }}>
           <View style={styles.focusIntercept} />

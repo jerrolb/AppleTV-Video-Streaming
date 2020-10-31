@@ -27,7 +27,7 @@ class Tab extends React.Component {
       this.setState({isSermons: true});
     }
     if (this.props.label === 'Search') {
-      this.SetState({isSearch: true});
+      this.setState({isSearch: true});
     }
   }
 
