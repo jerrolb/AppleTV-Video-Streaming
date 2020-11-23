@@ -80,7 +80,10 @@ class Playlists extends Component {
               this.props.setIsAppLoaded(true);
               return;
             }
-            if (this.props.isHeaderFocused || this.props.isReturningFromPlayer) {
+            if (
+              this.props.isHeaderFocused ||
+              this.props.isReturningFromPlayer
+            ) {
               this.forceCurrentThumbnailActiveFocus();
             } else {
               this.props.setShouldSermonsBeFocused(true);
@@ -104,6 +107,7 @@ class Playlists extends Component {
           inactiveSlideScale={1}
           inactiveSlideOpacity={1}
           onSnapToItem={() => this.setInfo()}
+          removeClippedSubviews={true}
         />
       </View>
     );
@@ -167,6 +171,9 @@ const styles = {
     borderColor: 'lightblue',
   },
   hideBehind: {
+    position: 'absolute',
+    top: 375,
+    left: 0,
     zIndex: -1,
   },
 };

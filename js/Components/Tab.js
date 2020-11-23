@@ -4,6 +4,7 @@ import {
   setIsHeaderFocused,
   setScreen,
   setShouldSermonsBeFocused,
+  setShouldSearchBeFocused,
   setInfo,
   setNextUrl,
   setPosition,
@@ -33,13 +34,23 @@ class Tab extends React.Component {
 
   componentDidUpdate(prevProps) {
     const didFocusChange =
-      prevProps.shouldSermonsBeFocused !== this.props.shouldSermonsBeFocused;
+      prevProps.shouldSermonsBeFocused !== this.props.shouldSermonsBeFocused ||
+      prevProps.shouldSearchBeFocused !== this.props.shouldSearchBeFocused;
     if (
       didFocusChange &&
       this.state.isSermons &&
       this.props.shouldSermonsBeFocused
     ) {
       this.Sermons.setNativeProps({hasTVPreferredFocus: true});
+      return;
+    }
+    if (
+      didFocusChange &&
+      this.state.isSearch &&
+      this.props.shouldSearchBeFocused
+    ) {
+      this.Search.setNativeProps({hasTVPreferredFocus: true});
+      return;
     }
   }
 
@@ -49,6 +60,7 @@ class Tab extends React.Component {
   }
   blur() {
     this.state.isSermons && this.props.setShouldSermonsBeFocused(false);
+    this.state.isSearch && this.props.setShouldSearchBeFocused(false);
     this.setState({isFocused: false});
   }
 
@@ -62,14 +74,13 @@ class Tab extends React.Component {
       },
       searchIcon: {
         marginTop: 32,
-        width: this.state.isFocused ? 60 : 50,
-        height: this.state.isFocused ? 60 : 50,
+        width: 45,
+        height: 45,
       },
       flexDirectionRow: {
         flexDirection: 'row',
       },
     };
-    const isSearch = this.props.label === 'Search';
 
     return (
       <TouchableHighlight
@@ -96,18 +107,15 @@ class Tab extends React.Component {
         }}
         hasTVPreferredFocus={this.props.screen === this.props.label}
         underlayColor="none">
-        {(isSearch && (
+        {(this.state.isSearch && (
           <View style={styles.flexDirectionRow}>
             <Image
               style={styles.searchIcon}
               source={{
-                uri:
-                  this.props.screen === this.props.label
-                    ? IMG.SEARCH_BLUE
-                    : IMG.SEARCH,
+                uri: IMG[this.state.isFocused ? 'SEARCH_BLUE' : 'SEARCH'],
               }}
             />
-            <Text> </Text>
+            <Text>       </Text>
           </View>
         )) || (
           <Text style={styles.textStyle}>
@@ -124,6 +132,7 @@ const mapState = (state) => {
   return {
     screen: state.screen,
     shouldSermonsBeFocused: state.shouldSermonsBeFocused,
+    shouldSearchBeFocused: state.shouldSearchBeFocused,
     firstVideo: state.playlists[0].videos[0],
   };
 };
@@ -135,6 +144,8 @@ const mapDispatch = (dispatch) => {
     setScreen: (screen) => dispatch(setScreen(screen)),
     setShouldSermonsBeFocused: (shouldSermonsBeFocused) =>
       dispatch(setShouldSermonsBeFocused(shouldSermonsBeFocused)),
+    setShouldSearchBeFocused: (shouldSearchBeFocused) =>
+      dispatch(setShouldSearchBeFocused(shouldSearchBeFocused)),
     setInfo: (info) => dispatch(setInfo(info)),
     setNextUrl: (nextUrl) => dispatch(setNextUrl(nextUrl)),
     setPosition: (position) => dispatch(setPosition(position)),

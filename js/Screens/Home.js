@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {Image, View} from 'react-native';
+import {Image, View, ImageBackground} from 'react-native';
 import {Header, Info} from '../Components';
 import Playlists from '../Components/Playlists';
 import Video from 'react-native-video';
@@ -18,9 +18,9 @@ class Home extends React.Component {
 
           <Image
             style={styles.heroImage}
-            source={{uri: this.props.info.thumbnail}}
+            source={{uri: 'roots_9132020_background.jpg'}}
+            // source={{uri: this.props.info.thumbnail}}
           />
-          <Image style={styles.gradient} source={{uri: IMG.GRADIENT}} />
 
           <Info />
           <Playlists ref={(e) => (this.playlists = e)} />
@@ -80,7 +80,8 @@ const styles = {
     height: 575,
     position: 'absolute',
     top: 0,
-    left: 0,
+    left: 515,
+    zIndex: 1,
   },
   hidden: {
     position: 'absolute',
@@ -90,11 +91,14 @@ const styles = {
     height: 0,
   },
   heroImage: {
-    width: '100%',
+    resizeMode: 'stretch',
+    width: 1400,
     height: 575,
     position: 'absolute',
     top: 0,
-    left: 550,
+    right: 0,
+    zIndex: 1,
+    backgroundColor: 'red',
   },
   imageBackground: {
     width: '100%',

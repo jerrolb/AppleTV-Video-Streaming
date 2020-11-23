@@ -16,15 +16,9 @@ class Header extends React.Component {
           contentContainerStyle={styles.scrollViewContent}
           style={styles.scrollViewContainer}
           horizontal={true}>
-          {/* <Tab
-          ref={(e) => (this.search = e)}
-          label={'Search'}
-        /> */}
+          <Tab ref={(e) => (this.search = e)} label={'Search'} />
           <Tab ref={(e) => (this.sermons = e)} label={'Sermons'} />
-          {/* <Tab
-          ref={(e) => (this.watchlive = e)}
-          label={'Watch Live'}
-        /> */}
+          {/* <Tab ref={(e) => (this.watchlive = e)} label={'Watch Live'}/> */}
           <Tab ref={(e) => (this.giving = e)} label={'Giving'} />
           <Tab ref={(e) => (this.contact = e)} label={'Contact'} />
         </ScrollView>
@@ -39,7 +33,7 @@ const styles = {
     alignItems: 'center',
     width: '100%',
     height: 80,
-    zIndex: 1,
+    zIndex: 3,
     backgroundColor: 'transparent',
   },
   logo: {

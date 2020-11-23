@@ -15,8 +15,13 @@
 		B33C46A8253ECBC000627AF4 /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = B33C46A7253ECBC000627AF4 /* search.png */; };
 		B33C46AB253F92D700627AF4 /* searchBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = B33C46AA253F92D600627AF4 /* searchBlue.png */; };
 		B33D0D6B252FBD3600FC68EC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B33D0D6A252FBD3600FC68EC /* Images.xcassets */; };
-		B344D7E2253DE17C00712D6C /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = B344D7E1253DE17C00712D6C /* gradient.png */; };
+		B34947CC25624FFB008968C5 /* focusedBackspace.png in Resources */ = {isa = PBXBuildFile; fileRef = B34947C825624FFB008968C5 /* focusedBackspace.png */; };
+		B34947CD25624FFB008968C5 /* unfocusedSpacebar.png in Resources */ = {isa = PBXBuildFile; fileRef = B34947C925624FFB008968C5 /* unfocusedSpacebar.png */; };
+		B34947CE25624FFB008968C5 /* focusedSpacebar.png in Resources */ = {isa = PBXBuildFile; fileRef = B34947CA25624FFB008968C5 /* focusedSpacebar.png */; };
+		B34947CF25624FFB008968C5 /* unfocusedBackspace.png in Resources */ = {isa = PBXBuildFile; fileRef = B34947CB25624FFB008968C5 /* unfocusedBackspace.png */; };
 		B374EEF524F0CFD900C5964D /* splash.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B374EEF424F0CFD900C5964D /* splash.jpg */; };
+		B3E8AB8F25684A3E00AA2A7E /* roots_9132020_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B3E8AB8E25684A3E00AA2A7E /* roots_9132020_background.jpg */; };
+		B3E8AB942568F9F800AA2A7E /* thumbnails in Resources */ = {isa = PBXBuildFile; fileRef = B3E8AB932568F9F800AA2A7E /* thumbnails */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,8 +39,13 @@
 		B33C46A7253ECBC000627AF4 /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = search.png; path = "nolachurch-tvOS/search.png"; sourceTree = "<group>"; };
 		B33C46AA253F92D600627AF4 /* searchBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = searchBlue.png; path = "nolachurch-tvOS/searchBlue.png"; sourceTree = "<group>"; };
 		B33D0D6A252FBD3600FC68EC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "nolachurch-tvOS/Images.xcassets"; sourceTree = "<group>"; };
-		B344D7E1253DE17C00712D6C /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gradient.png; path = "nolachurch-tvOS/gradient.png"; sourceTree = "<group>"; };
+		B34947C825624FFB008968C5 /* focusedBackspace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = focusedBackspace.png; path = "nolachurch-tvOS/focusedBackspace.png"; sourceTree = "<group>"; };
+		B34947C925624FFB008968C5 /* unfocusedSpacebar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unfocusedSpacebar.png; path = "nolachurch-tvOS/unfocusedSpacebar.png"; sourceTree = "<group>"; };
+		B34947CA25624FFB008968C5 /* focusedSpacebar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = focusedSpacebar.png; path = "nolachurch-tvOS/focusedSpacebar.png"; sourceTree = "<group>"; };
+		B34947CB25624FFB008968C5 /* unfocusedBackspace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unfocusedBackspace.png; path = "nolachurch-tvOS/unfocusedBackspace.png"; sourceTree = "<group>"; };
 		B374EEF424F0CFD900C5964D /* splash.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = splash.jpg; path = "nolachurch-tvOS/splash.jpg"; sourceTree = "<group>"; };
+		B3E8AB8E25684A3E00AA2A7E /* roots_9132020_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = roots_9132020_background.jpg; sourceTree = "<group>"; };
+		B3E8AB932568F9F800AA2A7E /* thumbnails */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = thumbnails; path = "nolachurch-tvOS/thumbnails"; sourceTree = SOURCE_ROOT; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -55,11 +65,16 @@
 		13B07FAE1A68108700A75B9A /* nolachurch */ = {
 			isa = PBXGroup;
 			children = (
+				B3E8AB932568F9F800AA2A7E /* thumbnails */,
+				B3E8AB8E25684A3E00AA2A7E /* roots_9132020_background.jpg */,
+				B34947C825624FFB008968C5 /* focusedBackspace.png */,
+				B34947CA25624FFB008968C5 /* focusedSpacebar.png */,
+				B34947CB25624FFB008968C5 /* unfocusedBackspace.png */,
+				B34947C925624FFB008968C5 /* unfocusedSpacebar.png */,
 				B32D71D72542156500A19A48 /* contact_layout.jpg */,
 				B32D71D82542156500A19A48 /* give_layout.jpg */,
 				B33C46AA253F92D600627AF4 /* searchBlue.png */,
 				B33C46A7253ECBC000627AF4 /* search.png */,
-				B344D7E1253DE17C00712D6C /* gradient.png */,
 				B33D0D6A252FBD3600FC68EC /* Images.xcassets */,
 				B374EEF424F0CFD900C5964D /* splash.jpg */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -185,7 +200,12 @@
 				B33D0D6B252FBD3600FC68EC /* Images.xcassets in Resources */,
 				B374EEF524F0CFD900C5964D /* splash.jpg in Resources */,
 				B33C46A8253ECBC000627AF4 /* search.png in Resources */,
-				B344D7E2253DE17C00712D6C /* gradient.png in Resources */,
+				B34947CF25624FFB008968C5 /* unfocusedBackspace.png in Resources */,
+				B34947CD25624FFB008968C5 /* unfocusedSpacebar.png in Resources */,
+				B34947CE25624FFB008968C5 /* focusedSpacebar.png in Resources */,
+				B3E8AB8F25684A3E00AA2A7E /* roots_9132020_background.jpg in Resources */,
+				B34947CC25624FFB008968C5 /* focusedBackspace.png in Resources */,
+				B3E8AB942568F9F800AA2A7E /* thumbnails in Resources */,
 				B32D71D92542156500A19A48 /* contact_layout.jpg in Resources */,
 				B33C46AB253F92D700627AF4 /* searchBlue.png in Resources */,
 			);
@@ -302,7 +322,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "nolachurch-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.14;
+				MARKETING_VERSION = 1.15;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -337,7 +357,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "nolachurch-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.14;
+				MARKETING_VERSION = 1.15;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
