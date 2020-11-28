@@ -35,6 +35,7 @@ export default class Playlist extends Component {
           itemHeight={210}
           inactiveSlideScale={1}
           inactiveSlideOpacity={1}
+          removeClippedSubviews={true}
         />
       </View>
     );
@@ -48,7 +49,7 @@ Playlist.propTypes = {
 
 const styles = {
   playlistText: {
-    marginLeft: 85,
+    marginLeft: 70,
     fontSize: 35,
     lineHeight: 100,
     fontWeight: 'bold',

@@ -16,15 +16,9 @@ class Header extends React.Component {
           contentContainerStyle={styles.scrollViewContent}
           style={styles.scrollViewContainer}
           horizontal={true}>
-          {/* <Tab
-          ref={(e) => (this.search = e)}
-          label={'Search'}
-        /> */}
+          <Tab ref={(e) => (this.search = e)} label={'Search'} />
           <Tab ref={(e) => (this.sermons = e)} label={'Sermons'} />
-          {/* <Tab
-          ref={(e) => (this.watchlive = e)}
-          label={'Watch Live'}
-        /> */}
+          <Tab ref={(e) => (this.watchlive = e)} label={'Watch Live'} />
           <Tab ref={(e) => (this.giving = e)} label={'Giving'} />
           <Tab ref={(e) => (this.contact = e)} label={'Contact'} />
         </ScrollView>
@@ -35,37 +29,29 @@ class Header extends React.Component {
 
 const styles = {
   header: {
-    padding: 10,
+    paddingBottom: 5,
     alignItems: 'center',
     width: '100%',
     height: 80,
-    zIndex: 1,
+    zIndex: 3,
     backgroundColor: 'transparent',
-  },
-  logo: {
-    position: 'absolute',
-    top: 0,
-    left: 80,
-    width: 400,
-    height: 80,
-    resizeMode: 'contain',
   },
   scrollViewContainer: {
     zIndex: 2,
     height: 80,
-    width: 650,
+    width: 775,
   },
   scrollViewContent: {
     height: 78,
-    width: 650,
+    width: 775,
     justifyContent: 'center',
     zIndex: 2,
   },
   transparentBackground: {
     position: 'absolute',
-    top: 10,
+    top: 12,
     height: 80,
-    width: 650,
+    width: 775,
     backgroundColor: '#808080',
     borderRadius: 50,
     opacity: 0.3,

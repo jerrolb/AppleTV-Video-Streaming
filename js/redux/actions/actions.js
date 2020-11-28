@@ -12,6 +12,7 @@ import {
   SETDEFAULTSTATE,
   SETSHOULDRETRYBEFOCUSED,
   SETSHOULDSERMONSBEFOCUSED,
+  SETSHOULDSEARCHBEFOCUSED,
 } from '../actionTypes';
 
 export const setDefaultState = () => {
@@ -101,6 +102,13 @@ export const setShouldRetryBeFocused = (payload) => {
 export const setShouldSermonsBeFocused = (payload) => {
   return {
     type: SETSHOULDSERMONSBEFOCUSED,
+    payload,
+  };
+};
+
+export const setShouldSearchBeFocused = (payload) => {
+  return {
+    type: SETSHOULDSEARCHBEFOCUSED,
     payload,
   };
 };

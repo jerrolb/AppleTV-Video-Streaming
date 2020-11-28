@@ -2,13 +2,13 @@ import {TVMenuControl} from 'react-native';
 import store from '../redux/store/index';
 import {setPlayer, setIsReturningFromPlayer} from '../redux/actions/actions';
 
-const enable = () => {
+const enable = (url) => {
   TVMenuControl.enableTVMenuKey();
   const nextUrl = store.getState().player.nextUrl;
   store.dispatch(
     setPlayer({
-      nextUrl: nextUrl,
-      url: nextUrl,
+      nextUrl: url || nextUrl,
+      url: url || nextUrl,
       enabled: true,
       visible: true,
       paused: false,
@@ -35,12 +35,12 @@ const error = () => {
   );
 };
 
-const init = () => {
+const init = (url) => {
   if (store.getState().player.enabled) {
     disable();
-    enable();
+    enable(url);
   } else {
-    enable();
+    enable(url);
   }
 };
 

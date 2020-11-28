@@ -56,6 +56,16 @@ const enable = () => {
               return false;
             }
           }
+        case SCREEN.SEARCH:
+          if (store.getState().player.visible) {
+            return btn === REMOTE.MENU ? Player.minimize() : false;
+          }
+          return false;
+        case SCREEN.WATCHLIVE:
+          if (store.getState().player.visible) {
+            return btn === REMOTE.MENU ? Player.minimize() : false;
+          }
+          return false;
         default:
           return false;
       }

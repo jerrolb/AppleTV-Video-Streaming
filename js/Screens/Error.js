@@ -3,30 +3,27 @@ import {connect} from 'react-redux';
 import {setIsHeaderFocused} from '../redux/actions/actions';
 import {Text, TouchableHighlight, View} from 'react-native';
 
-class Error extends React.Component {
-  render() {
-    return (
-      <View style={styles.fullscreen}>
-        <View style={styles.center}>
-          <Text style={styles.errorText}>
-            <Text>{'There was a problem getting your content!\n\n'}</Text>
-            <Text>Contact </Text>
-            <Text style={styles.bold}>info@nolachurch.com </Text>
-            <Text>{'if the problem persists.\n\n'}</Text>
-            <Text>Press the touchpad to try again.</Text>
-            <TouchableHighlight
-              ref={(e) => (this.retry = e)}
-              hasTVPreferredFocus={true}
-              onFocus={() => this.props.setIsHeaderFocused(false)}
-              onPress={this.props.restart}>
-              <Text />
-            </TouchableHighlight>
-          </Text>
-        </View>
+const Error = (props) => {
+  return (
+    <View style={styles.fullscreen}>
+      <View style={styles.center}>
+        <Text style={styles.errorText}>
+          <Text>{'There was a problem getting your content!\n\n'}</Text>
+          <Text>Contact </Text>
+          <Text style={styles.bold}>info@nolachurch.com </Text>
+          <Text>{'if the problem persists.\n\n'}</Text>
+          <Text>Press the touchpad to try again.</Text>
+          <TouchableHighlight
+            hasTVPreferredFocus={true}
+            onFocus={() => props.setIsHeaderFocused(false)}
+            onPress={props.restart}>
+            <Text />
+          </TouchableHighlight>
+        </Text>
       </View>
-    );
-  }
-}
+    </View>
+  );
+};
 
 const mapState = (state) => {
   return {

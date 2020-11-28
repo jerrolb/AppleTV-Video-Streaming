@@ -12,6 +12,7 @@ import {
   SETDEFAULTSTATE,
   SETSHOULDRETRYBEFOCUSED,
   SETSHOULDSERMONSBEFOCUSED,
+  SETSHOULDSEARCHBEFOCUSED,
 } from '../actionTypes';
 import {SCREEN} from '../../Constants';
 
@@ -23,6 +24,7 @@ const initialState = {
   isFeedReady: false,
   shouldRetryBeFocused: false,
   shouldSermonsBeFocused: false,
+  shouldSearchBeFocused: false,
   playlists: [],
   info: {
     title: '',
@@ -68,6 +70,8 @@ const reducer = (state = initialState, {type, payload}) => {
       return setShouldRetryBeFocused(state, payload);
     case SETSHOULDSERMONSBEFOCUSED:
       return setShouldSermonsBeFocused(state, payload);
+    case SETSHOULDSEARCHBEFOCUSED:
+      return setShouldSearchBeFocused(state, payload);
     case SETDEFAULTSTATE:
       return initialState;
     default:
@@ -165,6 +169,13 @@ const setShouldSermonsBeFocused = (state, payload) => {
   return {
     ...state,
     shouldSermonsBeFocused: payload,
+  };
+};
+
+const setShouldSearchBeFocused = (state, payload) => {
+  return {
+    ...state,
+    shouldSearchBeFocused: payload,
   };
 };
 

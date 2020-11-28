@@ -17,7 +17,6 @@ const initFeed = (feed) => {
   let video;
 
   feed.categories.forEach((category, index) => {
-    const debug = false;
     playlist = playlists[index] = {};
     playlist.title = category.name;
     playlist.videos = [];
@@ -33,14 +32,13 @@ const initFeed = (feed) => {
         video = feed.shortFormVideos[i];
         if (id === video.id) {
           playlist.videos.push({
+            playlistTitle: category.name,
             title: video.title,
             description: video.shortDescription,
-            thumbnail: httpsToHttp(video.thumbnail),
-            url: debug
-              ? i === 0
-                ? 'http://nolachurch.com/stream/dev/1/1080/1080.m3u8'
-                : 'http://nolachurch.com/stream/dev/2/1080/1080.m3u8'
-              : httpsToHttp(video.content.videos[0].url),
+            thumbnail: `thumbnails/${video.id}thumbnail.jpg`,
+            background: `backgrounds/${video.id}background.jpg`,
+            url: httpsToHttp(video.content.videos[0].url),
+            // url: 'http://nolachurch.com/stream/dev/1/1080/1080.m3u8',
           });
           break;
         }
@@ -59,7 +57,7 @@ const initFeed = (feed) => {
       setInfo({
         title: currVideo.title,
         description: currVideo.description,
-        thumbnail: currVideo.thumbnail,
+        background: currVideo.background,
       }),
     );
     store.dispatch(setNextUrl(currVideo.url));
