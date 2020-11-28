@@ -1,25 +1,33 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {setIsHeaderFocused} from '../redux/actions/actions';
-import {Text, TouchableHighlight, View} from 'react-native';
+import {Text, View} from 'react-native';
+import {TVEventHandler} from 'react-native';
+import {REMOTE} from '../Constants';
+import {TVMenuControl} from 'react-native';
 
-const Error = (props) => {
+const Popup = (props) => {
+  const tvEventHandler = new TVEventHandler();
+  const disable = () => tvEventHandler.disable();
+
+  useEffect(() => {
+    TVMenuControl.enableTVMenuKey();
+    tvEventHandler.enable(this, (_, evt) => {
+      const btn = evt && evt.eventType;
+      if (btn === REMOTE.MENU) {
+        props.clearPopup('');
+      }
+    });
+    return () => {
+      TVMenuControl.disableTVMenuKey();
+      disable();
+    };
+  });
+
   return (
     <View style={styles.fullscreen}>
       <View style={styles.center}>
-        <Text style={styles.errorText}>
-          <Text>{'There was a problem getting your content!\n\n'}</Text>
-          <Text>Contact </Text>
-          <Text style={styles.bold}>info@nolachurch.com </Text>
-          <Text>{'if the problem persists.\n\n'}</Text>
-          <Text>Press the touchpad to try again.</Text>
-          <TouchableHighlight
-            hasTVPreferredFocus={true}
-            onFocus={() => props.setIsHeaderFocused(false)}
-            onPress={props.restart}>
-            <Text />
-          </TouchableHighlight>
-        </Text>
+        <Text style={styles.errorText}>{props.popup}</Text>
       </View>
     </View>
   );
@@ -38,7 +46,7 @@ const mapDispatch = (dispatch) => {
   };
 };
 
-export default connect(mapState, mapDispatch, null, {forwardRef: true})(Error);
+export default connect(mapState, mapDispatch, null, {forwardRef: true})(Popup);
 
 const styles = {
   fullscreen: {

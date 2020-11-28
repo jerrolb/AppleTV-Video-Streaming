@@ -1,11 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {Image, View, ImageBackground} from 'react-native';
+import {Image, View} from 'react-native';
 import {Header, Info} from '../Components';
 import Playlists from '../Components/Playlists';
 import Video from 'react-native-video';
-import {IMG} from '../Constants';
 import * as Player from '../Controllers/Player';
 
 class Home extends React.Component {
@@ -17,9 +16,9 @@ class Home extends React.Component {
           <Header ref={(e) => (this.header = e)} />
 
           <Image
+            ref={(e) => (this.background = e)}
             style={styles.heroImage}
-            source={{uri: 'roots_9132020_background.jpg'}}
-            // source={{uri: this.props.info.thumbnail}}
+            source={{uri: this.props.info.background}}
           />
 
           <Info />
@@ -98,7 +97,6 @@ const styles = {
     top: 0,
     right: 0,
     zIndex: 1,
-    backgroundColor: 'red',
   },
   imageBackground: {
     width: '100%',

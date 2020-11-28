@@ -11,7 +11,6 @@ const Info = (props) => {
       <Text style={styles.infoTitle}>{props.info.title}</Text>
       <View style={styles.spacer} />
       <Text style={styles.infoDescription}>{props.info.description}</Text>
-      {/* <View style={styles.cover}/> */}
     </View>
   );
 };

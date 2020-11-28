@@ -36,7 +36,9 @@ const initFeed = (feed) => {
             title: video.title,
             description: video.shortDescription,
             thumbnail: `thumbnails/${video.id}thumbnail.jpg`,
+            background: `backgrounds/${video.id}background.jpg`,
             url: httpsToHttp(video.content.videos[0].url),
+            // url: 'http://nolachurch.com/stream/dev/1/1080/1080.m3u8',
           });
           break;
         }
@@ -55,7 +57,7 @@ const initFeed = (feed) => {
       setInfo({
         title: currVideo.title,
         description: currVideo.description,
-        thumbnail: currVideo.thumbnail,
+        background: currVideo.background,
       }),
     );
     store.dispatch(setNextUrl(currVideo.url));

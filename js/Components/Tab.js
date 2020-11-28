@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {connect} from 'react-redux';
 import {
   setIsHeaderFocused,
@@ -13,120 +13,96 @@ import {
 import {Image, View, Text, TouchableHighlight} from 'react-native';
 import {IMG} from '../Constants';
 
-class Tab extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      isFocused: false,
-      isSermons: false,
-      isSearch: false,
-    };
-  }
+const Tab = React.forwardRef((props, ref) => {
+  const isSermons = props.label === 'Sermons';
+  const isSearch = props.label === 'Search';
+  const isContact = props.label === 'Contact';
+  const [isFocused, setIsFocused] = useState(false);
+  const thisRef = useRef(ref);
 
-  componentDidMount() {
-    if (this.props.label === 'Sermons') {
-      this.setState({isSermons: true});
-    }
-    if (this.props.label === 'Search') {
-      this.setState({isSearch: true});
-    }
-  }
+  useEffect(() => {
+    props.shouldSermonsBeFocused &&
+      isSermons &&
+      thisRef.current.setNativeProps({hasTVPreferredFocus: true});
+    props.shouldSearchBeFocused &&
+      isSearch &&
+      thisRef.current.setNativeProps({hasTVPreferredFocus: true});
+  }, [
+    props.shouldSermonsBeFocused,
+    props.shouldSearchBeFocused,
+    isSearch,
+    isSermons,
+  ]);
 
-  componentDidUpdate(prevProps) {
-    const didFocusChange =
-      prevProps.shouldSermonsBeFocused !== this.props.shouldSermonsBeFocused ||
-      prevProps.shouldSearchBeFocused !== this.props.shouldSearchBeFocused;
-    if (
-      didFocusChange &&
-      this.state.isSermons &&
-      this.props.shouldSermonsBeFocused
-    ) {
-      this.Sermons.setNativeProps({hasTVPreferredFocus: true});
-      return;
-    }
-    if (
-      didFocusChange &&
-      this.state.isSearch &&
-      this.props.shouldSearchBeFocused
-    ) {
-      this.Search.setNativeProps({hasTVPreferredFocus: true});
-      return;
-    }
-  }
-
-  focus() {
-    this.props.setIsHeaderFocused(true);
-    this.setState({isFocused: true});
-  }
-  blur() {
-    this.state.isSermons && this.props.setShouldSermonsBeFocused(false);
-    this.state.isSearch && this.props.setShouldSearchBeFocused(false);
-    this.setState({isFocused: false});
-  }
-
-  render() {
-    const styles = {
-      textStyle: {
-        marginTop: 37,
-        fontSize: 32,
-        color: this.state.isFocused ? '#88c4dd' : '#F0F0F0',
-        fontWeight: this.state.isFocused ? '800' : '700',
-      },
-      searchIcon: {
-        marginTop: 32,
-        width: 45,
-        height: 45,
-      },
-      flexDirectionRow: {
-        flexDirection: 'row',
-      },
-    };
-
-    return (
-      <TouchableHighlight
-        ref={(e) => {
-          this[this.props.label] = e;
+  const focus = () => {
+    props.setIsHeaderFocused(true);
+    setIsFocused(true);
+  };
+  const blur = () => {
+    isSermons && props.setShouldSermonsBeFocused(false);
+    isSearch && props.setShouldSearchBeFocused(false);
+    setIsFocused(false);
+  };
+  const SearchTab = () => (
+    <View style={styles.flexDirectionRow}>
+      <Image
+        style={styles.searchIcon}
+        source={{
+          uri: IMG[isFocused ? 'SEARCH_BLUE' : 'SEARCH'],
         }}
-        onFocus={() => this.focus()}
-        onBlur={() => this.blur()}
-        onPress={() => {
-          if (this.state.isSermons && this.props.screen !== this.props.label) {
-            this.props.setIsAppLoaded(false);
-            this.props.setInfo({
-              title: this.props.firstVideo.title,
-              description: this.props.firstVideo.description,
-              thumbnail: this.props.firstVideo.thumbnail,
-            });
-            this.props.setNextUrl(this.props.firstVideo.url);
-            this.props.setPosition({
-              colIndex: 0,
-              rowIndex: 0,
-            });
-          }
-          this.props.setScreen(this.props.label);
-        }}
-        hasTVPreferredFocus={this.props.screen === this.props.label}
-        underlayColor="none">
-        {(this.state.isSearch && (
-          <View style={styles.flexDirectionRow}>
-            <Image
-              style={styles.searchIcon}
-              source={{
-                uri: IMG[this.state.isFocused ? 'SEARCH_BLUE' : 'SEARCH'],
-              }}
-            />
-            <Text>       </Text>
-          </View>
-        )) || (
-          <Text style={styles.textStyle}>
-            {this.props.label +
-              `${this.props.label !== 'Contact' ? '     ' : ''}`}
-          </Text>
-        )}
-      </TouchableHighlight>
-    );
-  }
-}
+      />
+    </View>
+  );
+  const TextTab = () => <Text style={styles.textStyle}>{props.label}</Text>;
+
+  const styles = {
+    textStyle: {
+      marginTop: 37,
+      marginRight: isContact ? 0 : 30,
+      fontSize: 32,
+      color: isFocused ? '#88c4dd' : '#F0F0F0',
+      fontWeight: isFocused ? '800' : '700',
+    },
+    searchIcon: {
+      resizeMode: 'contain',
+      marginTop: 35,
+      width: 45,
+      height: 40,
+    },
+    flexDirectionRow: {
+      flexDirection: 'row',
+      marginRight: isContact ? 0 : 30,
+    },
+  };
+
+  return (
+    <TouchableHighlight
+      ref={thisRef}
+      onFocus={focus}
+      onBlur={blur}
+      onPress={() => {
+        if (isSermons && props.screen !== props.label) {
+          props.setIsAppLoaded(false);
+          props.setInfo({
+            title: props.firstVideo.title,
+            description: props.firstVideo.description,
+            thumbnail: props.firstVideo.thumbnail,
+            background: props.firstVideo.background,
+          });
+          props.setNextUrl(props.firstVideo.url);
+          props.setPosition({
+            colIndex: 0,
+            rowIndex: 0,
+          });
+        }
+        props.setScreen(props.label);
+      }}
+      hasTVPreferredFocus={props.screen === props.label}
+      underlayColor="none">
+      {isSearch ? <SearchTab /> : <TextTab />}
+    </TouchableHighlight>
+  );
+});
 
 const mapState = (state) => {
   return {

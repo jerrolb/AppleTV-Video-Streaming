@@ -47,4 +47,31 @@ const URL = {
   FEED: 'http://nolachurch.com/stream/feed.json',
 };
 
-export {DIMENSIONS, IMG, REMOTE, SCREEN, URL};
+const WATCH_LIVE_DATA = [
+  {
+    playlistTitle: 'NOLA OnDemand',
+    thumbnails: [
+      {
+        title: 'Sunday LIVE',
+        url:
+          'https://player.vimeo.com/external/457335295.m3u8?s=61ebdfc9a33fe1c1d01de24ba5d953bfbeaed953',
+      },
+      {
+        title: 'Wednesday LIVE',
+        url:
+          'https://player.vimeo.com/external/457335295.m3u8?s=61ebdfc9a33fe1c1d01de24ba5d953bfbeaed953',
+      },
+    ],
+  },
+  {
+    playlistTitle: 'Online Campus',
+    thumbnails: [
+      'Watch Parties',
+      'Get A Gift',
+      'Join The NOLA Fam',
+      'Join Us On FB',
+    ],
+  },
+];
+
+export {DIMENSIONS, IMG, REMOTE, SCREEN, URL, WATCH_LIVE_DATA};

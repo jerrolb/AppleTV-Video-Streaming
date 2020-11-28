@@ -1,15 +1,10 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
-import {
-  Image,
-  Text,
-  TouchableHighlight,
-  View,
-  ScrollView,
-  FlatList,
-} from 'react-native';
+import {Text, TouchableHighlight, View} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import Character from '../Components/Search/Keyboard/Character';
+import AlphaNumeric from '../Components/Search/Keyboard/AlphaNumeric';
+import Spacebar from '../Components/Search/Keyboard/Spacebar';
+import Backspace from '../Components/Search/Keyboard/Backspace';
 import Thumbnail from '../Components/Search/Thumbnail';
 import Header from '../Components/Header';
 import Video from 'react-native-video';
@@ -18,7 +13,7 @@ import {
   setIsHeaderFocused,
   setShouldSermonsBeFocused,
   setIsReturningFromPlayer,
-  setShouldSearchBeFocused
+  setShouldSearchBeFocused,
 } from '../redux/actions/actions';
 
 class Search extends React.Component {
@@ -42,15 +37,9 @@ class Search extends React.Component {
       this,
     );
   }
-  onCharacterFocused() {
-    if (!this.state.isKeyboardFocused && !this.props.isReturningFromPlayer) {
-      this.setState(
-        {isKeyboardFocused: true},
-        this.backspace.backspace.setNativeProps({hasTVPreferredFocus: true}),
-      );
-    }
-  }
+  onCharacterFocused() {}
   restoreFocusReturningFromPlayer() {
+    this.props.setIsReturningFromPlayer(false);
     this.focusCurrentSearchThumbnail();
   }
   addOne(char) {
@@ -62,6 +51,9 @@ class Search extends React.Component {
     );
   }
   addSpace() {
+    if (this.state.value === '') {
+      return;
+    }
     this.setState(
       (prevState) => ({
         value: (prevState.value += ' '),
@@ -91,7 +83,8 @@ class Search extends React.Component {
     const filterVideo = (video) => {
       if (
         video.title.toLowerCase().includes(this.state.value) ||
-        video.description.toLowerCase().includes(this.state.value)
+        video.description.toLowerCase().includes(this.state.value) ||
+        video.playlistTitle.toLowerCase().includes(this.state.value)
       ) {
         if (!searchResults[iter]) {
           searchResults[iter] = [];
@@ -135,56 +128,55 @@ class Search extends React.Component {
     this.setState({searchResults: searchResults});
   }
 
-  renderAlphabet(start) {
-    const letterRow = [];
-
-    letterRow.push(
-      <Character
+  renderKeyboard() {
+    const letterRow = [
+      <Spacebar
         key={'space'}
-        letter={'space'}
         onPress={() => this.addSpace()}
         onFocused={this.onCharacterFocused}
         restoreFocusReturningFromPlayer={this.restoreFocusReturningFromPlayer}
       />,
-    );
-    letterRow.push(
-      <Character
+      <Backspace
         ref={(e) => (this.backspace = e)}
         key={'backspace'}
-        letter={'backspace'}
         onPress={() => this.clearOne()}
         onFocused={this.onCharacterFocused}
         restoreFocusReturningFromPlayer={this.restoreFocusReturningFromPlayer}
+        clearInfo={() => this.setInfo('', '')}
       />,
-    );
+    ];
 
     for (let i = 0; i < 36; ++i) {
-      const letter = (i + 10).toString(36);
-      if (i > 25) {
-        letter -= 9;
-      }
-      if (i === 35) {
-        letter = 0;
-      }
+      let alphaNumeric = (i + 10).toString(36);
+      alphaNumeric = i === 35 ? 0 : i > 25 ? alphaNumeric - 9 : alphaNumeric;
       letterRow.push(
-        <Character
-          key={letter}
-          letter={letter}
-          onPress={(char) => {
-            this.addOne(char);
-          }}
+        <AlphaNumeric
+          key={alphaNumeric}
+          alphaNumeric={alphaNumeric}
+          onPress={() => this.addOne(alphaNumeric)}
           onFocused={this.onCharacterFocused}
           restoreFocusReturningFromPlayer={this.restoreFocusReturningFromPlayer}
+          clearInfo={() => this.setInfo('', '')}
         />,
       );
     }
+
     return letterRow;
   }
 
   focusCurrentSearchThumbnail() {
     this[
       `${this.state.position.colIndex}${this.state.position.rowIndex}`
-    ].thumbnail.setNativeProps({hasTVPreferredFocus: true});
+    ].setNativeProps({hasTVPreferredFocus: true});
+  }
+
+  getMatchedPlaylists() {
+    const playlists = [];
+    const addPlaylist = (playlist) => {
+      playlists.push(<Text key={playlist}>{`${playlist} \n`}</Text>);
+    };
+    this.state.matchedPlaylists.forEach(addPlaylist);
+    return playlists;
   }
 
   render() {
@@ -195,95 +187,98 @@ class Search extends React.Component {
             styles[this.props.player.visible ? 'hidden' : 'fullscreen'],
             {color: '#000'},
           ]}>
-          <Header isSearch={true}/>
+          <Header isSearch={true} />
 
-<View style={{paddingLeft: 70}}>
-          <TouchableHighlight
-            style={styles.focusInterceptWrapper}
-            onFocus={() => {
-              if (!this.state.isViewReady) {
-                this.props.setShouldSearchBeFocused(true);
-                this.setState({isViewReady: true});
-                return;
-              }
+          <View style={{paddingLeft: 70, width: '100%', height: '100%'}}>
+            <TouchableHighlight
+              style={styles.focusInterceptWrapper}
+              onFocus={() => {
+                if (!this.state.isViewReady) {
+                  this.props.setShouldSearchBeFocused(true);
+                  this.setState({isViewReady: true});
+                  return;
+                }
 
-              if (this.props.isReturningFromPlayer) {
-                this.props.setIsReturningFromPlayer(false);
-                this.focusCurrentSearchThumbnail();
-                return;
-              }
+                if (this.props.isReturningFromPlayer) {
+                  this.props.setIsReturningFromPlayer(false);
+                  this.focusCurrentSearchThumbnail();
+                  return;
+                }
 
-              if (this.props.isHeaderFocused) {
-                this.backspace.backspace.setNativeProps({
-                  hasTVPreferredFocus: true,
-                });
-              } else {
-                this.props.setShouldSearchBeFocused(true);
-              }
-              this.props.setIsHeaderFocused(!this.props.isHeaderFocused);
+                if (this.props.isHeaderFocused) {
+                  this.backspace.setNativeProps({
+                    hasTVPreferredFocus: true,
+                  });
+                } else {
+                  this.props.setShouldSearchBeFocused(true);
+                }
+                this.props.setIsHeaderFocused(!this.props.isHeaderFocused);
 
-              if (this.state.isKeyboardFocused) {
-                this.setState({isKeyboardFocused: false});
-              }
-            }}>
-            <View style={styles.focusIntercept} />
-          </TouchableHighlight>
+                if (this.state.isKeyboardFocused) {
+                  this.setState({isKeyboardFocused: false});
+                }
+              }}>
+              <View style={styles.focusIntercept} />
+            </TouchableHighlight>
 
-          <Text
-            style={{
-              color: 'white',
-              fontWeight: 'bold',
-              fontSize: 40,
-              height: 50,
-            }}>
-            {this.state.value}
-          </Text>
-
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              width: 430,
-              height: 1200,
-              flexWrap: 'wrap',
-            }}>
-            {this.renderAlphabet()}
-          </View>
-
-          <View style={{position: 'absolute', top: 550, left: 70, width: 450}}>
-            <Text>
-              <Text style={{color: 'white', fontSize: 25}}>
-                {`${this.state.title} \n\n`}
-              </Text>
-              <Text
-                style={{
-                  color: 'white',
-                  marginTop: 100,
-                  fontSize: 25,
-                  height: 400,
-                }}>
-                {`${this.state.description} \n\n\n`}
-              </Text>
-              <Text
-                style={{
-                  position: 'absolute',
-                  bottom: 10,
-                  left: 10,
-                  color: 'white',
-                  fontSize: 25,
-                  fontWeight: 'bold',
-                }}>
-                {`${this.state.matchedPlaylists[0] || ''} \n\n`}
-                {`${this.state.matchedPlaylists[1] || ''} \n\n`}
-                {`${this.state.matchedPlaylists[2] || ''} \n\n`}
-              </Text>
+            <Text
+              ellipsizeMode={'tail'}
+              numberOfLines={1}
+              style={{
+                color: 'white',
+                fontWeight: 'bold',
+                fontSize: 40,
+                height: 50,
+                marginLeft: 10,
+                width: 430,
+              }}>
+              {this.state.value}
             </Text>
-          </View>
+
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                width: 430,
+                height: 1200,
+                flexWrap: 'wrap',
+              }}>
+              {this.renderKeyboard()}
+            </View>
+
+            <View
+              style={{position: 'absolute', top: 550, left: 70, width: 450}}>
+              <Text>
+                <Text style={{color: 'white', fontSize: 25}}>
+                  {`${this.state.title} \n\n`}
+                </Text>
+                <Text
+                  style={{
+                    color: 'white',
+                    marginTop: 100,
+                    fontSize: 25,
+                    height: 400,
+                  }}>
+                  {`${this.state.description} \n\n\n`}
+                </Text>
+                <Text
+                  style={{
+                    position: 'absolute',
+                    bottom: 10,
+                    left: 10,
+                    color: 'white',
+                    fontSize: 25,
+                    fontWeight: 'bold',
+                  }}>
+                  {this.getMatchedPlaylists()}
+                </Text>
+              </Text>
+            </View>
           </View>
           <View
             style={{
               position: 'absolute',
-              top: 150,
+              top: 125,
               left: 550,
               width: '100%',
               height: '100%',
@@ -301,15 +296,14 @@ class Search extends React.Component {
               inactiveSlideScale={1}
               inactiveSlideOpacity={1}
               removeClippedSubviews={true}
-              renderItem={({item, index}) => {
-                const reefer = index;
+              renderItem={({item: colItem, index: colIndex}) => {
                 return (
                   <Carousel
                     ref={(e) => {
-                      this[`playlist${index}`] = e;
+                      this[`playlist${colIndex}`] = e;
                     }}
                     activeSlideAlignment={'start'}
-                    data={Array.isArray(item) ? item : []}
+                    data={Array.isArray(colItem) ? colItem : []}
                     sliderWidth={2000}
                     sliderHeight={240}
                     itemWidth={430}
@@ -318,31 +312,26 @@ class Search extends React.Component {
                     inactiveSlideOpacity={1}
                     scrollEnabled={false}
                     removeClippedSubviews={true}
-                    renderItem={({item, index}) => {
+                    renderItem={({item: rowItem, index: rowIndex}) => {
                       return (
                         <Thumbnail
                           ref={(e) => {
-                            this[`${reefer}${index}`] = e;
+                            this[`${colIndex}${rowIndex}`] = e;
                           }}
-                          item={item}
-                          index={index}
-                          onFocused={() => {
+                          item={rowItem}
+                          index={rowIndex}
+                          onFocused={({title, desc, currRowIndex}) => {
+                            this.setState({
+                              position: {
+                                colIndex: colIndex,
+                                rowIndex: currRowIndex,
+                              },
+                            });
                             if (this.state.isKeyboardFocused) {
                               this.setState({isKeyboardFocused: false});
                             }
-                          }}
-                          setInfo={(title, desc) => {
                             this.setInfo(title, desc);
                           }}
-                          setPosition={(rowIndex) => {
-                            this.setState({
-                              position: {
-                                colIndex: reefer,
-                                rowIndex: rowIndex,
-                              },
-                            });
-                          }}
-                          restore={this.restoreFocusReturningFromPlayer}
                         />
                       );
                     }}
@@ -353,8 +342,6 @@ class Search extends React.Component {
               sliderHeight={2000}
               itemWidth={1000}
               itemHeight={240}
-              inactiveSlideScale={1}
-              inactiveSlideOpacity={1}
             />
           </View>
         </View>

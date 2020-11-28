@@ -39,7 +39,7 @@ class Playlists extends Component {
     this.props.setInfo({
       title: currVideo.title,
       description: currVideo.description,
-      thumbnail: currVideo.thumbnail,
+      background: currVideo.background,
     });
     this.props.setNextUrl(currVideo.url);
     this.props.setPosition({

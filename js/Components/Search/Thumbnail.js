@@ -1,52 +1,51 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {Image, TouchableHighlight, View} from 'react-native';
 import * as Player from '../../Controllers/Player';
 import {setNextUrl} from '../../redux/actions/actions';
 
-class Thumbnail extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      isFocused: false,
-    };
-  }
+const Thumbnail = React.forwardRef((props, ref) => {
+  const [isFocused, setIsFocused] = useState(false);
 
-  onFocus() {
-    this.props.setPosition(this.props.index);
-    this.props.onFocused();
-    this.props.setNextUrl(this.props.item.url);
-    this.props.setInfo(this.props.item.title, this.props.item.description);
-    this.setState({isFocused: true});
-  }
-  onBlur() {
-    this.setState({isFocused: false});
-  }
+  const onFocus = () => {
+    props.onFocused({
+      title: props.item.title,
+      desc: props.item.description,
+      currRowIndex: props.index,
+    });
+    props.setNextUrl(props.item.url);
+    setIsFocused(true);
+  };
+  const onBlur = () => {
+    setIsFocused(false);
+  };
 
-  render() {
-    return (
-      <TouchableHighlight
-        ref={(e) => (this.thumbnail = e)}
-        onFocus={() => this.onFocus()}
-        onBlur={() => this.onBlur()}
-        onPress={Player.init}>
-        <View
-          style={{
-            width: 430,
-            height: 240,
-            borderWidth: 5,
-            borderRadius: 5,
-            borderColor: this.state.isFocused ? 'lightblue' : 'transparent',
-          }}>
-          <Image
-            style={styles.thumbnailImage}
-            source={{uri: this.props.item.thumbnail}}
-          />
-        </View>
-      </TouchableHighlight>
-    );
-  }
-}
+  return (
+    <TouchableHighlight
+      ref={ref}
+      onFocus={onFocus}
+      onBlur={onBlur}
+      onPress={() => {
+        props.player.url === props.player.nextUrl
+          ? Player.resume()
+          : Player.init();
+      }}>
+      <View
+        style={{
+          width: 430,
+          height: 240,
+          borderWidth: 5,
+          borderRadius: 5,
+          borderColor: isFocused ? 'lightblue' : 'transparent',
+        }}>
+        <Image
+          style={styles.thumbnailImage}
+          source={{uri: props.item.thumbnail}}
+        />
+      </View>
+    </TouchableHighlight>
+  );
+});
 
 const styles = {
   thumbnailImage: {
@@ -60,6 +59,7 @@ const styles = {
 const mapState = (state) => {
   return {
     isReturningFromPlayer: state.isReturningFromPlayer,
+    player: state.player,
   };
 };
 

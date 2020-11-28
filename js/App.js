@@ -76,9 +76,7 @@ class App extends React.Component {
       case SCREEN.SERMONS:
         return <Home ref={(e) => (this.home = e)} />;
       case SCREEN.ERROR:
-        return (
-          <Error ref={(e) => (this.error = e)} restart={() => this.restart()} />
-        );
+        return <Error restart={() => this.restart()} />;
       case SCREEN.CONTACT:
         return <Contact />;
       case SCREEN.GIVING:
