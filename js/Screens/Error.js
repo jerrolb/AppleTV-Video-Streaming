@@ -1,6 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {setIsHeaderFocused} from '../redux/actions/actions';
 import {Text, TouchableHighlight, View} from 'react-native';
 
 const Error = (props) => {
@@ -15,8 +13,7 @@ const Error = (props) => {
           <Text>Press the touchpad to try again.</Text>
           <TouchableHighlight
             hasTVPreferredFocus={true}
-            onFocus={() => props.setIsHeaderFocused(false)}
-            onPress={props.restart}>
+            onPress={props.restartApp}>
             <Text />
           </TouchableHighlight>
         </Text>
@@ -25,20 +22,7 @@ const Error = (props) => {
   );
 };
 
-const mapState = (state) => {
-  return {
-    shouldRetryBeFocused: state.shouldRetryBeFocused,
-  };
-};
-
-const mapDispatch = (dispatch) => {
-  return {
-    setIsHeaderFocused: (isHeaderFocused) =>
-      dispatch(setIsHeaderFocused(isHeaderFocused)),
-  };
-};
-
-export default connect(mapState, mapDispatch, null, {forwardRef: true})(Error);
+export default Error;
 
 const styles = {
   fullscreen: {

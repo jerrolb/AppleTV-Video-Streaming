@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {connect} from 'react-redux';
 import {
   setIsAppLoaded,
@@ -15,104 +15,101 @@ import Carousel from 'react-native-snap-carousel';
 import Playlist from './Playlist';
 import {DIMENSIONS} from '../Constants';
 
-class Playlists extends Component {
-  constructor() {
-    super();
-    this.state = {
-      colIndex: 0,
-      rowIndex: 0,
-    };
-  }
-  forceCurrentThumbnailActiveFocus() {
-    const colIndex = this.state.colIndex;
-    const rowIndex = this.state.rowIndex;
-    const playlist = `playlist${colIndex}`;
+const Playlists = (props) => {
+  const [colIndex, setColIndex] = useState(0);
+  const [rowIndex, setRowIndex] = useState(0);
+  const playlistCol = useRef(null);
+  const refArr = useRef([]);
+
+  useEffect(() => {
+    refArr.current = refArr.current.slice(0, props.playlists.length);
+  });
+
+  const forceCurrentThumbnailActiveFocus = () => {
     const thumbnail = `thumbnail${rowIndex}`;
-    this[playlist][thumbnail].setNativeProps({hasTVPreferredFocus: true});
-    this.playlistCol.snapToItem(colIndex);
-    this[playlist].playlistRow.snapToItem(rowIndex);
-  }
-  setInfo = () => {
-    const colIndex = this.state.colIndex;
-    const rowIndex = this.state.rowIndex;
-    const currVideo = this.props.playlists[colIndex].videos[rowIndex];
-    this.props.setInfo({
+    refArr.current[colIndex][thumbnail].setNativeProps({
+      hasTVPreferredFocus: true,
+    });
+    playlistCol.current.snapToItem(colIndex);
+    refArr.current[colIndex].playlistRow.snapToItem(rowIndex);
+  };
+
+  const updateVideoInfo = () => {
+    const currVideo = props.playlists[colIndex].videos[rowIndex];
+    props.setInfo({
       title: currVideo.title,
       description: currVideo.description,
       background: currVideo.background,
     });
-    this.props.setNextUrl(currVideo.url);
-    this.props.setPosition({
+    props.setNextUrl(currVideo.url);
+    props.setPosition({
       colIndex: colIndex,
       rowIndex: rowIndex,
     });
   };
-  renderPlaylist = ({item, index}) => {
-    const ref = `playlist${index}`;
-    const setFocus = (rowIndex) => {
-      if (this.props.isReturningFromPlayer) {
-        this.forceCurrentThumbnailActiveFocus();
-        this.props.setIsReturningFromPlayer(false);
+
+  const renderPlaylist = ({item, index}) => {
+    const setFocus = (currRowIndex) => {
+      if (props.isReturningFromPlayer) {
+        forceCurrentThumbnailActiveFocus();
+        props.setIsReturningFromPlayer(false);
         return;
       }
-      this.setState({colIndex: index, rowIndex: rowIndex});
-      this.playlistCol.snapToItem(index);
-      this[ref].playlistRow.snapToItem(rowIndex);
-      this.props.setIsHeaderFocused(false);
+      setColIndex(index);
+      setRowIndex(currRowIndex);
+      playlistCol.current.snapToItem(index);
+      refArr.current[colIndex].playlistRow.snapToItem(currRowIndex);
+      props.setIsHeaderFocused(false);
     };
     return (
       <Playlist
-        ref={(e) => (this[ref] = e)}
+        ref={(e) => (refArr.current[index] = e)}
         title={item.title}
         videos={item.videos}
-        setInfo={() => this.setInfo()}
-        setFocus={(rowIndex) => setFocus(rowIndex)}
+        updateVideoInfo={() => updateVideoInfo()}
+        setFocus={(currRowIndex) => setFocus(currRowIndex)}
       />
     );
   };
-  render() {
-    return (
-      <View style={styles.hideBehind}>
-        <TouchableHighlight
-          style={styles.focusInterceptWrapper}
-          onFocus={() => {
-            if (!this.props.isAppLoaded) {
-              this.props.setIsAppLoaded(true);
-              return;
-            }
-            if (
-              this.props.isHeaderFocused ||
-              this.props.isReturningFromPlayer
-            ) {
-              this.forceCurrentThumbnailActiveFocus();
-            } else {
-              this.props.setShouldSermonsBeFocused(true);
-            }
-            this.props.setIsHeaderFocused(false);
-          }}>
-          <View style={styles.focusIntercept} />
-        </TouchableHighlight>
-        {!this.props.isHeaderFocused && <View style={styles.highlight} />}
-        <Carousel
-          pointerEvents={this.props.player.visible ? 'none' : 'auto'}
-          ref={(e) => (this.playlistCol = e)}
-          data={this.props.playlists}
-          vertical={true}
-          activeSlideAlignment={'start'}
-          renderItem={this.renderPlaylist}
-          sliderWidth={DIMENSIONS.WIDTH}
-          sliderHeight={DIMENSIONS.HEIGHT}
-          itemWidth={DIMENSIONS.WIDTH}
-          itemHeight={320}
-          inactiveSlideScale={1}
-          inactiveSlideOpacity={1}
-          onSnapToItem={() => this.setInfo()}
-          removeClippedSubviews={true}
-        />
-      </View>
-    );
-  }
-}
+
+  return (
+    <View style={styles.hideBehind}>
+      <TouchableHighlight
+        style={styles.focusInterceptWrapper}
+        onFocus={() => {
+          if (!props.isAppLoaded) {
+            props.setIsAppLoaded(true);
+            return;
+          }
+          if (props.isHeaderFocused || props.isReturningFromPlayer) {
+            forceCurrentThumbnailActiveFocus();
+          } else {
+            props.setShouldSermonsBeFocused(true);
+          }
+          props.setIsHeaderFocused(false);
+        }}>
+        <View style={styles.focusIntercept} />
+      </TouchableHighlight>
+      {!props.isHeaderFocused && <View style={styles.highlight} />}
+      <Carousel
+        pointerEvents={props.player.visible ? 'none' : 'auto'}
+        ref={playlistCol}
+        data={props.playlists}
+        vertical={true}
+        activeSlideAlignment={'start'}
+        renderItem={renderPlaylist}
+        sliderWidth={DIMENSIONS.WIDTH}
+        sliderHeight={DIMENSIONS.HEIGHT}
+        itemWidth={DIMENSIONS.WIDTH}
+        itemHeight={320}
+        inactiveSlideScale={1}
+        inactiveSlideOpacity={1}
+        onSnapToItem={() => updateVideoInfo()}
+        removeClippedSubviews={true}
+      />
+    </View>
+  );
+};
 
 const mapState = (state) => {
   return {
@@ -140,9 +137,7 @@ const mapDispatch = (dispatch) => {
   };
 };
 
-export default connect(mapState, mapDispatch, null, {forwardRef: true})(
-  Playlists,
-);
+export default connect(mapState, mapDispatch)(Playlists);
 
 Playlists.propTypes = {
   playlists: PropTypes.arrayOf(PropTypes.object).isRequired,
