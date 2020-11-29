@@ -7,58 +7,47 @@ import Playlists from '../Components/Playlists';
 import Video from 'react-native-video';
 import * as Player from '../Controllers/Player';
 
-class Home extends React.Component {
-  render() {
-    return (
-      <View>
-        <View
-          style={styles[this.props.player.visible ? 'hidden' : 'fullscreen']}>
-          <Header ref={(e) => (this.header = e)} />
+const Home = (props) => {
+  return (
+    <View>
+      <View style={styles[props.player.visible ? 'hidden' : 'fullscreen']}>
+        <Header />
 
-          <Image
-            ref={(e) => (this.background = e)}
-            style={styles.heroImage}
-            source={{uri: this.props.info.background}}
-          />
+        <Image style={styles.heroImage} source={{uri: props.info.background}} />
 
-          <Info />
-          <Playlists ref={(e) => (this.playlists = e)} />
-        </View>
-        {this.props.player.enabled && (
-          <View hasTVPreferredFocus={this.props.player.visible}>
-            <Video
-              style={
-                styles[this.props.player.visible ? 'fullscreen' : 'hidden']
-              }
-              source={{uri: this.props.player.url, type: 'm3u8'}}
-              controls={this.props.player.visible}
-              paused={this.props.player.paused}
-              onEnd={Player.exit}
-              onError={Player.error}
-            />
-          </View>
-        )}
+        <Info />
+        <Playlists />
       </View>
-    );
-  }
-}
+      {props.player.enabled && (
+        <View hasTVPreferredFocus={props.player.visible}>
+          <Video
+            style={styles[props.player.visible ? 'fullscreen' : 'hidden']}
+            source={{uri: props.player.url, type: 'm3u8'}}
+            controls={props.player.visible}
+            paused={props.player.paused}
+            onEnd={Player.exit}
+            onError={Player.error}
+          />
+        </View>
+      )}
+    </View>
+  );
+};
 
 const mapState = (state) => {
   return {
     info: state.info,
     player: state.player,
-    playlists: state.playlists,
   };
 };
 
-export default connect(mapState, null, null, {forwardRef: true})(Home);
+export default connect(mapState)(Home);
 
 Home.propTypes = {
   info: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
   }),
-  playlists: PropTypes.arrayOf(PropTypes.object).isRequired,
   player: PropTypes.shape({
     enabled: PropTypes.bool.isRequired,
     visible: PropTypes.bool.isRequired,
