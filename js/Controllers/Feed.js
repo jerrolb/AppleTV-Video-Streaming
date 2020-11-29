@@ -47,6 +47,7 @@ const initFeed = (feed) => {
   });
 
   if (hasHttpsCalls(playlists)) {
+    store.dispatch(setScreen(SCREEN.ERROR));
     console.error(
       '[App.js][initFeed] There are HTTPS calls in the feed! Change them to HTTP (see beginning of function)',
     );
@@ -62,6 +63,7 @@ const initFeed = (feed) => {
     );
     store.dispatch(setNextUrl(currVideo.url));
     store.dispatch(setIsFeedReady(true));
+    store.dispatch(setScreen(SCREEN.SERMONS));
   }
 };
 
