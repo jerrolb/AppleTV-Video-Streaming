@@ -4,7 +4,7 @@ import {Text, Image, View, TouchableHighlight} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import {DIMENSIONS} from '../Constants';
 
-export default class Playlist extends Component {
+class Playlist extends Component {
   render() {
     return (
       <View style={styles.marginTop}>
@@ -13,7 +13,7 @@ export default class Playlist extends Component {
           ref={(e) => (this.playlistRow = e)}
           data={this.props.videos}
           activeSlideAlignment={'start'}
-          onSnapToItem={() => this.props.setInfo()}
+          onSnapToItem={() => this.props.updateVideoInfo()}
           renderItem={({item, index}) => {
             return (
               <TouchableHighlight
@@ -41,6 +41,8 @@ export default class Playlist extends Component {
     );
   }
 }
+
+export default Playlist;
 
 Playlist.propTypes = {
   title: PropTypes.string.isRequired,
