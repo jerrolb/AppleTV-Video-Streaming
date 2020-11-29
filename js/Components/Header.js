@@ -1,31 +1,35 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {connect} from 'react-redux';
 import {View, ScrollView} from 'react-native';
 import Tab from './Tab';
 
-class Header extends React.Component {
-  render() {
-    return (
-      <View
-        style={styles.header}
-        pointerEvents={() => {
-          this.props.player.visible ? 'none' : 'auto';
-        }}>
-        <View style={styles.transparentBackground} />
-        <ScrollView
-          contentContainerStyle={styles.scrollViewContent}
-          style={styles.scrollViewContainer}
-          horizontal={true}>
-          <Tab ref={(e) => (this.search = e)} label={'Search'} />
-          <Tab ref={(e) => (this.sermons = e)} label={'Sermons'} />
-          <Tab ref={(e) => (this.watchlive = e)} label={'Watch Live'} />
-          <Tab ref={(e) => (this.giving = e)} label={'Giving'} />
-          <Tab ref={(e) => (this.contact = e)} label={'Contact'} />
-        </ScrollView>
-      </View>
-    );
-  }
-}
+const Header = (props) => {
+  const search = useRef(null);
+  const sermons = useRef(null);
+  const watchlive = useRef(null);
+  const giving = useRef(null);
+  const contact = useRef(null);
+
+  return (
+    <View
+      style={styles.header}
+      pointerEvents={() => {
+        props.player.visible ? 'none' : 'auto';
+      }}>
+      <View style={styles.transparentBackground} />
+      <ScrollView
+        contentContainerStyle={styles.contentContainerStyle}
+        style={styles.scrollView}
+        horizontal={true}>
+        <Tab ref={search} label={'Search'} />
+        <Tab ref={sermons} label={'Sermons'} />
+        <Tab ref={watchlive} label={'Watch Live'} />
+        <Tab ref={giving} label={'Giving'} />
+        <Tab ref={contact} label={'Contact'} />
+      </ScrollView>
+    </View>
+  );
+};
 
 const styles = {
   header: {
@@ -36,12 +40,12 @@ const styles = {
     zIndex: 3,
     backgroundColor: 'transparent',
   },
-  scrollViewContainer: {
+  scrollView: {
     zIndex: 2,
     height: 80,
     width: 775,
   },
-  scrollViewContent: {
+  contentContainerStyle: {
     height: 78,
     width: 775,
     justifyContent: 'center',
@@ -64,4 +68,4 @@ const mapState = (state) => {
   };
 };
 
-export default connect(mapState, null, null, {forwardRef: true})(Header);
+export default connect(mapState)(Header);
