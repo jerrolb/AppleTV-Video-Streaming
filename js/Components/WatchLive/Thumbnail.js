@@ -19,6 +19,27 @@ const Thumbnail = (props) => {
     }
   };
 
+  const styles = {
+    container: {
+      width: 410,
+      height: 220,
+    },
+    text: {
+      color: 'white',
+      fontSize: 35,
+      fontWeight: 'bold',
+    },
+    thumbnail: {
+      width: 430,
+      height: 240,
+      borderWidth: 5,
+      borderRadius: 5,
+      borderColor: isFocused ? 'lightblue' : 'gray',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+  };
+
   return (
     <TouchableHighlight
       style={styles.container}
@@ -26,33 +47,11 @@ const Thumbnail = (props) => {
       onBlur={onBlur}
       onPress={onPress}
       pointerEvents={props.pointerEvents}>
-      <View
-        pointerEvents={props.pointerEvents}
-        style={{
-          width: 430,
-          height: 240,
-          borderWidth: 5,
-          borderRadius: 5,
-          borderColor: isFocused ? 'lightblue' : 'gray',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+      <View pointerEvents={props.pointerEvents} style={styles.thumbnail}>
         <Text style={styles.text}>{props.title}</Text>
       </View>
     </TouchableHighlight>
   );
-};
-
-const styles = {
-  container: {
-    width: 410,
-    height: 220,
-  },
-  text: {
-    color: 'white',
-    fontSize: 35,
-    fontWeight: 'bold',
-  },
 };
 
 export default Thumbnail;

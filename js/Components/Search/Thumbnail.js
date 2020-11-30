@@ -9,8 +9,8 @@ const Thumbnail = React.forwardRef((props, ref) => {
 
   const onFocus = () => {
     props.onFocused({
-      title: props.item.title,
-      desc: props.item.description,
+      newTitle: props.item.title,
+      newDesc: props.item.description,
       currRowIndex: props.index,
     });
     props.setNextUrl(props.item.url);
@@ -18,6 +18,22 @@ const Thumbnail = React.forwardRef((props, ref) => {
   };
   const onBlur = () => {
     setIsFocused(false);
+  };
+
+  const styles = {
+    thumbnailImage: {
+      width: 410,
+      height: 220,
+      marginLeft: 5,
+      marginTop: 5,
+    },
+    highlight: {
+      width: 430,
+      height: 240,
+      borderWidth: 5,
+      borderRadius: 5,
+      borderColor: isFocused ? 'lightblue' : 'transparent',
+    },
   };
 
   return (
@@ -30,14 +46,7 @@ const Thumbnail = React.forwardRef((props, ref) => {
           ? Player.resume()
           : Player.init();
       }}>
-      <View
-        style={{
-          width: 430,
-          height: 240,
-          borderWidth: 5,
-          borderRadius: 5,
-          borderColor: isFocused ? 'lightblue' : 'transparent',
-        }}>
+      <View style={styles.highlight}>
         <Image
           style={styles.thumbnailImage}
           source={{uri: props.item.thumbnail}}
@@ -46,15 +55,6 @@ const Thumbnail = React.forwardRef((props, ref) => {
     </TouchableHighlight>
   );
 });
-
-const styles = {
-  thumbnailImage: {
-    width: 410,
-    height: 220,
-    marginLeft: 5,
-    marginTop: 5,
-  },
-};
 
 const mapState = (state) => {
   return {

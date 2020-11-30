@@ -29,11 +29,7 @@ const Backspace = React.forwardRef((props, ref) => {
         props.onPress(props.letter);
       }}>
       <Image
-        style={{
-          width: 203,
-          height: 65,
-          margin: 2,
-        }}
+        style={styles.image}
         source={{
           uri: isFocused ? 'focusedBackspace.png' : 'unfocusedBackspace.png',
         }}
@@ -41,6 +37,14 @@ const Backspace = React.forwardRef((props, ref) => {
     </TouchableHighlight>
   );
 });
+
+const styles = {
+  image: {
+    width: 203,
+    height: 65,
+    margin: 2,
+  },
+};
 
 const mapState = (state) => {
   return {

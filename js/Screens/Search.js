@@ -184,10 +184,7 @@ const Search = (props) => {
 
   return (
     <View>
-      <View
-        style={
-          styles[props.player.visible ? 'hidden' : 'fullscreen']
-        }>
+      <View style={styles[props.player.visible ? 'hidden' : 'fullscreen']}>
         <Header />
 
         <View style={styles.leftSide}>
@@ -227,29 +224,19 @@ const Search = (props) => {
             {input}
           </Text>
 
-          <View
-            style={styles.keyboard}>
-            {renderKeyboard()}
-          </View>
+          <View style={styles.keyboard}>{renderKeyboard()}</View>
 
           <View style={styles.info}>
             <Text>
-              <Text style={styles.title}>
-                {`${title} \n\n`}
-              </Text>
-              <Text
-                style={styles.description}>
-                {`${description} \n\n\n`}
-              </Text>
-              <Text
-                style={styles.matchedPlaylists}>
+              <Text style={styles.title}>{`${title} \n\n`}</Text>
+              <Text style={styles.description}>{`${description} \n\n\n`}</Text>
+              <Text style={styles.matchedPlaylists}>
                 {getMatchedPlaylists()}
               </Text>
             </Text>
           </View>
         </View>
-        <View
-          style={styles.searchResults}>
+        <View style={styles.searchResults}>
           <Carousel
             ref={playlistCol}
             data={Array.isArray(searchResults) ? searchResults : []}
@@ -287,7 +274,6 @@ const Search = (props) => {
                             colIndex: colIndex,
                             rowIndex: currRowIndex,
                           });
-
                           isKeyboardFocused && setIsKeyboardFocused(false);
                           setInfo(newTitle, newDesc);
                         }}
@@ -399,7 +385,7 @@ const styles = {
     color: 'white',
     fontSize: 25,
     fontWeight: 'bold',
-  }
+  },
 };
 
 const mapState = (state) => {

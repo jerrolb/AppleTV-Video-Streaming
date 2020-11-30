@@ -114,7 +114,7 @@ const styles = {
   },
   contentMargin: {
     marginTop: 100,
-    marginLeft: 90
+    marginLeft: 90,
   },
   playlistTitle: {
     fontSize: 35,
