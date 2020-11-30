@@ -40,7 +40,7 @@ const WatchLive = (props) => {
         pointerEvents={popup ? 'none' : 'auto'}
         style={styles[!props.player.visible ? {} : 'hidden']}>
         <Header screen={'Watch Live'} />
-        <View style={{marginTop: 100, marginLeft: 90}}>
+        <View style={styles.contentMargin}>
           <Carousel
             pointerEvents={popup ? 'none' : 'auto'}
             data={WATCH_LIVE_DATA}
@@ -111,6 +111,10 @@ const styles = {
   },
   bold: {
     fontWeight: 'bold',
+  },
+  contentMargin: {
+    marginTop: 100,
+    marginLeft: 90
   },
   playlistTitle: {
     fontSize: 35,

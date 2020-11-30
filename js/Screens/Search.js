@@ -185,13 +185,12 @@ const Search = (props) => {
   return (
     <View>
       <View
-        style={[
-          styles[props.player.visible ? 'hidden' : 'fullscreen'],
-          {color: '#000'},
-        ]}>
+        style={
+          styles[props.player.visible ? 'hidden' : 'fullscreen']
+        }>
         <Header />
 
-        <View style={{paddingLeft: 70, width: '100%', height: '100%'}}>
+        <View style={styles.leftSide}>
           <TouchableHighlight
             style={styles.focusInterceptWrapper}
             onFocus={() => {
@@ -224,65 +223,33 @@ const Search = (props) => {
           <Text
             ellipsizeMode={'tail'}
             numberOfLines={1}
-            style={{
-              color: 'white',
-              fontWeight: 'bold',
-              fontSize: 40,
-              height: 50,
-              marginLeft: 10,
-              width: 430,
-            }}>
+            style={styles.userInput}>
             {input}
           </Text>
 
           <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              width: 430,
-              height: 1200,
-              flexWrap: 'wrap',
-            }}>
+            style={styles.keyboard}>
             {renderKeyboard()}
           </View>
 
-          <View style={{position: 'absolute', top: 550, left: 70, width: 450}}>
+          <View style={styles.info}>
             <Text>
-              <Text style={{color: 'white', fontSize: 25}}>
+              <Text style={styles.title}>
                 {`${title} \n\n`}
               </Text>
               <Text
-                style={{
-                  color: 'white',
-                  marginTop: 100,
-                  fontSize: 25,
-                  height: 400,
-                }}>
+                style={styles.description}>
                 {`${description} \n\n\n`}
               </Text>
               <Text
-                style={{
-                  position: 'absolute',
-                  bottom: 10,
-                  left: 10,
-                  color: 'white',
-                  fontSize: 25,
-                  fontWeight: 'bold',
-                }}>
+                style={styles.matchedPlaylists}>
                 {getMatchedPlaylists()}
               </Text>
             </Text>
           </View>
         </View>
         <View
-          style={{
-            position: 'absolute',
-            top: 125,
-            left: 550,
-            width: '100%',
-            height: '100%',
-            backgroundColor: '#000',
-          }}>
+          style={styles.searchResults}>
           <Carousel
             ref={playlistCol}
             data={Array.isArray(searchResults) ? searchResults : []}
@@ -370,6 +337,11 @@ const styles = {
     width: 0,
     height: 0,
   },
+  leftSide: {
+    paddingLeft: 70,
+    width: '100%',
+    height: '100%',
+  },
   focusIntercept: {
     position: 'absolute',
     left: 0,
@@ -381,6 +353,53 @@ const styles = {
     height: 1,
     width: '100%',
   },
+  userInput: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 40,
+    height: 50,
+    marginLeft: 10,
+    width: 430,
+  },
+  keyboard: {
+    flex: 1,
+    flexDirection: 'row',
+    width: 430,
+    height: 1200,
+    flexWrap: 'wrap',
+  },
+  info: {
+    position: 'absolute',
+    top: 550,
+    left: 70,
+    width: 450,
+  },
+  title: {
+    color: 'white',
+    fontSize: 25,
+  },
+  description: {
+    color: 'white',
+    marginTop: 100,
+    fontSize: 25,
+    height: 400,
+  },
+  searchResults: {
+    position: 'absolute',
+    top: 125,
+    left: 550,
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#000',
+  },
+  matchedPlaylists: {
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+    color: 'white',
+    fontSize: 25,
+    fontWeight: 'bold',
+  }
 };
 
 const mapState = (state) => {
