@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useEffect, useState, useRef} from 'react';
 import {connect} from 'react-redux';
 import {Text, TouchableHighlight, View} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
@@ -16,133 +16,115 @@ import {
   setShouldSearchBeFocused,
 } from '../redux/actions/actions';
 
-class Search extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      searchResults: [],
-      value: '',
-      title: '',
-      description: '',
-      matchedPlaylists: [],
-      position: {
-        colIndex: 0,
-        rowIndex: 0,
-      },
-      isKeyboardFocused: false,
-      isViewReady: false,
-    };
-    this.onCharacterFocused = this.onCharacterFocused.bind(this);
-    this.restoreFocusReturningFromPlayer = this.restoreFocusReturningFromPlayer.bind(
-      this,
-    );
-  }
-  onCharacterFocused() {}
-  restoreFocusReturningFromPlayer() {
-    this.props.setIsReturningFromPlayer(false);
-    this.focusCurrentSearchThumbnail();
-  }
-  addOne(char) {
-    this.setState(
-      (prevState) => ({
-        value: (prevState.value += char),
-      }),
-      () => this.getSearchResults(),
-    );
-  }
-  addSpace() {
-    if (this.state.value === '') {
+const Search = (props) => {
+  const [searchResults, setSearchResults] = useState([]);
+  const [input, setInput] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [matchedPlaylists, setMatchedPlaylists] = useState([]);
+  const [isKeyboardFocused, setIsKeyboardFocused] = useState(false);
+  const [isViewReady, setIsViewReady] = useState(false);
+  const [position, setPosition] = useState({
+    colIndex: 0,
+    rowIndex: 0,
+  });
+
+  const playlistCol = useRef(null);
+  const playlistRowRefs = useRef([]);
+  const thumbnailRefs = useRef([]);
+  const backspace = useRef(null);
+
+  const restoreFocusReturningFromPlayer = () => {
+    props.setIsReturningFromPlayer(false);
+    focusCurrentSearchThumbnail();
+  };
+
+  const addOne = (char) => {
+    const newInput = input.slice() + char;
+    setInput(newInput);
+  };
+
+  const addSpace = () => {
+    const newInput = input.slice() + ' ';
+    if (!input) {
       return;
     }
-    this.setState(
-      (prevState) => ({
-        value: (prevState.value += ' '),
-      }),
-      () => this.getSearchResults(),
-    );
-  }
-  clearOne() {
-    this.setState(
-      (prevState) => ({
-        value: prevState.value.slice(0, -1),
-      }),
-      () => this.getSearchResults(),
-    );
-  }
-  setInfo(title, desc) {
-    this.setState({
-      title: title,
-      description: desc,
-    });
-  }
-  getSearchResults() {
-    let matchedPlaylists = [];
-    let searchResults = [];
+    setInput(newInput);
+  };
+
+  const clearOne = () => {
+    const newInput = input.slice(0, -1);
+    setInput(newInput);
+  };
+
+  const setInfo = (newTitle, newDescription) => {
+    setTitle(newTitle);
+    setDescription(newDescription);
+  };
+
+  const getSearchResults = useCallback(() => {
+    let newMatchedPlaylists = [];
+    let newSearchResults = [];
     let iter = 0;
-    const playlists = this.props.playlists;
+    const playlists = props.playlists;
     const filterVideo = (video) => {
       if (
-        video.title.toLowerCase().includes(this.state.value) ||
-        video.description.toLowerCase().includes(this.state.value) ||
-        video.playlistTitle.toLowerCase().includes(this.state.value)
+        video.title.toLowerCase().includes(input) ||
+        video.description.toLowerCase().includes(input) ||
+        video.playlistTitle.toLowerCase().includes(input)
       ) {
-        if (!searchResults[iter]) {
-          searchResults[iter] = [];
-          searchResults.push(video);
-          if (!matchedPlaylists.includes(video.playlistTitle)) {
-            matchedPlaylists.push(video.playlistTitle);
+        if (!newSearchResults[iter]) {
+          newSearchResults[iter] = [];
+          newSearchResults.push(video);
+          if (!newMatchedPlaylists.includes(video.playlistTitle)) {
+            newMatchedPlaylists.push(video.playlistTitle);
           }
         }
-        if (searchResults[iter].length === 3) {
+        if (newSearchResults[iter].length === 3) {
           ++iter;
-          searchResults[iter] = [];
-          searchResults[iter].push(video);
-          if (!matchedPlaylists.includes(video.playlistTitle)) {
-            matchedPlaylists.push(video.playlistTitle);
+          newSearchResults[iter] = [];
+          newSearchResults[iter].push(video);
+          if (!newMatchedPlaylists.includes(video.playlistTitle)) {
+            newMatchedPlaylists.push(video.playlistTitle);
           }
         } else {
-          searchResults[iter].push(video);
-          if (!matchedPlaylists.includes(video.playlistTitle)) {
-            matchedPlaylists.push(video.playlistTitle);
+          newSearchResults[iter].push(video);
+          if (!newMatchedPlaylists.includes(video.playlistTitle)) {
+            newMatchedPlaylists.push(video.playlistTitle);
           }
         }
       }
-      this.setState({matchedPlaylists: []}, () =>
-        this.setState({matchedPlaylists: matchedPlaylists}),
-      );
+      setMatchedPlaylists([]);
+      setMatchedPlaylists(newMatchedPlaylists);
     };
     const searchPlaylist = (playlist) => {
       playlist.videos.forEach(filterVideo);
     };
 
-    if (!this.state.value) {
-      this.setState({
-        searchResults: [],
-        matchedPlaylists: [],
-        title: '',
-        description: '',
-      });
+    if (!input) {
+      setSearchResults([]);
+      setMatchedPlaylists([]);
+      setTitle('');
+      setDescription('');
       return;
     }
     playlists.forEach(searchPlaylist);
-    this.setState({searchResults: searchResults});
-  }
+    setSearchResults(newSearchResults);
+  }, [input, props.playlists]);
 
-  renderKeyboard() {
+  const renderKeyboard = () => {
     const letterRow = [
       <Spacebar
         key={'space'}
-        onPress={() => this.addSpace()}
-        onFocused={this.onCharacterFocused}
-        restoreFocusReturningFromPlayer={this.restoreFocusReturningFromPlayer}
+        onPress={() => addSpace()}
+        restoreFocusReturningFromPlayer={restoreFocusReturningFromPlayer}
       />,
       <Backspace
-        ref={(e) => (this.backspace = e)}
+        ref={backspace}
         key={'backspace'}
-        onPress={() => this.clearOne()}
-        onFocused={this.onCharacterFocused}
-        restoreFocusReturningFromPlayer={this.restoreFocusReturningFromPlayer}
-        clearInfo={() => this.setInfo('', '')}
+        onPress={() => clearOne()}
+        restoreFocusReturningFromPlayer={restoreFocusReturningFromPlayer}
+        clearInfo={() => setInfo('', '')}
       />,
     ];
 
@@ -153,216 +135,176 @@ class Search extends React.Component {
         <AlphaNumeric
           key={alphaNumeric}
           alphaNumeric={alphaNumeric}
-          onPress={() => this.addOne(alphaNumeric)}
-          onFocused={this.onCharacterFocused}
-          restoreFocusReturningFromPlayer={this.restoreFocusReturningFromPlayer}
-          clearInfo={() => this.setInfo('', '')}
+          onPress={() => addOne(alphaNumeric)}
+          restoreFocusReturningFromPlayer={restoreFocusReturningFromPlayer}
+          clearInfo={() => setInfo('', '')}
         />,
       );
     }
 
     return letterRow;
-  }
+  };
 
-  focusCurrentSearchThumbnail() {
-    this[
-      `${this.state.position.colIndex}${this.state.position.rowIndex}`
+  const focusCurrentSearchThumbnail = () => {
+    thumbnailRefs.current[
+      `${position.colIndex}${position.rowIndex}`
     ].setNativeProps({hasTVPreferredFocus: true});
-  }
+  };
 
-  getMatchedPlaylists() {
+  const getMatchedPlaylists = () => {
     const playlists = [];
     const addPlaylist = (playlist) => {
       playlists.push(<Text key={playlist}>{`${playlist} \n`}</Text>);
     };
-    this.state.matchedPlaylists.forEach(addPlaylist);
+    matchedPlaylists.forEach(addPlaylist);
     return playlists;
-  }
+  };
 
-  render() {
-    return (
-      <View>
-        <View
-          style={[
-            styles[this.props.player.visible ? 'hidden' : 'fullscreen'],
-            {color: '#000'},
-          ]}>
-          <Header isSearch={true} />
+  const getNumOfVideos = () => {
+    return props.playlists.reduce((acc, curr) => {
+      return (acc += curr.videos.length);
+    }, 0);
+  };
 
-          <View style={{paddingLeft: 70, width: '100%', height: '100%'}}>
-            <TouchableHighlight
-              style={styles.focusInterceptWrapper}
-              onFocus={() => {
-                if (!this.state.isViewReady) {
-                  this.props.setShouldSearchBeFocused(true);
-                  this.setState({isViewReady: true});
-                  return;
-                }
+  const numOfVideos = getNumOfVideos();
+  const numOfPlaylists = searchResults.length;
 
-                if (this.props.isReturningFromPlayer) {
-                  this.props.setIsReturningFromPlayer(false);
-                  this.focusCurrentSearchThumbnail();
-                  return;
-                }
+  useEffect(() => {
+    thumbnailRefs.current = thumbnailRefs.current.slice(0, numOfVideos);
+    playlistRowRefs.current = playlistRowRefs.current.slice(0, numOfPlaylists);
+    getSearchResults();
+  }, [
+    input,
+    thumbnailRefs,
+    playlistRowRefs,
+    numOfVideos,
+    numOfPlaylists,
+    getSearchResults,
+  ]);
 
-                if (this.props.isHeaderFocused) {
-                  this.backspace.setNativeProps({
-                    hasTVPreferredFocus: true,
-                  });
-                } else {
-                  this.props.setShouldSearchBeFocused(true);
-                }
-                this.props.setIsHeaderFocused(!this.props.isHeaderFocused);
+  return (
+    <View>
+      <View style={styles[props.player.visible ? 'hidden' : 'fullscreen']}>
+        <Header />
 
-                if (this.state.isKeyboardFocused) {
-                  this.setState({isKeyboardFocused: false});
-                }
-              }}>
-              <View style={styles.focusIntercept} />
-            </TouchableHighlight>
-
-            <Text
-              ellipsizeMode={'tail'}
-              numberOfLines={1}
-              style={{
-                color: 'white',
-                fontWeight: 'bold',
-                fontSize: 40,
-                height: 50,
-                marginLeft: 10,
-                width: 430,
-              }}>
-              {this.state.value}
-            </Text>
-
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                width: 430,
-                height: 1200,
-                flexWrap: 'wrap',
-              }}>
-              {this.renderKeyboard()}
-            </View>
-
-            <View
-              style={{position: 'absolute', top: 550, left: 70, width: 450}}>
-              <Text>
-                <Text style={{color: 'white', fontSize: 25}}>
-                  {`${this.state.title} \n\n`}
-                </Text>
-                <Text
-                  style={{
-                    color: 'white',
-                    marginTop: 100,
-                    fontSize: 25,
-                    height: 400,
-                  }}>
-                  {`${this.state.description} \n\n\n`}
-                </Text>
-                <Text
-                  style={{
-                    position: 'absolute',
-                    bottom: 10,
-                    left: 10,
-                    color: 'white',
-                    fontSize: 25,
-                    fontWeight: 'bold',
-                  }}>
-                  {this.getMatchedPlaylists()}
-                </Text>
-              </Text>
-            </View>
-          </View>
-          <View
-            style={{
-              position: 'absolute',
-              top: 125,
-              left: 550,
-              width: '100%',
-              height: '100%',
-              backgroundColor: '#000',
-            }}>
-            <Carousel
-              ref={(e) => (this.playlistCol = e)}
-              data={
-                Array.isArray(this.state.searchResults)
-                  ? this.state.searchResults
-                  : []
+        <View style={styles.leftSide}>
+          <TouchableHighlight
+            style={styles.focusInterceptWrapper}
+            onFocus={() => {
+              if (!isViewReady) {
+                props.setShouldSearchBeFocused(true);
+                setIsViewReady(true);
+                return;
               }
-              vertical={true}
-              activeSlideAlignment={'start'}
-              inactiveSlideScale={1}
-              inactiveSlideOpacity={1}
-              removeClippedSubviews={true}
-              renderItem={({item: colItem, index: colIndex}) => {
-                return (
-                  <Carousel
-                    ref={(e) => {
-                      this[`playlist${colIndex}`] = e;
-                    }}
-                    activeSlideAlignment={'start'}
-                    data={Array.isArray(colItem) ? colItem : []}
-                    sliderWidth={2000}
-                    sliderHeight={240}
-                    itemWidth={430}
-                    itemHeight={240}
-                    inactiveSlideScale={1}
-                    inactiveSlideOpacity={1}
-                    scrollEnabled={false}
-                    removeClippedSubviews={true}
-                    renderItem={({item: rowItem, index: rowIndex}) => {
-                      return (
-                        <Thumbnail
-                          ref={(e) => {
-                            this[`${colIndex}${rowIndex}`] = e;
-                          }}
-                          item={rowItem}
-                          index={rowIndex}
-                          onFocused={({title, desc, currRowIndex}) => {
-                            this.setState({
-                              position: {
-                                colIndex: colIndex,
-                                rowIndex: currRowIndex,
-                              },
-                            });
-                            if (this.state.isKeyboardFocused) {
-                              this.setState({isKeyboardFocused: false});
-                            }
-                            this.setInfo(title, desc);
-                          }}
-                        />
-                      );
-                    }}
-                  />
-                );
-              }}
-              sliderWidth={2000}
-              sliderHeight={2000}
-              itemWidth={1000}
-              itemHeight={240}
-            />
+
+              if (props.isReturningFromPlayer) {
+                props.setIsReturningFromPlayer(false);
+                focusCurrentSearchThumbnail();
+                return;
+              }
+
+              if (props.isHeaderFocused) {
+                backspace.current.setNativeProps({
+                  hasTVPreferredFocus: true,
+                });
+              } else {
+                props.setShouldSearchBeFocused(true);
+              }
+              props.setIsHeaderFocused(!props.isHeaderFocused);
+
+              isKeyboardFocused && setIsKeyboardFocused(false);
+            }}>
+            <View style={styles.focusIntercept} />
+          </TouchableHighlight>
+
+          <Text
+            ellipsizeMode={'tail'}
+            numberOfLines={1}
+            style={styles.userInput}>
+            {input}
+          </Text>
+
+          <View style={styles.keyboard}>{renderKeyboard()}</View>
+
+          <View style={styles.info}>
+            <Text>
+              <Text style={styles.title}>{`${title} \n\n`}</Text>
+              <Text style={styles.description}>{`${description} \n\n\n`}</Text>
+              <Text style={styles.matchedPlaylists}>
+                {getMatchedPlaylists()}
+              </Text>
+            </Text>
           </View>
         </View>
-        {this.props.player.enabled && (
-          <View hasTVPreferredFocus={this.props.player.visible}>
-            <Video
-              style={
-                styles[this.props.player.visible ? 'fullscreen' : 'hidden']
-              }
-              source={{uri: this.props.player.url, type: 'm3u8'}}
-              controls={this.props.player.visible}
-              paused={this.props.player.paused}
-              onEnd={Player.exit}
-              onError={Player.error}
-            />
-          </View>
-        )}
+        <View style={styles.searchResults}>
+          <Carousel
+            ref={playlistCol}
+            data={Array.isArray(searchResults) ? searchResults : []}
+            vertical={true}
+            activeSlideAlignment={'start'}
+            inactiveSlideScale={1}
+            inactiveSlideOpacity={1}
+            removeClippedSubviews={true}
+            renderItem={({item: colItem, index: colIndex}) => {
+              return (
+                <Carousel
+                  ref={(e) => {
+                    playlistRowRefs.current[colIndex] = e;
+                  }}
+                  activeSlideAlignment={'start'}
+                  data={Array.isArray(colItem) ? colItem : []}
+                  sliderWidth={2000}
+                  sliderHeight={240}
+                  itemWidth={430}
+                  itemHeight={240}
+                  inactiveSlideScale={1}
+                  inactiveSlideOpacity={1}
+                  scrollEnabled={false}
+                  removeClippedSubviews={true}
+                  renderItem={({item: rowItem, index: rowIndex}) => {
+                    return (
+                      <Thumbnail
+                        ref={(e) => {
+                          thumbnailRefs.current[`${colIndex}${rowIndex}`] = e;
+                        }}
+                        item={rowItem}
+                        index={rowIndex}
+                        onFocused={({newTitle, newDesc, currRowIndex}) => {
+                          setPosition({
+                            colIndex: colIndex,
+                            rowIndex: currRowIndex,
+                          });
+                          isKeyboardFocused && setIsKeyboardFocused(false);
+                          setInfo(newTitle, newDesc);
+                        }}
+                      />
+                    );
+                  }}
+                />
+              );
+            }}
+            sliderWidth={2000}
+            sliderHeight={2000}
+            itemWidth={1000}
+            itemHeight={240}
+          />
+        </View>
       </View>
-    );
-  }
-}
+      {props.player.enabled && (
+        <View hasTVPreferredFocus={props.player.visible}>
+          <Video
+            style={styles[props.player.visible ? 'fullscreen' : 'hidden']}
+            source={{uri: props.player.url, type: 'm3u8'}}
+            controls={props.player.visible}
+            paused={props.player.paused}
+            onEnd={Player.exit}
+            onError={Player.error}
+          />
+        </View>
+      )}
+    </View>
+  );
+};
 
 const styles = {
   thumbnailImage: {
@@ -381,6 +323,11 @@ const styles = {
     width: 0,
     height: 0,
   },
+  leftSide: {
+    paddingLeft: 70,
+    width: '100%',
+    height: '100%',
+  },
   focusIntercept: {
     position: 'absolute',
     left: 0,
@@ -391,6 +338,53 @@ const styles = {
   focusInterceptWrapper: {
     height: 1,
     width: '100%',
+  },
+  userInput: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 40,
+    height: 50,
+    marginLeft: 10,
+    width: 430,
+  },
+  keyboard: {
+    flex: 1,
+    flexDirection: 'row',
+    width: 430,
+    height: 1200,
+    flexWrap: 'wrap',
+  },
+  info: {
+    position: 'absolute',
+    top: 550,
+    left: 70,
+    width: 450,
+  },
+  title: {
+    color: 'white',
+    fontSize: 25,
+  },
+  description: {
+    color: 'white',
+    marginTop: 100,
+    fontSize: 25,
+    height: 400,
+  },
+  searchResults: {
+    position: 'absolute',
+    top: 125,
+    left: 550,
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#000',
+  },
+  matchedPlaylists: {
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+    color: 'white',
+    fontSize: 25,
+    fontWeight: 'bold',
   },
 };
 

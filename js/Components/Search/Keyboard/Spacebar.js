@@ -8,24 +8,27 @@ const Spacebar = (props) => {
     <TouchableHighlight
       onFocus={() => {
         setIsFocused(true);
-        props.onFocused();
       }}
       onBlur={() => {
         setIsFocused(false);
       }}
       onPress={props.onPress}>
       <Image
-        style={{
-          width: 203,
-          height: 65,
-          margin: 2,
-        }}
+        style={styles.image}
         source={{
           uri: isFocused ? 'focusedSpacebar.png' : 'unfocusedSpacebar.png',
         }}
       />
     </TouchableHighlight>
   );
+};
+
+const styles = {
+  image: {
+    width: 203,
+    height: 65,
+    margin: 2,
+  },
 };
 
 export default Spacebar;
