@@ -26,12 +26,9 @@ const Playlists = (props) => {
   });
 
   const forceCurrentThumbnailActiveFocus = () => {
-    const thumbnail = `thumbnail${rowIndex}`;
-    refArr.current[colIndex][thumbnail].setNativeProps({
-      hasTVPreferredFocus: true,
-    });
+    refArr.current[colIndex].forceActiveFocus(rowIndex);
     playlistCol.current.snapToItem(colIndex);
-    refArr.current[colIndex].playlistRow.snapToItem(rowIndex);
+    refArr.current[colIndex].snapToItem(rowIndex);
   };
 
   const updateVideoInfo = () => {
@@ -58,7 +55,7 @@ const Playlists = (props) => {
       setColIndex(index);
       setRowIndex(currRowIndex);
       playlistCol.current.snapToItem(index);
-      refArr.current[colIndex].playlistRow.snapToItem(currRowIndex);
+      refArr.current[index].snapToItem(currRowIndex);
       props.setIsHeaderFocused(false);
     };
     return (

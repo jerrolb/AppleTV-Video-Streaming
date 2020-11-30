@@ -1,46 +1,60 @@
-import React, {Component} from 'react';
+import React, {useEffect, useImperativeHandle, useRef} from 'react';
 import PropTypes from 'prop-types';
 import {Text, Image, View, TouchableHighlight} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import {DIMENSIONS} from '../Constants';
 
-class Playlist extends Component {
-  render() {
-    return (
-      <View style={styles.marginTop}>
-        <Text style={styles.playlistText}>{this.props.title}</Text>
-        <Carousel
-          ref={(e) => (this.playlistRow = e)}
-          data={this.props.videos}
-          activeSlideAlignment={'start'}
-          onSnapToItem={() => this.props.updateVideoInfo()}
-          renderItem={({item, index}) => {
-            return (
-              <TouchableHighlight
-                ref={(e) => (this[`thumbnail${index}`] = e)}
-                style={styles.marginLeft}
-                onFocus={() => {
-                  this.props.setFocus(index);
-                }}>
-                <Image
-                  style={styles.thumbnailImage}
-                  source={{uri: item.thumbnail}}
-                />
-              </TouchableHighlight>
-            );
-          }}
-          sliderWidth={DIMENSIONS.WIDTH}
-          sliderHeight={300}
-          itemWidth={430}
-          itemHeight={210}
-          inactiveSlideScale={1}
-          inactiveSlideOpacity={1}
-          removeClippedSubviews={true}
-        />
-      </View>
-    );
-  }
-}
+const Playlist = React.forwardRef((props, ref) => {
+  const refArr = useRef([]);
+  const playlistRow = useRef(null);
+
+  useImperativeHandle(ref, () => ({
+    forceActiveFocus: (index) => {
+      refArr.current[index].setNativeProps({hasTVPreferredFocus: true});
+    },
+    snapToItem: (index) => {
+      playlistRow.current.snapToItem(index);
+    },
+  }));
+
+  useEffect(() => {
+    refArr.current = refArr.current.slice(0, props.videos.length);
+  });
+
+  return (
+    <View style={styles.marginTop}>
+      <Text style={styles.playlistText}>{props.title}</Text>
+      <Carousel
+        ref={playlistRow}
+        data={props.videos}
+        activeSlideAlignment={'start'}
+        onSnapToItem={() => props.updateVideoInfo()}
+        renderItem={({item, index}) => {
+          return (
+            <TouchableHighlight
+              ref={(e) => (refArr.current[index] = e)}
+              style={styles.marginLeft}
+              onFocus={() => {
+                props.setFocus(index);
+              }}>
+              <Image
+                style={styles.thumbnailImage}
+                source={{uri: item.thumbnail}}
+              />
+            </TouchableHighlight>
+          );
+        }}
+        sliderWidth={DIMENSIONS.WIDTH}
+        sliderHeight={300}
+        itemWidth={430}
+        itemHeight={210}
+        inactiveSlideScale={1}
+        inactiveSlideOpacity={1}
+        removeClippedSubviews={true}
+      />
+    </View>
+  );
+});
 
 export default Playlist;
 
