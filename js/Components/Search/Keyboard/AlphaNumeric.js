@@ -14,7 +14,6 @@ const AlphaNumeric = (props) => {
           return;
         }
         props.clearInfo();
-        props.onFocused();
         setIsFocused(true);
       }}
       onBlur={() => {

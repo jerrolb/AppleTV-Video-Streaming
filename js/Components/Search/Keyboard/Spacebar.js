@@ -8,7 +8,6 @@ const Spacebar = (props) => {
     <TouchableHighlight
       onFocus={() => {
         setIsFocused(true);
-        props.onFocused();
       }}
       onBlur={() => {
         setIsFocused(false);

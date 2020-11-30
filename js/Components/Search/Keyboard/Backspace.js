@@ -20,7 +20,6 @@ const Backspace = React.forwardRef((props, ref) => {
           return;
         }
         props.clearInfo();
-        props.onFocused();
         setIsFocused(true);
       }}
       onBlur={() => {
