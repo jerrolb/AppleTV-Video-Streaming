@@ -5,7 +5,7 @@ import {Header} from '../Components';
 import Carousel from 'react-native-snap-carousel';
 import {WATCH_LIVE_DATA} from '../Constants';
 import Thumbnail from '../Components/WatchLive/Thumbnail';
-import {Popup} from '../Screens';
+import Popup from './Popup';
 import Video from 'react-native-video';
 import * as Player from '../Controllers/Player';
 
