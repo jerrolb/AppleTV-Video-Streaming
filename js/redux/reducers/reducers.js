@@ -1,18 +1,18 @@
 import {
-  SETINFO,
-  SETNEXTURL,
-  SETISHEADERFOCUSED,
-  SETSCREEN,
-  SETISRETURNINGFROMPLAYER,
-  SETPLAYER,
-  SETISAPPLOADED,
-  SETISFEEDREADY,
-  SETPLAYLISTS,
-  SETPOSITION,
-  SETDEFAULTSTATE,
-  SETSHOULDRETRYBEFOCUSED,
-  SETSHOULDSERMONSBEFOCUSED,
-  SETSHOULDSEARCHBEFOCUSED,
+  SET_INFO,
+  SET_NEXT_URL,
+  SET_IS_HEADER_FOCUSED,
+  SET_SCREEN,
+  SET_IS_RETURNING_FROM_PLAYER,
+  SET_PLAYER,
+  SET_IS_APP_LOADED,
+  SET_IS_FEED_READY,
+  SET_PLAYLISTS,
+  SET_POSITION,
+  SET_DEFAULT_STATE,
+  SET_SHOULD_RETRY_BE_FOCUSED,
+  SET_SHOULD_SERMONS_BE_FOCUSED,
+  SET_SHOULD_SEARCH_BE_FOCUSED,
 } from '../actionTypes';
 import {SCREEN} from '../../Constants';
 
@@ -46,33 +46,33 @@ const initialState = {
 
 const reducer = (state = initialState, {type, payload}) => {
   switch (type) {
-    case SETPLAYLISTS:
+    case SET_PLAYLISTS:
       return setPlaylists(state, payload);
-    case SETPOSITION:
+    case SET_POSITION:
       return setPosition(state, payload);
-    case SETPLAYER:
+    case SET_PLAYER:
       return setPlayer(state, payload);
-    case SETISRETURNINGFROMPLAYER:
+    case SET_IS_RETURNING_FROM_PLAYER:
       return setIsReturningFromPlayer(state, payload);
-    case SETINFO:
+    case SET_INFO:
       return setInfo(state, payload);
-    case SETNEXTURL:
+    case SET_NEXT_URL:
       return setNextUrl(state, payload);
-    case SETISHEADERFOCUSED:
+    case SET_IS_HEADER_FOCUSED:
       return setIsHeaderFocused(state, payload);
-    case SETSCREEN:
+    case SET_SCREEN:
       return setScreen(state, payload);
-    case SETISFEEDREADY:
+    case SET_IS_FEED_READY:
       return setIsFeedReady(state, payload);
-    case SETISAPPLOADED:
+    case SET_IS_APP_LOADED:
       return setIsAppLoaded(state, payload);
-    case SETSHOULDRETRYBEFOCUSED:
+    case SET_SHOULD_RETRY_BE_FOCUSED:
       return setShouldRetryBeFocused(state, payload);
-    case SETSHOULDSERMONSBEFOCUSED:
+    case SET_SHOULD_SERMONS_BE_FOCUSED:
       return setShouldSermonsBeFocused(state, payload);
-    case SETSHOULDSEARCHBEFOCUSED:
+    case SET_SHOULD_SEARCH_BE_FOCUSED:
       return setShouldSearchBeFocused(state, payload);
-    case SETDEFAULTSTATE:
+    case SET_DEFAULT_STATE:
       return initialState;
     default:
       return state;
