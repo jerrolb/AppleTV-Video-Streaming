@@ -9,9 +9,9 @@ import {
   setNextUrl,
   setPosition,
   setIsAppLoaded,
-} from '../redux/actions/actions';
+} from '../../redux/actions/actions';
 import {Image, View, Text, TouchableHighlight} from 'react-native';
-import {IMG} from '../Constants';
+import {IMG} from '../../Constants';
 
 const Tab = React.forwardRef((props, ref) => {
   const isSermons = props.label === 'Sermons';

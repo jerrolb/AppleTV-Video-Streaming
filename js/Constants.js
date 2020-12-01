@@ -1,8 +1,8 @@
 import {Dimensions} from 'react-native';
 
-const carouselPadding = 100;
-const screenWidth = Dimensions.get('screen').width + carouselPadding;
-const screenHeight = Dimensions.get('screen').height;
+const dimensions = Dimensions.get('screen');
+const screenWidth = dimensions.width;
+const screenHeight = dimensions.height;
 
 const DIMENSIONS = {
   WIDTH: screenWidth,
@@ -31,6 +31,9 @@ const REMOTE = {
   LONGSELECT: 'longSelect',
   PLAYPAUSE: 'playPause',
   MENU: 'menu',
+  SELECTGROUP: (btn) => ['select', 'longSelect', 'playPause'].includes(btn),
+  UPGROUP: (btn) => ['up', 'swipeUp'].includes(btn),
+  DOWNGROUP: (btn) => ['down', 'swipeDown'].includes(btn),
 };
 
 const SCREEN = {

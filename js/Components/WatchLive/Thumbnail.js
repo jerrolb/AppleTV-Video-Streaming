@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Text, TouchableHighlight, View} from 'react-native';
-import * as Player from '../../Controllers/Player';
+import * as Player from '../../controllers/Player';
 
 const Thumbnail = (props) => {
   const [isFocused, setIsFocused] = useState(false);

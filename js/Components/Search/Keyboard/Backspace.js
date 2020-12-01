@@ -6,25 +6,28 @@ import {setIsReturningFromPlayer} from '../../../redux/actions/actions';
 const Backspace = React.forwardRef((props, ref) => {
   const [isFocused, setIsFocused] = useState(false);
 
+  const onFocus = () => {
+    if (props.player.enabled && props.player.visible) {
+      props.restoreFocusReturningFromPlayer();
+      return;
+    }
+    if (props.isReturningFromPlayer) {
+      props.setIsReturningFromPlayer(false);
+      props.restoreFocusReturningFromPlayer();
+      return;
+    }
+    props.clearInfo();
+    setIsFocused(true);
+  };
+  const onBlur = () => {
+    setIsFocused(false);
+  };
+
   return (
     <TouchableHighlight
       ref={ref}
-      onFocus={() => {
-        if (props.player.enabled && props.player.visible) {
-          props.restoreFocusReturningFromPlayer();
-          return;
-        }
-        if (props.isReturningFromPlayer) {
-          props.setIsReturningFromPlayer(false);
-          props.restoreFocusReturningFromPlayer();
-          return;
-        }
-        props.clearInfo();
-        setIsFocused(true);
-      }}
-      onBlur={() => {
-        setIsFocused(false);
-      }}
+      onFocus={onFocus}
+      onBlur={onBlur}
       onPress={() => {
         props.onPress(props.letter);
       }}>

@@ -2,19 +2,20 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Image, View} from 'react-native';
-import {Header, Info} from '../Components';
-import Playlists from '../Components/Playlists';
+import {Header, Info} from '../components';
+import Playlists from '../components/Sermons/Playlists';
 import Video from 'react-native-video';
-import * as Player from '../Controllers/Player';
+import * as Player from '../controllers/Player';
 
-const Home = (props) => {
+const Sermons = (props) => {
   return (
     <View>
       <View style={styles[props.player.visible ? 'hidden' : 'fullscreen']}>
         <Header />
-
-        <Image style={styles.heroImage} source={{uri: props.info.background}} />
-
+        <Image
+          style={styles.heroImage}
+          source={{uri: props.info.background}}
+        />
         <Info />
         <Playlists />
       </View>
@@ -41,9 +42,9 @@ const mapState = (state) => {
   };
 };
 
-export default connect(mapState)(Home);
+export default connect(mapState)(Sermons);
 
-Home.propTypes = {
+Sermons.propTypes = {
   info: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,

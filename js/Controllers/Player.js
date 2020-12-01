@@ -66,6 +66,11 @@ const resume = () => {
   );
 };
 
+const playVideo = () => {
+  const player = store.getState().player;
+  player.url === player.nextUrl ? resume() : init();
+};
+
 const exit = () => {
   TVMenuControl.disableTVMenuKey();
   store.dispatch(setIsReturningFromPlayer(true));
@@ -78,4 +83,4 @@ const exit = () => {
   );
 };
 
-export {enable, error, exit, init, minimize, resume};
+export {enable, error, exit, init, minimize, playVideo, resume};

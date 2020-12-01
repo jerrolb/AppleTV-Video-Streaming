@@ -8,12 +8,12 @@ import {
   setInfo,
   setNextUrl,
   setShouldSermonsBeFocused,
-} from '../redux/actions/actions';
+} from '../../redux/actions/actions';
 import PropTypes from 'prop-types';
 import {TouchableHighlight, View} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import Playlist from './Playlist';
-import {DIMENSIONS} from '../Constants';
+import {DIMENSIONS} from '../../Constants';
 
 const Playlists = (props) => {
   const [colIndex, setColIndex] = useState(0);
@@ -69,22 +69,25 @@ const Playlists = (props) => {
     );
   };
 
+  const onFocusInterceptFocused = () => {
+    if (!props.isAppLoaded) {
+      props.setIsAppLoaded(true);
+      return;
+    }
+    if (props.isHeaderFocused || props.isReturningFromPlayer) {
+      forceCurrentThumbnailActiveFocus();
+    } else {
+      props.setShouldSermonsBeFocused(true);
+    }
+    props.setIsHeaderFocused(false);
+  };
+
   return (
     <View style={styles.hideBehind}>
       <TouchableHighlight
         style={styles.focusInterceptWrapper}
-        onFocus={() => {
-          if (!props.isAppLoaded) {
-            props.setIsAppLoaded(true);
-            return;
-          }
-          if (props.isHeaderFocused || props.isReturningFromPlayer) {
-            forceCurrentThumbnailActiveFocus();
-          } else {
-            props.setShouldSermonsBeFocused(true);
-          }
-          props.setIsHeaderFocused(false);
-        }}>
+        onFocus={onFocusInterceptFocused}
+      >
         <View style={styles.focusIntercept} />
       </TouchableHighlight>
       {!props.isHeaderFocused && <View style={styles.highlight} />}
@@ -101,7 +104,7 @@ const Playlists = (props) => {
         itemHeight={320}
         inactiveSlideScale={1}
         inactiveSlideOpacity={1}
-        onSnapToItem={() => updateVideoInfo()}
+        onSnapToItem={updateVideoInfo}
         removeClippedSubviews={true}
       />
     </View>

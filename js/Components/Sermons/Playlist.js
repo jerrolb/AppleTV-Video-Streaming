@@ -2,11 +2,27 @@ import React, {useEffect, useImperativeHandle, useRef} from 'react';
 import PropTypes from 'prop-types';
 import {Text, Image, View, TouchableHighlight} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import {DIMENSIONS} from '../Constants';
+import {DIMENSIONS} from '../../Constants';
+import * as Player from '../../controllers/Player';
 
 const Playlist = React.forwardRef((props, ref) => {
   const refArr = useRef([]);
   const playlistRow = useRef(null);
+  const renderThumbnail = ({item, index}) => (
+    <TouchableHighlight
+      ref={(e) => (refArr.current[index] = e)}
+      style={styles.marginLeft}
+      onFocus={() => {
+        props.setFocus(index);
+      }}
+      onPress={Player.playVideo}
+    >
+      <Image
+        style={styles.thumbnailImage}
+        source={{uri: item.thumbnail}}
+      />
+    </TouchableHighlight>
+  );
 
   useImperativeHandle(ref, () => ({
     forceActiveFocus: (index) => {
@@ -28,22 +44,8 @@ const Playlist = React.forwardRef((props, ref) => {
         ref={playlistRow}
         data={props.videos}
         activeSlideAlignment={'start'}
-        onSnapToItem={() => props.updateVideoInfo()}
-        renderItem={({item, index}) => {
-          return (
-            <TouchableHighlight
-              ref={(e) => (refArr.current[index] = e)}
-              style={styles.marginLeft}
-              onFocus={() => {
-                props.setFocus(index);
-              }}>
-              <Image
-                style={styles.thumbnailImage}
-                source={{uri: item.thumbnail}}
-              />
-            </TouchableHighlight>
-          );
-        }}
+        onSnapToItem={props.updateVideoInfo}
+        renderItem={renderThumbnail}
         sliderWidth={DIMENSIONS.WIDTH}
         sliderHeight={300}
         itemWidth={430}

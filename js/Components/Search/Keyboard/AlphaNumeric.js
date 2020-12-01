@@ -22,20 +22,23 @@ const AlphaNumeric = (props) => {
     },
   };
 
+  const onFocus = () => {
+    if (props.isReturningFromPlayer) {
+      props.setIsReturningFromPlayer(false);
+      props.restoreFocusReturningFromPlayer();
+      return;
+    }
+    props.clearInfo();
+    setIsFocused(true);
+  };
+  const onBlur = () => {
+    setIsFocused(false);
+  };
+
   return (
     <TouchableHighlight
-      onFocus={() => {
-        if (props.isReturningFromPlayer) {
-          props.setIsReturningFromPlayer(false);
-          props.restoreFocusReturningFromPlayer();
-          return;
-        }
-        props.clearInfo();
-        setIsFocused(true);
-      }}
-      onBlur={() => {
-        setIsFocused(false);
-      }}
+      onFocus={onFocus}
+      onBlur={onBlur}
       onPress={props.onPress}>
       <View style={styles.container}>
         <Text style={styles.text}>{props.alphaNumeric}</Text>

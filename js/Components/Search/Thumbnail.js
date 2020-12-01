@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {Image, TouchableHighlight, View} from 'react-native';
-import * as Player from '../../Controllers/Player';
+import * as Player from '../../controllers/Player';
 import {setNextUrl} from '../../redux/actions/actions';
 
 const Thumbnail = React.forwardRef((props, ref) => {
@@ -41,11 +41,7 @@ const Thumbnail = React.forwardRef((props, ref) => {
       ref={ref}
       onFocus={onFocus}
       onBlur={onBlur}
-      onPress={() => {
-        props.player.url === props.player.nextUrl ?
-          Player.resume() :
-          Player.init();
-      }}>
+      onPress={Player.playVideo}>
       <View style={styles.highlight}>
         <Image
           style={styles.thumbnailImage}
