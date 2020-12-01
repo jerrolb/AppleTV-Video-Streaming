@@ -40,7 +40,7 @@ const App = (props) => {
         return <Search />;
       default:
         console.error(
-          `[App.js][renderScreen] Screen not found! ${props.screen}`,
+            `[App.js][renderScreen] Screen not found! ${props.screen}`,
         );
         break;
     }

@@ -9,7 +9,7 @@ import {
 
 const tvEventHandler = new TVEventHandler();
 const enable = () => {
-  tvEventHandler.enable(this, (_, evt) => {
+  tvEventHandler.enable(_, (_, evt) => {
     const checkIsSelectBtn = (btn) => {
       switch (btn) {
         case REMOTE.SELECT:
@@ -49,9 +49,9 @@ const enable = () => {
           } else {
             if (isSelectBtn) {
               return store.getState().player.url ===
-                store.getState().player.nextUrl
-                ? Player.resume()
-                : Player.init();
+                store.getState().player.nextUrl ?
+                Player.resume() :
+                Player.init();
             } else {
               return false;
             }
