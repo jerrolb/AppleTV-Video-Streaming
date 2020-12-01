@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {connect} from 'react-redux';
-import {Text, View} from 'react-native';
+import {Text, TouchableHighlight, View} from 'react-native';
 import {Header} from '../components';
 import Carousel from 'react-native-snap-carousel';
 import {WATCH_LIVE_DATA} from '../Constants';
@@ -8,9 +8,30 @@ import Thumbnail from '../components/WatchLive/Thumbnail';
 import Popup from './Popup';
 import Video from 'react-native-video';
 import * as Player from '../controllers/Player';
+import { setIsHeaderFocused, setShouldWatchLiveBeFocused, setIsReturningFromPlayer } from '../redux/actions/actions';
 
 const WatchLive = (props) => {
   const [popup, setPopup] = useState('');
+  const [isRendered, setIsRendered] = useState(false);
+  const sundayLiveRef = useRef(null);
+
+  const onFocusInterceptFocused = () => {
+    if (!isRendered) {
+      setIsRendered(true);
+      return;
+    }
+    if (props.isReturningFromPlayer) {
+      sundayLiveRef.current.setNativeProps({ hasTVPreferredFocus: true });
+      props.setIsReturningFromPlayer(false);
+      return;
+    }
+    if (props.isHeaderFocused) {
+      sundayLiveRef.current.setNativeProps({ hasTVPreferredFocus: true });
+    } else {
+      props.setShouldWatchLiveBeFocused(true);
+    }
+    props.setIsHeaderFocused(false);
+  }
 
   return (
     <View pointerEvents={popup ? 'none' : 'auto'} style={styles.fullscreen}>
@@ -40,6 +61,14 @@ const WatchLive = (props) => {
         pointerEvents={popup ? 'none' : 'auto'}
         style={styles[!props.player.visible ? {} : 'hidden']}>
         <Header screen={'Watch Live'} />
+
+        <TouchableHighlight
+          style={styles.focusInterceptWrapper}
+          onFocus={onFocusInterceptFocused}
+        >
+          <View style={styles.focusIntercept} />
+        </TouchableHighlight>
+
         <View style={styles.contentMargin}>
           <Carousel
             pointerEvents={popup ? 'none' : 'auto'}
@@ -73,6 +102,7 @@ const WatchLive = (props) => {
                     renderItem={({item: thumbnail, index: rowIndex}) => {
                       return (
                         <Thumbnail
+                          ref={!colIndex && !rowIndex && sundayLiveRef}
                           pointerEvents={popup ? 'none' : 'auto'}
                           isPopup={typeof thumbnail === 'string'}
                           title={thumbnail.title || thumbnail}
@@ -97,11 +127,24 @@ const WatchLive = (props) => {
 
 const mapState = (state) => {
   return {
+    isHeaderFocused: state.isHeaderFocused,
+    isReturningFromPlayer: state.isReturningFromPlayer,
     player: state.player,
   };
 };
 
-export default connect(mapState)(WatchLive);
+const mapDispatch = (dispatch) => {
+  return {
+    setIsHeaderFocused: (isHeaderFocused) =>
+      dispatch(setIsHeaderFocused(isHeaderFocused)),
+    setIsReturningFromPlayer: (isReturningFromPlayer) =>
+      dispatch(setIsReturningFromPlayer(isReturningFromPlayer)),
+    setShouldWatchLiveBeFocused: (shouldWatchLiveBeFocused) =>
+      dispatch(setShouldWatchLiveBeFocused(shouldWatchLiveBeFocused)),
+  };
+};
+
+export default connect(mapState, mapDispatch)(WatchLive);
 
 const styles = {
   fullscreen: {
@@ -137,5 +180,16 @@ const styles = {
     left: '150%',
     width: 0,
     height: 0,
+  },
+  focusIntercept: {
+    position: 'absolute',
+    left: 0,
+    height: 1,
+    width: '100%',
+    paddingTop: 1,
+  },
+  focusInterceptWrapper: {
+    height: 1,
+    width: '100%',
   },
 };

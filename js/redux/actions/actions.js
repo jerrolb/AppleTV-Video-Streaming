@@ -13,6 +13,7 @@ import {
   SET_SHOULD_RETRY_BE_FOCUSED,
   SET_SHOULD_SERMONS_BE_FOCUSED,
   SET_SHOULD_SEARCH_BE_FOCUSED,
+  SET_SHOULD_WATCHLIVE_BE_FOCUSED
 } from '../actionTypes';
 
 export const setDefaultState = () => {
@@ -109,6 +110,13 @@ export const setShouldSermonsBeFocused = (payload) => {
 export const setShouldSearchBeFocused = (payload) => {
   return {
     type: SET_SHOULD_SEARCH_BE_FOCUSED,
+    payload,
+  };
+};
+
+export const setShouldWatchLiveBeFocused = (payload) => {
+  return {
+    type: SET_SHOULD_WATCHLIVE_BE_FOCUSED,
     payload,
   };
 };

@@ -5,6 +5,7 @@ import {
   setScreen,
   setShouldSermonsBeFocused,
   setShouldSearchBeFocused,
+  setShouldWatchLiveBeFocused,
   setInfo,
   setNextUrl,
   setPosition,
@@ -17,6 +18,7 @@ const Tab = React.forwardRef((props, ref) => {
   const isSermons = props.label === 'Sermons';
   const isSearch = props.label === 'Search';
   const isContact = props.label === 'Contact';
+  const isWatchLive = props.label === 'Watch Live';
   const [isFocused, setIsFocused] = useState(false);
   const thisRef = useRef(ref);
 
@@ -27,11 +29,16 @@ const Tab = React.forwardRef((props, ref) => {
     props.shouldSearchBeFocused &&
       isSearch &&
       thisRef.current.setNativeProps({hasTVPreferredFocus: true});
+    props.shouldWatchLiveBeFocused &&
+      isWatchLive &&
+      thisRef.current.setNativeProps({hasTVPreferredFocus: true});
   }, [
     props.shouldSermonsBeFocused,
     props.shouldSearchBeFocused,
+    props.shouldWatchLiveBeFocused,
     isSearch,
     isSermons,
+    isWatchLive,
   ]);
 
   const focus = () => {
@@ -41,6 +48,7 @@ const Tab = React.forwardRef((props, ref) => {
   const blur = () => {
     isSermons && props.setShouldSermonsBeFocused(false);
     isSearch && props.setShouldSearchBeFocused(false);
+    isWatchLive && props.setShouldWatchLiveBeFocused(false);
     setIsFocused(false);
   };
   const SearchTab = () => (
@@ -109,6 +117,7 @@ const mapState = (state) => {
     screen: state.screen,
     shouldSermonsBeFocused: state.shouldSermonsBeFocused,
     shouldSearchBeFocused: state.shouldSearchBeFocused,
+    shouldWatchLiveBeFocused: state.shouldWatchLiveBeFocused,
     firstVideo: state.playlists[0].videos[0],
   };
 };
@@ -122,6 +131,8 @@ const mapDispatch = (dispatch) => {
       dispatch(setShouldSermonsBeFocused(shouldSermonsBeFocused)),
     setShouldSearchBeFocused: (shouldSearchBeFocused) =>
       dispatch(setShouldSearchBeFocused(shouldSearchBeFocused)),
+    setShouldWatchLiveBeFocused: (shouldWatchLiveBeFocused) =>
+      dispatch(setShouldWatchLiveBeFocused(shouldWatchLiveBeFocused)),
     setInfo: (info) => dispatch(setInfo(info)),
     setNextUrl: (nextUrl) => dispatch(setNextUrl(nextUrl)),
     setPosition: (position) => dispatch(setPosition(position)),

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Text, TouchableHighlight, View} from 'react-native';
 import * as Player from '../../controllers/Player';
 
-const Thumbnail = (props) => {
+const Thumbnail = React.forwardRef((props, ref) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const onFocus = () => {
@@ -42,6 +42,7 @@ const Thumbnail = (props) => {
 
   return (
     <TouchableHighlight
+      ref={ref}
       style={styles.container}
       onFocus={onFocus}
       onBlur={onBlur}
@@ -52,6 +53,6 @@ const Thumbnail = (props) => {
       </View>
     </TouchableHighlight>
   );
-};
+});
 
 export default Thumbnail;
