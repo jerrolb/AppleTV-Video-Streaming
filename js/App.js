@@ -7,13 +7,13 @@ import {
   Contact,
   Error,
   Giving,
-  Home,
+  Sermons,
   Search,
   Splash,
   WatchLive,
-} from './Screens';
-import * as Remote from './Controllers/Remote';
-import * as Feed from './Controllers/Feed';
+} from './screens';
+import * as Remote from './controllers/Remote';
+import * as Feed from './controllers/Feed';
 
 const App = (props) => {
   const restartApp = () => {
@@ -27,7 +27,7 @@ const App = (props) => {
       case SCREEN.SPLASH:
         return <Splash />;
       case SCREEN.SERMONS:
-        return <Home />;
+        return <Sermons />;
       case SCREEN.ERROR:
         return <Error restartApp={restartApp} />;
       case SCREEN.CONTACT:

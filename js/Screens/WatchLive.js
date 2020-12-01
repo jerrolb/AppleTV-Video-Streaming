@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {Text, View} from 'react-native';
-import {Header} from '../Components';
+import {Header} from '../components';
 import Carousel from 'react-native-snap-carousel';
 import {WATCH_LIVE_DATA} from '../Constants';
-import Thumbnail from '../Components/WatchLive/Thumbnail';
+import Thumbnail from '../components/WatchLive/Thumbnail';
 import Popup from './Popup';
 import Video from 'react-native-video';
-import * as Player from '../Controllers/Player';
+import * as Player from '../controllers/Player';
 
 const WatchLive = (props) => {
   const [popup, setPopup] = useState('');

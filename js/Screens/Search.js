@@ -2,13 +2,13 @@ import React, {useCallback, useEffect, useState, useRef} from 'react';
 import {connect} from 'react-redux';
 import {Text, TouchableHighlight, View} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import AlphaNumeric from '../Components/Search/Keyboard/AlphaNumeric';
-import Spacebar from '../Components/Search/Keyboard/Spacebar';
-import Backspace from '../Components/Search/Keyboard/Backspace';
-import Thumbnail from '../Components/Search/Thumbnail';
-import Header from '../Components/Header';
+import AlphaNumeric from '../components/Search/Keyboard/AlphaNumeric';
+import Spacebar from '../components/Search/Keyboard/Spacebar';
+import Backspace from '../components/Search/Keyboard/Backspace';
+import Thumbnail from '../components/Search/Thumbnail';
+import Header from '../components/Header/Header';
 import Video from 'react-native-video';
-import * as Player from '../Controllers/Player';
+import * as Player from '../controllers/Player';
 import {
   setIsHeaderFocused,
   setShouldSermonsBeFocused,
@@ -182,6 +182,30 @@ const Search = (props) => {
     getSearchResults,
   ]);
 
+  const onFocusInterceptFocused = () => {
+    if (!isViewReady) {
+      props.setShouldSearchBeFocused(true);
+      setIsViewReady(true);
+      return;
+    }
+
+    if (props.isReturningFromPlayer) {
+      props.setIsReturningFromPlayer(false);
+      focusCurrentSearchThumbnail();
+      return;
+    }
+
+    if (props.isHeaderFocused) {
+      backspace.current.setNativeProps({
+        hasTVPreferredFocus: true,
+      });
+    } else {
+      props.setShouldSearchBeFocused(true);
+    }
+    props.setIsHeaderFocused(!props.isHeaderFocused);
+    isKeyboardFocused && setIsKeyboardFocused(false);
+  };
+
   return (
     <View>
       <View style={styles[props.player.visible ? 'hidden' : 'fullscreen']}>
@@ -190,30 +214,8 @@ const Search = (props) => {
         <View style={styles.leftSide}>
           <TouchableHighlight
             style={styles.focusInterceptWrapper}
-            onFocus={() => {
-              if (!isViewReady) {
-                props.setShouldSearchBeFocused(true);
-                setIsViewReady(true);
-                return;
-              }
-
-              if (props.isReturningFromPlayer) {
-                props.setIsReturningFromPlayer(false);
-                focusCurrentSearchThumbnail();
-                return;
-              }
-
-              if (props.isHeaderFocused) {
-                backspace.current.setNativeProps({
-                  hasTVPreferredFocus: true,
-                });
-              } else {
-                props.setShouldSearchBeFocused(true);
-              }
-              props.setIsHeaderFocused(!props.isHeaderFocused);
-
-              isKeyboardFocused && setIsKeyboardFocused(false);
-            }}>
+            onFocus={onFocusInterceptFocused}
+          >
             <View style={styles.focusIntercept} />
           </TouchableHighlight>
 

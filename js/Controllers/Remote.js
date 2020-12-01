@@ -1,73 +1,26 @@
 import {TVEventHandler} from 'react-native';
 import store from '../redux/store/index';
 import {REMOTE, SCREEN} from '../Constants';
-import * as Player from '../Controllers/Player';
-import {
-  setShouldSermonsBeFocused,
-  setShouldRetryBeFocused,
-} from '../redux/actions/actions';
+import * as Player from './Player';
 
 const tvEventHandler = new TVEventHandler();
 const enable = () => {
-  tvEventHandler.enable(_, (_, evt) => {
-    const checkIsSelectBtn = (btn) => {
-      switch (btn) {
-        case REMOTE.SELECT:
-        case REMOTE.LONGSELECT:
-        case REMOTE.PLAYPAUSE:
-          return true;
-        default:
-          return false;
-      }
-    };
+  tvEventHandler.enable(tvEventHandler, (_, evt) => {
+    const state = store.getState();
     const btn = evt && evt.eventType;
-    const isSelectBtn = checkIsSelectBtn(btn);
     if (btn) {
-      switch (store.getState().screen) {
+      switch (state.screen) {
         case SCREEN.SPLASH:
-          return false;
-        case SCREEN.ERROR:
-          if (btn === REMOTE.UP || btn === REMOTE.SWIPEUP) {
-            if (store.getState().isHeaderFocused) {
-              return false;
-            } else {
-              store.dispatch(setShouldSermonsBeFocused(true));
-              return false;
-            }
-          }
-          if (btn === REMOTE.DOWN || btn === REMOTE.SWIPEDOWN) {
-            store.dispatch(setShouldRetryBeFocused(true));
-            return false;
-          }
-          return false;
-        case SCREEN.SERMONS:
-          if (store.getState().isHeaderFocused) {
-            return false;
-          }
-          if (store.getState().player.visible) {
-            return btn === REMOTE.MENU ? Player.minimize() : false;
-          } else {
-            if (isSelectBtn) {
-              return store.getState().player.url ===
-                store.getState().player.nextUrl ?
-                Player.resume() :
-                Player.init();
-            } else {
-              return false;
-            }
-          }
+          break;
         case SCREEN.SEARCH:
-          if (store.getState().player.visible) {
-            return btn === REMOTE.MENU ? Player.minimize() : false;
-          }
-          return false;
+        case SCREEN.SERMONS:
         case SCREEN.WATCHLIVE:
-          if (store.getState().player.visible) {
-            return btn === REMOTE.MENU ? Player.minimize() : false;
+          if (state.player.visible && btn === REMOTE.MENU) {
+            Player.minimize();
+            break;
           }
-          return false;
         default:
-          return false;
+          break;
       }
     }
   });

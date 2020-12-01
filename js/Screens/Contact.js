@@ -1,6 +1,6 @@
 import React from 'react';
 import {Image, View} from 'react-native';
-import {Header} from '../Components';
+import {Header} from '../components';
 import {IMG} from '../Constants';
 
 const Contact = (props) => {
