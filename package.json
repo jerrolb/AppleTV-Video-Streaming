@@ -6,7 +6,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint .",
+    "lint": "eslint js/*",
+    "fix": "eslint --fix js/*",
     "loadTest": "$(npm bin)/artillery run ./__tests__/loadTest.yml"
   },
   "dependencies": {
@@ -24,7 +25,9 @@
     "artillery": "^1.6.1",
     "artillery-plugin-hls": "0.0.3",
     "babel-jest": "^25.1.0",
-    "eslint": "^6.5.1",
+    "eslint": "^7.14.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-react": "^7.21.5",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
     "react-test-renderer": "16.13.1"

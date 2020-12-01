@@ -42,9 +42,9 @@ const Thumbnail = React.forwardRef((props, ref) => {
       onFocus={onFocus}
       onBlur={onBlur}
       onPress={() => {
-        props.player.url === props.player.nextUrl
-          ? Player.resume()
-          : Player.init();
+        props.player.url === props.player.nextUrl ?
+          Player.resume() :
+          Player.init();
       }}>
       <View style={styles.highlight}>
         <Image
@@ -70,5 +70,5 @@ const mapDispatch = (dispatch) => {
 };
 
 export default connect(mapState, mapDispatch, null, {forwardRef: true})(
-  Thumbnail,
+    Thumbnail,
 );

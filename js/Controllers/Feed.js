@@ -49,17 +49,17 @@ const initFeed = (feed) => {
   if (hasHttpsCalls(playlists)) {
     store.dispatch(setScreen(SCREEN.ERROR));
     console.error(
-      '[App.js][initFeed] There are HTTPS calls in the feed! Change them to HTTP (see beginning of function)',
+        '[App.js][initFeed] There are HTTPS calls in the feed! Change them to HTTP (see beginning of function)',
     );
   } else {
     const currVideo = playlists[0].videos[0];
     store.dispatch(setPlaylists(playlists));
     store.dispatch(
-      setInfo({
-        title: currVideo.title,
-        description: currVideo.description,
-        background: currVideo.background,
-      }),
+        setInfo({
+          title: currVideo.title,
+          description: currVideo.description,
+          background: currVideo.background,
+        }),
     );
     store.dispatch(setNextUrl(currVideo.url));
     store.dispatch(setIsFeedReady(true));
@@ -76,9 +76,9 @@ const get = () => {
     cache: 'no-cache',
   };
   fetch(URL.FEED, headers)
-    .then((res) => res.json())
-    .then((feed) => initFeed(feed))
-    .catch(() => store.dispatch(setScreen(SCREEN.ERROR)));
+      .then((res) => res.json())
+      .then((feed) => initFeed(feed))
+      .catch(() => store.dispatch(setScreen(SCREEN.ERROR)));
 };
 
 export {get};

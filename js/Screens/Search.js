@@ -63,8 +63,8 @@ const Search = (props) => {
   };
 
   const getSearchResults = useCallback(() => {
-    let newMatchedPlaylists = [];
-    let newSearchResults = [];
+    const newMatchedPlaylists = [];
+    const newSearchResults = [];
     let iter = 0;
     const playlists = props.playlists;
     const filterVideo = (video) => {
@@ -132,13 +132,13 @@ const Search = (props) => {
       let alphaNumeric = (i + 10).toString(36);
       alphaNumeric = i === 35 ? 0 : i > 25 ? alphaNumeric - 9 : alphaNumeric;
       letterRow.push(
-        <AlphaNumeric
-          key={alphaNumeric}
-          alphaNumeric={alphaNumeric}
-          onPress={() => addOne(alphaNumeric)}
-          restoreFocusReturningFromPlayer={restoreFocusReturningFromPlayer}
-          clearInfo={() => setInfo('', '')}
-        />,
+          <AlphaNumeric
+            key={alphaNumeric}
+            alphaNumeric={alphaNumeric}
+            onPress={() => addOne(alphaNumeric)}
+            restoreFocusReturningFromPlayer={restoreFocusReturningFromPlayer}
+            clearInfo={() => setInfo('', '')}
+          />,
       );
     }
 
@@ -147,7 +147,7 @@ const Search = (props) => {
 
   const focusCurrentSearchThumbnail = () => {
     thumbnailRefs.current[
-      `${position.colIndex}${position.rowIndex}`
+        `${position.colIndex}${position.rowIndex}`
     ].setNativeProps({hasTVPreferredFocus: true});
   };
 
