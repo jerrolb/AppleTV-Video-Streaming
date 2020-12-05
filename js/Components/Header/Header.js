@@ -1,4 +1,5 @@
 import React, {useRef} from 'react';
+import PropTypes from 'react-props';
 import {connect} from 'react-redux';
 import {View, ScrollView} from 'react-native';
 import Tab from './Tab';
@@ -69,3 +70,13 @@ const mapState = (state) => {
 };
 
 export default connect(mapState)(Header);
+
+Header.propTypes = {
+  player: PropTypes.shape({
+    enabled: PropTypes.bool.isRequired,
+    visible: PropTypes.bool.isRequired,
+    paused: PropTypes.bool.isRequired,
+    url: PropTypes.string.isRequired,
+    nextUrl: PropTypes.string.isRequired,
+  }),
+};

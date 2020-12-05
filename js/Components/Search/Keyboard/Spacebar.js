@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import PropTypes from 'react-props';
 import {Image, TouchableHighlight} from 'react-native';
 
 const Spacebar = (props) => {
@@ -32,3 +33,7 @@ const styles = {
 };
 
 export default Spacebar;
+
+Spacebar.propTypes = {
+  onPress: PropTypes.func.isRequired,
+};

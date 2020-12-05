@@ -48,6 +48,7 @@ Sermons.propTypes = {
   info: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
+    background: PropTypes.string.isRequired,
   }),
   player: PropTypes.shape({
     enabled: PropTypes.bool.isRequired,

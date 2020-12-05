@@ -1,4 +1,5 @@
 import React, {useCallback, useEffect, useState, useRef} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Text, TouchableHighlight, View} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
@@ -413,3 +414,19 @@ const mapDispatch = (dispatch) => {
 };
 
 export default connect(mapState, mapDispatch)(Search);
+
+Search.propTypes = {
+  isReturningFromPlayer: PropTypes.Boolean.isRequired,
+  setIsReturningFromPlayer: PropTypes.func.isRequired,
+  player: PropTypes.shape({
+    enabled: PropTypes.bool.isRequired,
+    visible: PropTypes.bool.isRequired,
+    paused: PropTypes.bool.isRequired,
+    url: PropTypes.string.isRequired,
+    nextUrl: PropTypes.string.isRequired,
+  }),
+  isHeaderFocused: PropTypes.Boolean.isRequired,
+  setIsHeaderFocused: PropTypes.func.isRequired,
+  setShouldSearchBeFocused: PropTypes.func.isRequired,
+  playlists: PropTypes.arrayOf(PropTypes.object).isRequired,
+};

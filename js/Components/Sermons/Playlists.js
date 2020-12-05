@@ -139,10 +139,6 @@ const mapDispatch = (dispatch) => {
 
 export default connect(mapState, mapDispatch)(Playlists);
 
-Playlists.propTypes = {
-  playlists: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
-
 const styles = {
   focusIntercept: {
     position: 'absolute',
@@ -171,4 +167,25 @@ const styles = {
     left: 0,
     zIndex: -1,
   },
+};
+
+Playlists.propTypes = {
+  playlists: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setInfo: PropTypes.func.isRequired,
+  setNextUrl: PropTypes.func.isRequired,
+  setPosition: PropTypes.func.isRequired,
+  setIsReturningFromPlayer: PropTypes.func.isRequired,
+  isReturningFromPlayer: PropTypes.Boolean.isReturningFromPlayer,
+  setIsHeaderFocused: PropTypes.func.isRequired,
+  isHeaderFocused: PropTypes.Boolean.isRequired,
+  setIsAppLoaded: PropTypes.func.isRequired,
+  isAppLoaded: PropTypes.Boolean.isRequired,
+  setShouldSermonsBeFocused: PropTypes.func.isRequired,
+  player: PropTypes.shape({
+    enabled: PropTypes.bool.isRequired,
+    visible: PropTypes.bool.isRequired,
+    paused: PropTypes.bool.isRequired,
+    url: PropTypes.string.isRequired,
+    nextUrl: PropTypes.string.isRequired,
+  }),
 };

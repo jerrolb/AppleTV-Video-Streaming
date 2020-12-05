@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'react-props';
 import {Text, TouchableHighlight, View} from 'react-native';
 
 const Error = (props) => {
@@ -46,4 +47,8 @@ const styles = {
   bold: {
     fontWeight: 'bold',
   },
+};
+
+Error.propTypes = {
+  restartApp: PropTypes.func.isRequired,
 };

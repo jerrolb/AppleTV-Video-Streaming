@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import PropTypes from 'react-props';
 import {connect} from 'react-redux';
 import {Image, TouchableHighlight, View} from 'react-native';
 import * as Player from '../../controllers/Player';
@@ -65,6 +66,19 @@ const mapDispatch = (dispatch) => {
   };
 };
 
+Thumbnail.displayName = 'Thumbnail';
 export default connect(mapState, mapDispatch, null, {forwardRef: true})(
     Thumbnail,
 );
+
+Thumbnail.propTypes = {
+  item: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    thumbnail: PropTypes.string.isRequired,
+  }),
+  onFocused: PropTypes.func.isRequired,
+  setNextUrl: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
+};

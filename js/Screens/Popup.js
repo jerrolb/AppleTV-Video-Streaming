@@ -1,4 +1,5 @@
 import React, {useEffect, useRef} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {setIsHeaderFocused} from '../redux/actions/actions';
 import {Text, View} from 'react-native';
@@ -12,9 +13,11 @@ const Popup = (props) => {
   const disable = () => tvEventHandler.disable();
 
   useEffect(() => {
-    invisible.current && invisible.current.setNativeProps({hasTVPreferredFocus: true});
+    invisible.current && invisible.current.setNativeProps({
+      hasTVPreferredFocus: true,
+    });
     TVMenuControl.enableTVMenuKey();
-    tvEventHandler.enable(this, (_, evt) => {
+    tvEventHandler.enable(tvEventHandler, (_, evt) => {
       const btn = evt && evt.eventType;
       if (btn === REMOTE.MENU) {
         props.clearPopup('');
@@ -74,4 +77,9 @@ const styles = {
   bold: {
     fontWeight: 'bold',
   },
+};
+
+Popup.propTypes = {
+  popup: PropTypes.string.isRequired,
+  clearPopup: PropTypes.func.isRequired,
 };

@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
 import {Text, TouchableHighlight, View} from 'react-native';
 import * as Player from '../../controllers/Player';
 
@@ -56,4 +57,13 @@ const Thumbnail = React.forwardRef((props, ref) => {
   );
 });
 
+Thumbnail.displayName = 'Thumbnail';
 export default Thumbnail;
+
+Thumbnail.propTypes = {
+  title: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  isPopup: PropTypes.Boolean.isRequired,
+  setPopup: PropTypes.func.isRequired,
+  setPosition: PropTypes.func.isRequired,
+};

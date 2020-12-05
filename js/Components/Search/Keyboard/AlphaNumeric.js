@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import PropTypes from 'react-props';
 import {connect} from 'react-redux';
 import {Text, TouchableHighlight, View} from 'react-native';
 import {setIsReturningFromPlayer} from '../../../redux/actions/actions';
@@ -64,3 +65,12 @@ const mapDispatch = (dispatch) => {
 export default connect(mapState, mapDispatch, null, {forwardRef: true})(
     AlphaNumeric,
 );
+
+AlphaNumeric.propTypes = {
+  restoreFocusReturningFromPlayer: PropTypes.func.isRequired,
+  setIsReturningFromPlayer: PropTypes.func.isRequired,
+  isReturningFromPlayer: PropTypes.Boolean.isRequired,
+  clearInfo: PropTypes.func.isRequired,
+  onPress: PropTypes.func.isRequired,
+  alphaNumeric: PropTypes.string.isRequired,
+};

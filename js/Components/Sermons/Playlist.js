@@ -58,11 +58,14 @@ const Playlist = React.forwardRef((props, ref) => {
   );
 });
 
+Playlist.displayName = 'Playlist';
 export default Playlist;
 
 Playlist.propTypes = {
   title: PropTypes.string.isRequired,
   videos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setFocus: PropTypes.func.isRequired,
+  updateVideoInfo: PropTypes.func.isRequired,
 };
 
 const styles = {

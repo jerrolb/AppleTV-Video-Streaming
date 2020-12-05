@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import PropTypes from 'react-props';
 import {Image, TouchableHighlight} from 'react-native';
 import {connect} from 'react-redux';
 import {setIsReturningFromPlayer} from '../../../redux/actions/actions';
@@ -63,6 +64,23 @@ const mapDispatch = (dispatch) => {
   };
 };
 
+Backspace.displayName = 'Backspace';
 export default connect(mapState, mapDispatch, null, {forwardRef: true})(
     Backspace,
 );
+
+Backspace.propTypes = {
+  onPress: PropTypes.func.isRequired,
+  player: PropTypes.shape({
+    enabled: PropTypes.bool.isRequired,
+    visible: PropTypes.bool.isRequired,
+    paused: PropTypes.bool.isRequired,
+    url: PropTypes.string.isRequired,
+    nextUrl: PropTypes.string.isRequired,
+  }),
+  restoreFocusReturningFromPlayer: PropTypes.func.isRequired,
+  setIsReturningFromPlayer: PropTypes.func.isRequired,
+  isReturningFromPlayer: PropTypes.Boolean.isRequired,
+  clearInfo: PropTypes.func.isRequired,
+  letter: PropTypes.string.isRequired,
+};

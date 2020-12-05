@@ -1,4 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
+import PropTypes from 'react-props';
 import {connect} from 'react-redux';
 import {
   setIsHeaderFocused,
@@ -140,4 +141,29 @@ const mapDispatch = (dispatch) => {
   };
 };
 
+Tab.displayName = 'Tab';
 export default connect(mapState, mapDispatch, null, {forwardRef: true})(Tab);
+
+Tab.propTypes = {
+  label: PropTypes.string.isRequired,
+  setShouldSermonsBeFocused: PropTypes.func.isRequired,
+  shouldSermonsBeFocused: PropTypes.Boolean.isRequired,
+  setShouldSearchBeFocused: PropTypes.Boolean.isRequired,
+  shouldSearchBeFocused: PropTypes.Boolean.isRequired,
+  setShouldWatchLiveBeFocused: PropTypes.func.isRequired,
+  shouldWatchLiveBeFocused: PropTypes.Boolean.isRequired,
+  setIsAppLoaded: PropTypes.func.isRequired,
+  setInfo: PropTypes.func.isRequired,
+  firstVideo: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    thumbnail: PropTypes.string.isRequired,
+    background: PropTypes.string.isRequired,
+  }),
+  setIsHeaderFocused: PropTypes.func.isRequired,
+  setPosition: PropTypes.func.isRequired,
+  setScreen: PropTypes.func.isRequired,
+  setNextUrl: PropTypes.func.isRequired,
+  screen: PropTypes.string.isRequired,
+};

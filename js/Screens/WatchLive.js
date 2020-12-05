@@ -1,4 +1,5 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useState, useRef} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Text, TouchableHighlight, View} from 'react-native';
 import {Header} from '../components';
@@ -8,7 +9,11 @@ import Thumbnail from '../components/WatchLive/Thumbnail';
 import Popup from './Popup';
 import Video from 'react-native-video';
 import * as Player from '../controllers/Player';
-import {setIsHeaderFocused, setShouldWatchLiveBeFocused, setIsReturningFromPlayer} from '../redux/actions/actions';
+import {
+  setIsHeaderFocused,
+  setShouldWatchLiveBeFocused,
+  setIsReturningFromPlayer,
+} from '../redux/actions/actions';
 
 const WatchLive = (props) => {
   const [popup, setPopup] = useState('');
@@ -21,7 +26,9 @@ const WatchLive = (props) => {
   const refArr = useRef({});
 
   const forceCurrentItemActiveFocus = () => {
-    refArr.current[`${position.colIndex}${position.rowIndex}`].setNativeProps({hasTVPreferredFocus: true});
+    refArr.current[`${position.colIndex}${position.rowIndex}`].setNativeProps({
+      hasTVPreferredFocus: true,
+    });
   };
 
   const onFocusInterceptFocused = () => {
@@ -110,9 +117,10 @@ const WatchLive = (props) => {
                     scrollEnabled={false}
                     removeClippedSubviews={true}
                     renderItem={({item: thumbnail, index: rowIndex}) => {
+                      const refName = `${colIndex}${rowIndex}`;
                       return (
                         <Thumbnail
-                          ref={(e) => (refArr.current[`${colIndex}${rowIndex}`] = e)}
+                          ref={(e) => (refArr.current[refName] = e)}
                           isPopup={typeof thumbnail === 'string'}
                           title={thumbnail.title || thumbnail}
                           setPopup={(newPopup) => setPopup(newPopup)}
@@ -207,4 +215,19 @@ const styles = {
     height: 1,
     width: '100%',
   },
+};
+
+WatchLive.propTypes = {
+  isReturningFromPlayer: PropTypes.Boolean.isRequired,
+  setIsReturningFromPlayer: PropTypes.func.isRequired,
+  player: PropTypes.shape({
+    enabled: PropTypes.bool.isRequired,
+    visible: PropTypes.bool.isRequired,
+    paused: PropTypes.bool.isRequired,
+    url: PropTypes.string.isRequired,
+    nextUrl: PropTypes.string.isRequired,
+  }),
+  isHeaderFocused: PropTypes.Boolean.isRequired,
+  setIsHeaderFocused: PropTypes.func.isRequired,
+  setShouldWatchLiveBeFocused: PropTypes.func.isRequired,
 };

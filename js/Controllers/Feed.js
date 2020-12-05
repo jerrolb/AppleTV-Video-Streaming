@@ -48,9 +48,7 @@ const initFeed = (feed) => {
 
   if (hasHttpsCalls(playlists)) {
     store.dispatch(setScreen(SCREEN.ERROR));
-    console.error(
-        '[App.js][initFeed] There are HTTPS calls in the feed! Change them to HTTP (see beginning of function)',
-    );
+    console.error('[App.js][initFeed] There are HTTPS calls in the feed!');
   } else {
     const currVideo = playlists[0].videos[0];
     store.dispatch(setPlaylists(playlists));
