@@ -11,6 +11,7 @@
     "loadTest": "$(npm bin)/artillery run ./__tests__/loadTest.yml"
   },
   "dependencies": {
+    "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-native": "npm:react-native-tvos@0.63.1-1",
     "react-native-snap-carousel": "^4.0.0-beta.5",

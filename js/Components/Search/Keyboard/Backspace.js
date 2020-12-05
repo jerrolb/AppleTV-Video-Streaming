@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import PropTypes from 'react-props';
+import PropTypes from 'prop-types';
 import {Image, TouchableHighlight} from 'react-native';
 import {connect} from 'react-redux';
 import {setIsReturningFromPlayer} from '../../../redux/actions/actions';
@@ -29,9 +29,7 @@ const Backspace = React.forwardRef((props, ref) => {
       ref={ref}
       onFocus={onFocus}
       onBlur={onBlur}
-      onPress={() => {
-        props.onPress(props.letter);
-      }}>
+      onPress={props.onPress}>
       <Image
         style={styles.image}
         source={{
@@ -80,7 +78,6 @@ Backspace.propTypes = {
   }),
   restoreFocusReturningFromPlayer: PropTypes.func.isRequired,
   setIsReturningFromPlayer: PropTypes.func.isRequired,
-  isReturningFromPlayer: PropTypes.Boolean.isRequired,
+  isReturningFromPlayer: PropTypes.bool.isRequired,
   clearInfo: PropTypes.func.isRequired,
-  letter: PropTypes.string.isRequired,
 };

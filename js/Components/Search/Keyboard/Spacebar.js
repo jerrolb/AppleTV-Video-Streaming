@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import PropTypes from 'react-props';
+import PropTypes from 'prop-types';
 import {Image, TouchableHighlight} from 'react-native';
 
 const Spacebar = (props) => {

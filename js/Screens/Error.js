@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'react-props';
+import PropTypes from 'prop-types';
 import {Text, TouchableHighlight, View} from 'react-native';
 
 const Error = (props) => {

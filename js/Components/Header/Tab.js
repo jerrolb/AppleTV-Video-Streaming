@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import PropTypes from 'react-props';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {
   setIsHeaderFocused,
@@ -147,11 +147,11 @@ export default connect(mapState, mapDispatch, null, {forwardRef: true})(Tab);
 Tab.propTypes = {
   label: PropTypes.string.isRequired,
   setShouldSermonsBeFocused: PropTypes.func.isRequired,
-  shouldSermonsBeFocused: PropTypes.Boolean.isRequired,
-  setShouldSearchBeFocused: PropTypes.Boolean.isRequired,
-  shouldSearchBeFocused: PropTypes.Boolean.isRequired,
+  shouldSermonsBeFocused: PropTypes.bool.isRequired,
+  setShouldSearchBeFocused: PropTypes.func.isRequired,
+  shouldSearchBeFocused: PropTypes.bool.isRequired,
   setShouldWatchLiveBeFocused: PropTypes.func.isRequired,
-  shouldWatchLiveBeFocused: PropTypes.Boolean.isRequired,
+  shouldWatchLiveBeFocused: PropTypes.bool.isRequired,
   setIsAppLoaded: PropTypes.func.isRequired,
   setInfo: PropTypes.func.isRequired,
   firstVideo: PropTypes.shape({

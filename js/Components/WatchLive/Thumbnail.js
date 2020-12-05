@@ -62,8 +62,8 @@ export default Thumbnail;
 
 Thumbnail.propTypes = {
   title: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
-  isPopup: PropTypes.Boolean.isRequired,
+  url: PropTypes.string,
+  isPopup: PropTypes.bool.isRequired,
   setPopup: PropTypes.func.isRequired,
   setPosition: PropTypes.func.isRequired,
 };

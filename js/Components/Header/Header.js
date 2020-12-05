@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import PropTypes from 'react-props';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {View, ScrollView} from 'react-native';
 import Tab from './Tab';

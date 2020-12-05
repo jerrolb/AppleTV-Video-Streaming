@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import PropTypes from 'react-props';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Image, TouchableHighlight, View} from 'react-native';
 import * as Player from '../../controllers/Player';

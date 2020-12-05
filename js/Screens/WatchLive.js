@@ -218,7 +218,7 @@ const styles = {
 };
 
 WatchLive.propTypes = {
-  isReturningFromPlayer: PropTypes.Boolean.isRequired,
+  isReturningFromPlayer: PropTypes.bool.isRequired,
   setIsReturningFromPlayer: PropTypes.func.isRequired,
   player: PropTypes.shape({
     enabled: PropTypes.bool.isRequired,
@@ -227,7 +227,7 @@ WatchLive.propTypes = {
     url: PropTypes.string.isRequired,
     nextUrl: PropTypes.string.isRequired,
   }),
-  isHeaderFocused: PropTypes.Boolean.isRequired,
+  isHeaderFocused: PropTypes.bool.isRequired,
   setIsHeaderFocused: PropTypes.func.isRequired,
   setShouldWatchLiveBeFocused: PropTypes.func.isRequired,
 };

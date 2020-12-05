@@ -416,7 +416,7 @@ const mapDispatch = (dispatch) => {
 export default connect(mapState, mapDispatch)(Search);
 
 Search.propTypes = {
-  isReturningFromPlayer: PropTypes.Boolean.isRequired,
+  isReturningFromPlayer: PropTypes.bool.isRequired,
   setIsReturningFromPlayer: PropTypes.func.isRequired,
   player: PropTypes.shape({
     enabled: PropTypes.bool.isRequired,
@@ -425,7 +425,7 @@ Search.propTypes = {
     url: PropTypes.string.isRequired,
     nextUrl: PropTypes.string.isRequired,
   }),
-  isHeaderFocused: PropTypes.Boolean.isRequired,
+  isHeaderFocused: PropTypes.bool.isRequired,
   setIsHeaderFocused: PropTypes.func.isRequired,
   setShouldSearchBeFocused: PropTypes.func.isRequired,
   playlists: PropTypes.arrayOf(PropTypes.object).isRequired,
