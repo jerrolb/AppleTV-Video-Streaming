@@ -7,6 +7,7 @@ const Thumbnail = React.forwardRef((props, ref) => {
 
   const onFocus = () => {
     setIsFocused(true);
+    props.setPosition();
   };
   const onBlur = () => {
     setIsFocused(false);
@@ -47,8 +48,8 @@ const Thumbnail = React.forwardRef((props, ref) => {
       onFocus={onFocus}
       onBlur={onBlur}
       onPress={onPress}
-      pointerEvents={props.pointerEvents}>
-      <View pointerEvents={props.pointerEvents} style={styles.thumbnail}>
+    >
+      <View style={styles.thumbnail}>
         <Text style={styles.text}>{props.title}</Text>
       </View>
     </TouchableHighlight>

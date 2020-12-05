@@ -1,16 +1,18 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {connect} from 'react-redux';
 import {setIsHeaderFocused} from '../redux/actions/actions';
 import {Text, View} from 'react-native';
 import {TVEventHandler} from 'react-native';
 import {REMOTE} from '../Constants';
-import {TVMenuControl} from 'react-native';
+import {TouchableHighlight, TVMenuControl} from 'react-native';
 
 const Popup = (props) => {
+  const invisible = useRef(null);
   const tvEventHandler = new TVEventHandler();
   const disable = () => tvEventHandler.disable();
 
   useEffect(() => {
+    invisible.current && invisible.current.setNativeProps({hasTVPreferredFocus: true});
     TVMenuControl.enableTVMenuKey();
     tvEventHandler.enable(this, (_, evt) => {
       const btn = evt && evt.eventType;
@@ -25,11 +27,13 @@ const Popup = (props) => {
   });
 
   return (
+      <TouchableHighlight ref={invisible} hasTVPreferredFocus={true}>
     <View style={styles.fullscreen}>
       <View style={styles.center}>
-        <Text style={styles.errorText}>{props.popup}</Text>
+          <Text style={styles.errorText}>{props.popup}</Text>
       </View>
     </View>
+      </TouchableHighlight>
   );
 };
 

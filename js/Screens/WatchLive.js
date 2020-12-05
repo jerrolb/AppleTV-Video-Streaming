@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {connect} from 'react-redux';
 import {Text, TouchableHighlight, View} from 'react-native';
 import {Header} from '../components';
@@ -8,38 +8,53 @@ import Thumbnail from '../components/WatchLive/Thumbnail';
 import Popup from './Popup';
 import Video from 'react-native-video';
 import * as Player from '../controllers/Player';
-import { setIsHeaderFocused, setShouldWatchLiveBeFocused, setIsReturningFromPlayer } from '../redux/actions/actions';
+import {setIsHeaderFocused, setShouldWatchLiveBeFocused, setIsReturningFromPlayer} from '../redux/actions/actions';
 
 const WatchLive = (props) => {
   const [popup, setPopup] = useState('');
+  const [isReturningFromPopup, setIsReturningFromPopup] = useState(false);
   const [isRendered, setIsRendered] = useState(false);
-  const sundayLiveRef = useRef(null);
+  const [position, setPosition] = useState({
+    colIndex: 0,
+    rowIndex: 0,
+  });
+  const refArr = useRef({});
+
+  const forceCurrentItemActiveFocus = () => {
+    refArr.current[`${position.colIndex}${position.rowIndex}`].setNativeProps({hasTVPreferredFocus: true});
+  }
 
   const onFocusInterceptFocused = () => {
+    if (popup) {
+      forceCurrentItemActiveFocus();
+      return;
+    }
     if (!isRendered) {
       setIsRendered(true);
       return;
     }
-    if (props.isReturningFromPlayer) {
-      sundayLiveRef.current.setNativeProps({ hasTVPreferredFocus: true });
-      props.setIsReturningFromPlayer(false);
+    if (props.isReturningFromPlayer || isReturningFromPopup) {
+      forceCurrentItemActiveFocus();
+      props.isReturningFromPlayer && props.setIsReturningFromPlayer(false);
+      isReturningFromPopup && setIsReturningFromPopup(false);
       return;
     }
     if (props.isHeaderFocused) {
-      sundayLiveRef.current.setNativeProps({ hasTVPreferredFocus: true });
+      forceCurrentItemActiveFocus();
+      props.setIsHeaderFocused(false);
     } else {
       props.setShouldWatchLiveBeFocused(true);
     }
-    props.setIsHeaderFocused(false);
-  }
+  };
 
   return (
-    <View pointerEvents={popup ? 'none' : 'auto'} style={styles.fullscreen}>
+    <View style={styles.fullscreen}>
       {Boolean(popup) && (
-        <View pointerEvents={popup ? 'none' : 'auto'} style={styles.popup}>
+        <View style={styles.popup}>
           <Popup
             popup={popup}
             clearPopup={() => {
+              setIsReturningFromPopup(true);
               setPopup('');
             }}
           />
@@ -58,9 +73,8 @@ const WatchLive = (props) => {
         </View>
       )}
       <View
-        pointerEvents={popup ? 'none' : 'auto'}
         style={styles[!props.player.visible ? {} : 'hidden']}>
-        <Header screen={'Watch Live'} />
+        <Header />
 
         <TouchableHighlight
           style={styles.focusInterceptWrapper}
@@ -71,7 +85,6 @@ const WatchLive = (props) => {
 
         <View style={styles.contentMargin}>
           <Carousel
-            pointerEvents={popup ? 'none' : 'auto'}
             data={WATCH_LIVE_DATA}
             vertical={true}
             activeSlideAlignment={'start'}
@@ -81,14 +94,11 @@ const WatchLive = (props) => {
             scrollEnabled={false}
             renderItem={({item: playlist, index: colIndex}) => {
               return (
-                <View
-                  style={styles.fullscreen}
-                  pointerEvents={popup ? 'none' : 'auto'}>
+                <View style={styles.fullscreen}>
                   <Text style={styles.playlistTitle}>
                     {playlist.playlistTitle}
                   </Text>
                   <Carousel
-                    pointerEvents={popup ? 'none' : 'auto'}
                     activeSlideAlignment={'start'}
                     data={playlist.thumbnails}
                     sliderWidth={2000}
@@ -102,11 +112,16 @@ const WatchLive = (props) => {
                     renderItem={({item: thumbnail, index: rowIndex}) => {
                       return (
                         <Thumbnail
-                          ref={!colIndex && !rowIndex && sundayLiveRef}
-                          pointerEvents={popup ? 'none' : 'auto'}
+                          ref={(e) => (refArr.current[`${colIndex}${rowIndex}`] = e)}
                           isPopup={typeof thumbnail === 'string'}
                           title={thumbnail.title || thumbnail}
                           setPopup={(newPopup) => setPopup(newPopup)}
+                          setPosition={() => {
+                            setPosition({
+                              colIndex: colIndex,
+                              rowIndex: rowIndex,
+                            })
+                          }}
                         />
                       );
                     }}
@@ -170,14 +185,14 @@ const styles = {
     height: '100%',
     backgroundColor: '#000',
     position: 'absolute',
-    top: 0,
+    top: 90,
     left: 0,
     zIndex: 1,
   },
   hidden: {
     position: 'absolute',
-    top: '150%',
-    left: '150%',
+    top: '-150%',
+    left: '-150%',
     width: 0,
     height: 0,
   },
