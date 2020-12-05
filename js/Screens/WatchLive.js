@@ -22,7 +22,7 @@ const WatchLive = (props) => {
 
   const forceCurrentItemActiveFocus = () => {
     refArr.current[`${position.colIndex}${position.rowIndex}`].setNativeProps({hasTVPreferredFocus: true});
-  }
+  };
 
   const onFocusInterceptFocused = () => {
     if (popup) {
@@ -120,7 +120,7 @@ const WatchLive = (props) => {
                             setPosition({
                               colIndex: colIndex,
                               rowIndex: rowIndex,
-                            })
+                            });
                           }}
                         />
                       );

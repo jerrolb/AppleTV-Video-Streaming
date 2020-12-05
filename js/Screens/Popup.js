@@ -27,13 +27,13 @@ const Popup = (props) => {
   });
 
   return (
-      <TouchableHighlight ref={invisible} hasTVPreferredFocus={true}>
-    <View style={styles.fullscreen}>
-      <View style={styles.center}>
+    <TouchableHighlight ref={invisible} hasTVPreferredFocus={true}>
+      <View style={styles.fullscreen}>
+        <View style={styles.center}>
           <Text style={styles.errorText}>{props.popup}</Text>
+        </View>
       </View>
-    </View>
-      </TouchableHighlight>
+    </TouchableHighlight>
   );
 };
 
