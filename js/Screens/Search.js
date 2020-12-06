@@ -230,12 +230,10 @@ const Search = (props) => {
           <View style={styles.keyboard}>{renderKeyboard()}</View>
 
           <View style={styles.info}>
-            <Text>
-              <Text style={styles.title}>{`${title} \n\n`}</Text>
-              <Text style={styles.description}>{`${description} \n\n\n`}</Text>
-              <Text style={styles.matchedPlaylists}>
-                {getMatchedPlaylists()}
-              </Text>
+            <Text ellipsizeMode={'tail'} numberOfLines={2} style={styles.title}>{`${title}`}</Text>
+            <Text ellipsizeMode={'tail'} numberOfLines={5} style={styles.description}>{`${description}`}</Text>
+            <Text style={styles.matchedPlaylists}>
+              {getMatchedPlaylists()}
             </Text>
           </View>
         </View>
@@ -366,12 +364,13 @@ const styles = {
   title: {
     color: 'white',
     fontSize: 25,
+    width: 425,
   },
   description: {
     color: 'white',
-    marginTop: 100,
+    marginTop: 20,
     fontSize: 25,
-    height: 400,
+    width: 425,
   },
   searchResults: {
     position: 'absolute',
@@ -382,12 +381,11 @@ const styles = {
     backgroundColor: '#000',
   },
   matchedPlaylists: {
-    position: 'absolute',
-    bottom: 10,
-    left: 10,
     color: 'white',
     fontSize: 25,
     fontWeight: 'bold',
+    width: 425,
+    marginTop: 20,
   },
 };
 
