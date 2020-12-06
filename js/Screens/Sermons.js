@@ -12,10 +12,12 @@ const Sermons = (props) => {
     <View>
       <View style={styles[props.player.visible ? 'hidden' : 'fullscreen']}>
         <Header />
-        <Image
-          style={styles.heroImage}
-          source={{uri: props.info.background}}
-        />
+        <View style={styles.heroImageUnderlay}>
+          <Image
+            style={styles.heroImage}
+            source={{uri: props.info.background}}
+          />
+        </View>
         <Info />
         <Playlists />
       </View>
@@ -80,6 +82,14 @@ const styles = {
     top: 0,
     right: 0,
     zIndex: 1,
+  },
+  heroImageUnderlay: {
+    width: 1400,
+    height: 575,
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    backgroundColor: '#000',
   },
   imageBackground: {
     width: '100%',
