@@ -65,14 +65,6 @@ const styles = {
     height: '100%',
     backgroundColor: '#000',
   },
-  gradient: {
-    width: '100%',
-    height: 575,
-    position: 'absolute',
-    top: 0,
-    left: 515,
-    zIndex: 1,
-  },
   hidden: {
     position: 'absolute',
     top: '50%',

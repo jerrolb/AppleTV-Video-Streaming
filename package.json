@@ -7,8 +7,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint js/*",
-    "fix": "eslint --fix js/*",
-    "loadTest": "$(npm bin)/artillery run ./__tests__/loadTest.yml"
+    "fix": "eslint --fix js/*"
   },
   "dependencies": {
     "prop-types": "^15.7.2",
@@ -23,8 +22,6 @@
     "@babel/core": "^7.8.4",
     "@babel/runtime": "^7.8.4",
     "@react-native-community/eslint-config": "^1.1.0",
-    "artillery": "^1.6.1",
-    "artillery-plugin-hls": "0.0.3",
     "babel-jest": "^25.1.0",
     "eslint": "^7.14.0",
     "eslint-config-google": "^0.14.0",

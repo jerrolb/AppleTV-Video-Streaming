@@ -22,19 +22,19 @@ const styles = {
     left: 0,
     width: 70,
     height: 420,
-    backgroundColor: 'black',
+    backgroundColor: '#000',
   },
   info: {
-    width: '100%',
+    width: 575,
     height: 425,
     paddingLeft: 70,
     zIndex: 2,
+    backgroundColor: "#000"
   },
   infoDescription: {
     fontSize: 35,
     color: '#FFF',
-    width: 600,
-    backgroundColor: 'black',
+    width: 575,
     height: 245,
   },
   infoTitle: {
@@ -42,8 +42,7 @@ const styles = {
     fontSize: 40,
     fontWeight: 'bold',
     color: '#FFF',
-    width: 600,
-    backgroundColor: 'black',
+    width: 575,
   },
   spacer: {
     height: 40,
