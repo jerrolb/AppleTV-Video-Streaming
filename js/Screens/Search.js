@@ -9,6 +9,7 @@ import Backspace from '../components/Search/Keyboard/Backspace';
 import Thumbnail from '../components/Search/Thumbnail';
 import Header from '../components/Header/Header';
 import Video from 'react-native-video';
+import {DIMENSIONS} from '../Constants';
 import * as Player from '../controllers/Player';
 import {
   setIsHeaderFocused,
@@ -295,7 +296,7 @@ const Search = (props) => {
               );
             }}
             sliderWidth={2000}
-            sliderHeight={2000}
+            sliderHeight={DIMENSIONS.HEIGHT}
             itemWidth={1000}
             itemHeight={240}
           />
