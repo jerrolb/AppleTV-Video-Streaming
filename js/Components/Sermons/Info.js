@@ -29,7 +29,7 @@ const styles = {
     height: 425,
     paddingLeft: 70,
     zIndex: 2,
-    backgroundColor: "#000"
+    backgroundColor: '#000',
   },
   infoDescription: {
     fontSize: 35,

@@ -230,8 +230,20 @@ const Search = (props) => {
           <View style={styles.keyboard}>{renderKeyboard()}</View>
 
           <View style={styles.info}>
-            <Text ellipsizeMode={'tail'} numberOfLines={2} style={styles.title}>{`${title}`}</Text>
-            <Text ellipsizeMode={'tail'} numberOfLines={5} style={styles.description}>{`${description}`}</Text>
+            <Text
+              ellipsizeMode={'tail'}
+              numberOfLines={2}
+              style={styles.title}
+            >
+              {`${title}`}
+            </Text>
+            <Text
+              ellipsizeMode={'tail'}
+              numberOfLines={5}
+              style={styles.description}
+            >
+              {`${description}`}
+            </Text>
             <Text style={styles.matchedPlaylists}>
               {getMatchedPlaylists()}
             </Text>
