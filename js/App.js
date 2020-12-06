@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {connect} from 'react-redux';
 import {setDefaultState, setIsAppLoaded} from './redux/actions/actions';
 import {AppState} from 'react-native';
@@ -16,6 +16,13 @@ import * as Remote from './controllers/Remote';
 import * as Feed from './controllers/Feed';
 
 const App = (props) => {
+  const currAppState = useRef(AppState.currentState);
+  const handleAppStateChanged = (nextAppState) => {
+    ['inactive', 'background'].includes(currAppState.current) &&
+    nextAppState === 'active' && restartApp();
+
+    currAppState.current = nextAppState;
+  };
   const restartApp = () => {
     props.setDefaultState();
     props.setIsAppLoaded(true);
@@ -50,10 +57,11 @@ const App = (props) => {
     if (!props.isFeedReady) {
       Feed.get();
       Remote.enable();
-      AppState.addEventListener('change', (appState) => {
-        appState === 'active' && restartApp();
-      });
     }
+    AppState.addEventListener('change', handleAppStateChanged);
+    return () => {
+      AppState.removeEventListener('change', handleAppStateChanged);
+    };
   });
 
   return renderScreen();
