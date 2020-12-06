@@ -245,7 +245,6 @@ const Search = (props) => {
             activeSlideAlignment={'start'}
             inactiveSlideScale={1}
             inactiveSlideOpacity={1}
-            removeClippedSubviews={true}
             renderItem={({item: colItem, index: colIndex}) => {
               return (
                 <Carousel
@@ -261,7 +260,6 @@ const Search = (props) => {
                   inactiveSlideScale={1}
                   inactiveSlideOpacity={1}
                   scrollEnabled={false}
-                  removeClippedSubviews={true}
                   renderItem={({item: rowItem, index: rowIndex}) => {
                     return (
                       <Thumbnail

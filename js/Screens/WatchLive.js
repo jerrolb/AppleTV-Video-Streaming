@@ -97,7 +97,6 @@ const WatchLive = (props) => {
             activeSlideAlignment={'start'}
             inactiveSlideScale={1}
             inactiveSlideOpacity={1}
-            removeClippedSubviews={true}
             scrollEnabled={false}
             renderItem={({item: playlist, index: colIndex}) => {
               return (
@@ -115,7 +114,6 @@ const WatchLive = (props) => {
                     inactiveSlideScale={1}
                     inactiveSlideOpacity={1}
                     scrollEnabled={false}
-                    removeClippedSubviews={true}
                     renderItem={({item: thumbnail, index: rowIndex}) => {
                       const refName = `${colIndex}${rowIndex}`;
                       return (

@@ -105,7 +105,6 @@ const Playlists = (props) => {
         inactiveSlideScale={1}
         inactiveSlideOpacity={1}
         onSnapToItem={updateVideoInfo}
-        removeClippedSubviews={true}
       />
     </View>
   );

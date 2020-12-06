@@ -52,7 +52,6 @@ const Playlist = React.forwardRef((props, ref) => {
         itemHeight={210}
         inactiveSlideScale={1}
         inactiveSlideOpacity={1}
-        removeClippedSubviews={true}
       />
     </View>
   );
