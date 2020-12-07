@@ -25,7 +25,6 @@ const App = (props) => {
   };
   const restartApp = () => {
     props.setDefaultState();
-    props.setIsAppLoaded(true);
     Feed.get();
   };
 
