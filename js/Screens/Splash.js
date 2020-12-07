@@ -3,7 +3,13 @@ import {Image} from 'react-native';
 import {IMG} from '../Constants';
 
 const Splash = () => {
-  return <Image resizeMode={'stretch'} style={styles.fullscreen} source={{uri: IMG.SPLASH}} />;
+  return (
+    <Image
+      resizeMode={'stretch'}
+      style={styles.fullscreen}
+      source={{uri: IMG.SPLASH}}
+    />
+  );
 };
 
 const styles = {
