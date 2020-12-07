@@ -198,9 +198,13 @@ const Search = (props) => {
     }
 
     if (props.isHeaderFocused) {
-      backspace.current.setNativeProps({
-        hasTVPreferredFocus: true,
-      });
+      if (searchResults.length) {
+        focusCurrentSearchThumbnail();
+      } else {
+        backspace.current.setNativeProps({
+          hasTVPreferredFocus: true,
+        });
+      }
       props.setIsHeaderFocused(false);
     } else {
       props.setIsHeaderFocused(true);
