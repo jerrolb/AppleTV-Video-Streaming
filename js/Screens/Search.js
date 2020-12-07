@@ -202,6 +202,7 @@ const Search = (props) => {
         hasTVPreferredFocus: true,
       });
     } else {
+      setInfo('', '');
       props.setShouldSearchBeFocused(true);
     }
     props.setIsHeaderFocused(!props.isHeaderFocused);
