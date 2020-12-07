@@ -201,11 +201,12 @@ const Search = (props) => {
       backspace.current.setNativeProps({
         hasTVPreferredFocus: true,
       });
+      props.setIsHeaderFocused(false);
     } else {
-      setInfo('', '');
+      props.setIsHeaderFocused(true);
       props.setShouldSearchBeFocused(true);
+      setInfo('', '');
     }
-    props.setIsHeaderFocused(!props.isHeaderFocused);
     isKeyboardFocused && setIsKeyboardFocused(false);
   };
 
