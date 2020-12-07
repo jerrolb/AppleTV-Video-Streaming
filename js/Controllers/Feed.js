@@ -1,5 +1,7 @@
 import {SCREEN, URL} from '../Constants';
 import store from '../redux/store/index';
+import AbortController from 'abort-controller';
+import { FETCH_TIMEOUT } from '../Constants';
 import {
   setPlaylists,
   setInfo,
@@ -70,10 +72,16 @@ const hasHttpsCalls = (playlists) => {
 };
 
 const get = () => {
-  const headers = {
+  const controller = new AbortController();
+  const abort = () => { controller.abort(); };
+  const options = {
     cache: 'no-cache',
+    signal: controller.signal,
   };
-  fetch(URL.FEED, headers)
+
+  setTimeout(abort, FETCH_TIMEOUT);
+
+  fetch(URL.FEED, options)
       .then((res) => res.json())
       .then((feed) => initFeed(feed))
       .catch(() => store.dispatch(setScreen(SCREEN.ERROR)));
