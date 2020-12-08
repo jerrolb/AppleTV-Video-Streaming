@@ -65,7 +65,7 @@ const Search = (props) => {
   };
 
   const getSearchResults = useCallback(() => {
-    const newMatchedPlaylists = [];
+    const newMatchedPlaylists = new Set();
     const newSearchResults = [];
     let iter = 0;
     const playlists = props.playlists;
@@ -75,28 +75,18 @@ const Search = (props) => {
         video.description.toLowerCase().includes(input) ||
         video.playlistTitle.toLowerCase().includes(input)
       ) {
+        if (
+          Array.isArray(newSearchResults[iter]) &&
+          newSearchResults[iter].length === 3
+        ) {
+          ++iter;
+        }
         if (!newSearchResults[iter]) {
           newSearchResults[iter] = [];
-          newSearchResults.push(video);
-          if (!newMatchedPlaylists.includes(video.playlistTitle)) {
-            newMatchedPlaylists.push(video.playlistTitle);
-          }
         }
-        if (newSearchResults[iter].length === 3) {
-          ++iter;
-          newSearchResults[iter] = [];
-          newSearchResults[iter].push(video);
-          if (!newMatchedPlaylists.includes(video.playlistTitle)) {
-            newMatchedPlaylists.push(video.playlistTitle);
-          }
-        } else {
-          newSearchResults[iter].push(video);
-          if (!newMatchedPlaylists.includes(video.playlistTitle)) {
-            newMatchedPlaylists.push(video.playlistTitle);
-          }
-        }
+        newSearchResults[iter].push(video);
+        newMatchedPlaylists.add(video.playlistTitle);
       }
-      setMatchedPlaylists([]);
       setMatchedPlaylists(newMatchedPlaylists);
     };
     const searchPlaylist = (playlist) => {
@@ -115,16 +105,16 @@ const Search = (props) => {
   }, [input, props.playlists]);
 
   const renderKeyboard = () => {
-    const letterRow = [
+    const keyboard = [
       <Spacebar
         key={'space'}
-        onPress={() => addSpace()}
+        onPress={addSpace}
         restoreFocusReturningFromPlayer={restoreFocusReturningFromPlayer}
       />,
       <Backspace
         ref={backspace}
         key={'backspace'}
-        onPress={() => clearOne()}
+        onPress={clearOne}
         restoreFocusReturningFromPlayer={restoreFocusReturningFromPlayer}
         clearInfo={() => setInfo('', '')}
       />,
@@ -133,7 +123,7 @@ const Search = (props) => {
     for (let i = 0; i < 36; ++i) {
       let alphaNumeric = (i + 10).toString(36);
       alphaNumeric = i === 35 ? 0 : i > 25 ? alphaNumeric - 9 : alphaNumeric;
-      letterRow.push(
+      keyboard.push(
           <AlphaNumeric
             key={alphaNumeric}
             alphaNumeric={alphaNumeric}
@@ -144,7 +134,7 @@ const Search = (props) => {
       );
     }
 
-    return letterRow;
+    return keyboard;
   };
 
   const focusCurrentSearchThumbnail = () => {
@@ -154,12 +144,10 @@ const Search = (props) => {
   };
 
   const getMatchedPlaylists = () => {
-    const playlists = [];
-    const addPlaylist = (playlist) => {
-      playlists.push(<Text key={playlist}>{`${playlist} \n`}</Text>);
-    };
-    matchedPlaylists.forEach(addPlaylist);
-    return playlists;
+    return [...matchedPlaylists].reduce((acc, playlist) => {
+      acc.push(<Text key={playlist}>{`${playlist} \n`}</Text>);
+      return acc;
+    }, []);
   };
 
   const getNumOfVideos = () => {

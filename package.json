@@ -1,5 +1,6 @@
 {
   "name": "nolachurch",
+  "author": "Jerrol Brooks <jerrolb@gmail.com>",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,6 +9,10 @@
     "test": "jest",
     "lint": "eslint js/*",
     "fix": "eslint --fix js/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nolachurch/appletv"
   },
   "dependencies": {
     "abort-controller": "^3.0.0",

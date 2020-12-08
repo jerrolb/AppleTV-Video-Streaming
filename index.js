@@ -1,7 +1,3 @@
-/**
- * @format
- */
-
 import React from 'react';
 import {AppRegistry} from 'react-native';
 import App from './js/App';
@@ -11,12 +7,10 @@ import store from './js/redux/store/index';
 
 AppRegistry.registerComponent(appName, () => appWithProvider);
 
-class appWithProvider extends React.Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <App/>
-      </Provider>
-    );
-  }
+const appWithProvider = () => {
+  return (
+    <Provider store={store}>
+      <App/>
+    </Provider>
+  );
 };

@@ -54,16 +54,18 @@ const WatchLive = (props) => {
     }
   };
 
+  const clearPopup = () => {
+    setIsReturningFromPopup(true);
+    setPopup('');
+  };
+
   return (
     <View style={styles.fullscreen}>
       {Boolean(popup) && (
         <View style={styles.popup}>
           <Popup
             popup={popup}
-            clearPopup={() => {
-              setIsReturningFromPopup(true);
-              setPopup('');
-            }}
+            clearPopup={clearPopup}
           />
         </View>
       )}

@@ -6,18 +6,18 @@ const Error = (props) => {
   return (
     <View style={styles.fullscreen}>
       <View style={styles.center}>
-        <Text style={styles.errorText}>
-          <Text>{'There was a problem getting your content!\n\n'}</Text>
-          <Text>Contact </Text>
-          <Text style={styles.bold}>info@nolachurch.com </Text>
-          <Text>{'if the problem persists.\n\n'}</Text>
-          <Text>Press the touchpad to try again.</Text>
-          <TouchableHighlight
-            hasTVPreferredFocus={true}
-            onPress={props.restartApp}>
-            <Text />
-          </TouchableHighlight>
-        </Text>
+        <TouchableHighlight
+          hasTVPreferredFocus={true}
+          onPress={props.restartApp}
+        >
+          <Text style={styles.errorText}>
+            <Text>{'There was a problem getting your content!\n\n'}</Text>
+            <Text>Contact </Text>
+            <Text style={styles.bold}>info@nolachurch.com </Text>
+            <Text>{'if the problem persists.\n\n'}</Text>
+            <Text>Press the touchpad to try again.</Text>
+          </Text>
+        </TouchableHighlight>
       </View>
     </View>
   );

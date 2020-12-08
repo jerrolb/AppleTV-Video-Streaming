@@ -3,7 +3,7 @@ import {Image, View} from 'react-native';
 import {Header} from '../components';
 import {IMG} from '../Constants';
 
-const Contact = (props) => {
+const Contact = () => {
   return (
     <View style={styles.fullscreen}>
       <Header screen={'Contact'} />
@@ -24,21 +24,5 @@ const styles = {
     width: '100%',
     height: '100%',
     backgroundColor: '#000',
-  },
-  errorText: {
-    textAlign: 'center',
-    fontSize: 30,
-    color: '#FFF',
-  },
-  center: {
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: -100,
-  },
-  bold: {
-    fontWeight: 'bold',
   },
 };

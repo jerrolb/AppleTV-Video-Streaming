@@ -8,12 +8,12 @@ import {REMOTE} from '../Constants';
 import {TouchableHighlight, TVMenuControl} from 'react-native';
 
 const Popup = (props) => {
-  const invisible = useRef(null);
+  const wrapper = useRef(null);
   const tvEventHandler = new TVEventHandler();
   const disable = () => tvEventHandler.disable();
 
   useEffect(() => {
-    invisible.current && invisible.current.setNativeProps({
+    wrapper.current && wrapper.current.setNativeProps({
       hasTVPreferredFocus: true,
     });
     TVMenuControl.enableTVMenuKey();
@@ -30,10 +30,10 @@ const Popup = (props) => {
   });
 
   return (
-    <TouchableHighlight ref={invisible} hasTVPreferredFocus={true}>
+    <TouchableHighlight ref={wrapper} hasTVPreferredFocus={true}>
       <View style={styles.fullscreen}>
         <View style={styles.center}>
-          <Text style={styles.errorText}>{props.popup}</Text>
+          <Text style={styles.popupText}>{props.popup}</Text>
         </View>
       </View>
     </TouchableHighlight>
@@ -61,7 +61,7 @@ const styles = {
     height: '100%',
     backgroundColor: '#000',
   },
-  errorText: {
+  popupText: {
     textAlign: 'center',
     fontSize: 30,
     color: '#FFF',
@@ -73,9 +73,6 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: -100,
-  },
-  bold: {
-    fontWeight: 'bold',
   },
 };
 

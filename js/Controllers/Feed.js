@@ -40,7 +40,6 @@ const initFeed = (feed) => {
             thumbnail: `thumbnails/${video.id}thumbnail.jpg`,
             background: `backgrounds/${video.id}background.jpg`,
             url: httpsToHttp(video.content.videos[0].url),
-            // url: 'http://nolachurch.com/stream/dev/1/1080/1080.m3u8',
           });
           break;
         }

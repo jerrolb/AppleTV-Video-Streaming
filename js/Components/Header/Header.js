@@ -14,13 +14,11 @@ const Header = (props) => {
   return (
     <View
       style={styles.header}
-      pointerEvents={() => {
-        props.player.visible ? 'none' : 'auto';
-      }}>
+      pointerEvents={props.player.visible ? 'none' : 'auto'}>
       <View style={styles.transparentBackground} />
       <ScrollView
-        contentContainerStyle={styles.contentContainerStyle}
         style={styles.scrollView}
+        contentContainerStyle={styles.contentContainerStyle}
         horizontal={true}>
         <Tab ref={search} label={'Search'} />
         <Tab ref={sermons} label={'Sermons'} />

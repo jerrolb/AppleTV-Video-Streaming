@@ -63,7 +63,7 @@ const Playlists = (props) => {
         ref={(e) => (refArr.current[index] = e)}
         title={item.title}
         videos={item.videos}
-        updateVideoInfo={() => updateVideoInfo()}
+        updateVideoInfo={updateVideoInfo}
         setFocus={(currRowIndex) => setFocus(currRowIndex)}
       />
     );
