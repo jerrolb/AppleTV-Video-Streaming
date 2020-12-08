@@ -4,7 +4,8 @@ const dimensions = Dimensions.get('screen');
 const screenWidth = dimensions.width;
 const screenHeight = dimensions.height;
 
-const FETCH_TIMEOUT = 10000;
+const FETCH_TIMEOUT = 5000;
+const MIN_SPLASH_DISPLAY = 1500;
 
 const DIMENSIONS = {
   WIDTH: screenWidth,
@@ -79,4 +80,13 @@ const WATCH_LIVE_DATA = [
   },
 ];
 
-export {DIMENSIONS, FETCH_TIMEOUT, IMG, REMOTE, SCREEN, URL, WATCH_LIVE_DATA};
+export {
+  DIMENSIONS,
+  FETCH_TIMEOUT,
+  IMG,
+  MIN_SPLASH_DISPLAY,
+  REMOTE,
+  SCREEN,
+  URL,
+  WATCH_LIVE_DATA,
+};
