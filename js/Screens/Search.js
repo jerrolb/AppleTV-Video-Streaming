@@ -9,7 +9,7 @@ import Backspace from '../components/Search/Keyboard/Backspace';
 import Thumbnail from '../components/Search/Thumbnail';
 import Header from '../components/Header/Header';
 import Video from 'react-native-video';
-import {DIMENSIONS} from '../Constants';
+import {COLORS, DIMENSIONS} from '../Constants';
 import * as Player from '../controllers/Player';
 import {
   setIsHeaderFocused,
@@ -320,7 +320,7 @@ const styles = {
   fullscreen: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#000',
+    backgroundColor: COLORS.BLACK,
   },
   hidden: {
     position: 'absolute',
@@ -346,7 +346,7 @@ const styles = {
     width: '100%',
   },
   userInput: {
-    color: 'white',
+    color: COLORS.WHITE,
     fontWeight: 'bold',
     fontSize: 40,
     height: 50,
@@ -367,12 +367,12 @@ const styles = {
     width: 450,
   },
   title: {
-    color: 'white',
+    color: COLORS.WHITE,
     fontSize: 25,
     width: 425,
   },
   description: {
-    color: 'white',
+    color: COLORS.WHITE,
     marginTop: 20,
     fontSize: 25,
     width: 425,
@@ -383,10 +383,10 @@ const styles = {
     left: 550,
     width: '100%',
     height: '100%',
-    backgroundColor: '#000',
+    backgroundColor: COLORS.BLACK,
   },
   matchedPlaylists: {
-    color: 'white',
+    color: COLORS.WHITE,
     fontSize: 25,
     fontWeight: 'bold',
     width: 425,

@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {setIsHeaderFocused} from '../redux/actions/actions';
 import {Text, View} from 'react-native';
 import {TVEventHandler} from 'react-native';
-import {REMOTE} from '../Constants';
+import {COLORS, REMOTE} from '../Constants';
 import {TouchableHighlight, TVMenuControl} from 'react-native';
 
 const Popup = (props) => {
@@ -59,12 +59,12 @@ const styles = {
   fullscreen: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#000',
+    backgroundColor: COLORS.BLACK,
   },
   popupText: {
     textAlign: 'center',
     fontSize: 30,
-    color: '#FFF',
+    color: COLORS.WHITE,
   },
   center: {
     width: '100%',

@@ -4,11 +4,28 @@ const dimensions = Dimensions.get('screen');
 const screenWidth = dimensions.width;
 const screenHeight = dimensions.height;
 
-const FETCH_TIMEOUT = 10000;
+const FETCH_TIMEOUT = 5000;
+const MIN_SPLASH_DISPLAY = 1500;
 
 const DIMENSIONS = {
   WIDTH: screenWidth,
   HEIGHT: screenHeight,
+};
+
+const COLORS = {
+  BLACK: '#000',
+  WHITE: '#FFF',
+  OFF_WHITE: '#F0F0F0',
+  GRAY: '#808080',
+  FOCUS_BLUE: '#88C4DD',
+  LIGHT_BLUE: 'lightblue',
+  TRANSPARENT: 'transparent',
+  KEYBOARD: {
+    FOCUSED_BG: '#CECCCE',
+    UNFOCUSED_BG: '#181718',
+    FOCUSED_TEXT: '#1E1D1E',
+    UNFOCUSED_TEXT: '#787678',
+  },
 };
 
 const IMG = {
@@ -79,4 +96,14 @@ const WATCH_LIVE_DATA = [
   },
 ];
 
-export {DIMENSIONS, FETCH_TIMEOUT, IMG, REMOTE, SCREEN, URL, WATCH_LIVE_DATA};
+export {
+  COLORS,
+  DIMENSIONS,
+  FETCH_TIMEOUT,
+  IMG,
+  MIN_SPLASH_DISPLAY,
+  REMOTE,
+  SCREEN,
+  URL,
+  WATCH_LIVE_DATA,
+};

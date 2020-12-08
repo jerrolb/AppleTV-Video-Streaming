@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Text, TouchableHighlight, View} from 'react-native';
+import {COLORS} from '../Constants';
 
 const Error = (props) => {
   return (
@@ -29,12 +30,12 @@ const styles = {
   fullscreen: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#000',
+    backgroundColor: COLORS.BLACK,
   },
   errorText: {
     textAlign: 'center',
     fontSize: 30,
-    color: '#FFF',
+    color: COLORS.WHITE,
   },
   center: {
     width: '100%',

@@ -1,7 +1,7 @@
 import {SCREEN, URL} from '../Constants';
 import store from '../redux/store/index';
 import AbortController from 'abort-controller';
-import {FETCH_TIMEOUT} from '../Constants';
+import {FETCH_TIMEOUT, MIN_SPLASH_DISPLAY} from '../Constants';
 import {
   setPlaylists,
   setInfo,
@@ -75,17 +75,43 @@ const get = () => {
   const abort = () => {
     controller.abort();
   };
+  const clearFetch = () => {
+    clearTimeout(fetchTimeout);
+  };
+  const clearMinSplashDisplay = () => {
+    clearTimeout(minSplashDisplayTimeout);
+  };
+  const onMinSplashDisplayPassed = () => {
+    hasMinSplashDisplayPassed = true;
+    feed && initFeed(feed);
+  };
   const options = {
     cache: 'no-cache',
     signal: controller.signal,
   };
-
-  setTimeout(abort, FETCH_TIMEOUT);
+  const fetchTimeout = setTimeout(abort, FETCH_TIMEOUT);
+  const minSplashDisplayTimeout = setTimeout(
+      onMinSplashDisplayPassed,
+      MIN_SPLASH_DISPLAY,
+  );
+  let hasMinSplashDisplayPassed = false;
+  let feed;
 
   fetch(URL.FEED, options)
       .then((res) => res.json())
-      .then((feed) => initFeed(feed))
-      .catch(() => store.dispatch(setScreen(SCREEN.ERROR)));
+      .then((res) => {
+        clearFetch();
+        if (hasMinSplashDisplayPassed) {
+          initFeed(res);
+        } else {
+          feed = res;
+        }
+      })
+      .catch(() => {
+        clearFetch();
+        clearMinSplashDisplay();
+        store.dispatch(setScreen(SCREEN.ERROR));
+      });
 };
 
 export {get};

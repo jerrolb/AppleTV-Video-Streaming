@@ -1,10 +1,10 @@
 import React, {useState, useRef} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Text, TouchableHighlight, View} from 'react-native';
+import {Text, View} from 'react-native';
 import {Header} from '../components';
 import Carousel from 'react-native-snap-carousel';
-import {WATCH_LIVE_DATA} from '../Constants';
+import {COLORS, WATCH_LIVE_DATA} from '../Constants';
 import Thumbnail from '../components/WatchLive/Thumbnail';
 import Popup from './Popup';
 import Video from 'react-native-video';
@@ -32,6 +32,7 @@ const WatchLive = (props) => {
   };
 
   const onFocusInterceptFocused = () => {
+    return;
     if (popup) {
       forceCurrentItemActiveFocus();
       return;
@@ -53,6 +54,7 @@ const WatchLive = (props) => {
       props.setShouldWatchLiveBeFocused(true);
     }
   };
+  onFocusInterceptFocused();
 
   const clearPopup = () => {
     setIsReturningFromPopup(true);
@@ -60,91 +62,98 @@ const WatchLive = (props) => {
   };
 
   return (
-    <View style={styles.fullscreen}>
-      {Boolean(popup) && (
-        <View style={styles.popup}>
-          <Popup
-            popup={popup}
-            clearPopup={clearPopup}
-          />
-        </View>
-      )}
-      {props.player.enabled && (
-        <View hasTVPreferredFocus={props.player.visible}>
-          <Video
-            style={styles[props.player.visible ? 'fullscreen' : 'hidden']}
-            source={{uri: props.player.url, type: 'm3u8'}}
-            controls={props.player.visible}
-            paused={props.player.paused}
-            onEnd={Player.exit}
-            onError={Player.error}
-          />
-        </View>
-      )}
-      <View
-        style={styles[!props.player.visible ? {} : 'hidden']}>
+    <>
+      <View style={styles.comingSoonOverlay}>
+        <Text style={styles.comingSoonText}>
+        Coming Soon...
+        </Text>
+      </View>
+      <View style={styles.fullscreen}>
+        {Boolean(popup) && (
+          <View style={styles.popup}>
+            <Popup
+              popup={popup}
+              clearPopup={clearPopup}
+            />
+          </View>
+        )}
+        {props.player.enabled && (
+          <View hasTVPreferredFocus={props.player.visible}>
+            <Video
+              style={styles[props.player.visible ? 'fullscreen' : 'hidden']}
+              source={{uri: props.player.url, type: 'm3u8'}}
+              controls={props.player.visible}
+              paused={props.player.paused}
+              onEnd={Player.exit}
+              onError={Player.error}
+            />
+          </View>
+        )}
         <Header />
+        <View
+          style={styles[!props.player.visible ? {} : 'hidden']}>
 
-        <TouchableHighlight
+          {/* <TouchableHighlight
           style={styles.focusInterceptWrapper}
           onFocus={onFocusInterceptFocused}
         >
           <View style={styles.focusIntercept} />
-        </TouchableHighlight>
+        </TouchableHighlight> */}
 
-        <View style={styles.contentMargin}>
-          <Carousel
-            data={WATCH_LIVE_DATA}
-            vertical={true}
-            activeSlideAlignment={'start'}
-            inactiveSlideScale={1}
-            inactiveSlideOpacity={1}
-            scrollEnabled={false}
-            renderItem={({item: playlist, index: colIndex}) => {
-              return (
-                <View style={styles.fullscreen}>
-                  <Text style={styles.playlistTitle}>
-                    {playlist.playlistTitle}
-                  </Text>
-                  <Carousel
-                    activeSlideAlignment={'start'}
-                    data={playlist.thumbnails}
-                    sliderWidth={2000}
-                    sliderHeight={240}
-                    itemWidth={440}
-                    itemHeight={260}
-                    inactiveSlideScale={1}
-                    inactiveSlideOpacity={1}
-                    scrollEnabled={false}
-                    renderItem={({item: thumbnail, index: rowIndex}) => {
-                      const refName = `${colIndex}${rowIndex}`;
-                      return (
-                        <Thumbnail
-                          ref={(e) => (refArr.current[refName] = e)}
-                          isPopup={typeof thumbnail === 'string'}
-                          title={thumbnail.title || thumbnail}
-                          setPopup={(newPopup) => setPopup(newPopup)}
-                          setPosition={() => {
-                            setPosition({
-                              colIndex: colIndex,
-                              rowIndex: rowIndex,
-                            });
-                          }}
-                        />
-                      );
-                    }}
-                  />
-                </View>
-              );
-            }}
-            sliderWidth={2000}
-            sliderHeight={2000}
-            itemWidth={1000}
-            itemHeight={325}
-          />
+          <View style={styles.contentMargin}>
+            <Carousel
+              data={WATCH_LIVE_DATA}
+              vertical={true}
+              activeSlideAlignment={'start'}
+              inactiveSlideScale={1}
+              inactiveSlideOpacity={1}
+              scrollEnabled={false}
+              renderItem={({item: playlist, index: colIndex}) => {
+                return (
+                  <View style={styles.fullscreen}>
+                    <Text style={styles.playlistTitle}>
+                      {playlist.playlistTitle}
+                    </Text>
+                    <Carousel
+                      activeSlideAlignment={'start'}
+                      data={playlist.thumbnails}
+                      sliderWidth={2000}
+                      sliderHeight={240}
+                      itemWidth={440}
+                      itemHeight={260}
+                      inactiveSlideScale={1}
+                      inactiveSlideOpacity={1}
+                      scrollEnabled={false}
+                      renderItem={({item: thumbnail, index: rowIndex}) => {
+                        const refName = `${colIndex}${rowIndex}`;
+                        return (
+                          <Thumbnail
+                            ref={(e) => (refArr.current[refName] = e)}
+                            isPopup={typeof thumbnail === 'string'}
+                            title={thumbnail.title || thumbnail}
+                            setPopup={(newPopup) => setPopup(newPopup)}
+                            setPosition={() => {
+                              setPosition({
+                                colIndex: colIndex,
+                                rowIndex: rowIndex,
+                              });
+                            }}
+                          />
+                        );
+                      }}
+                    />
+                  </View>
+                );
+              }}
+              sliderWidth={2000}
+              sliderHeight={2000}
+              itemWidth={1000}
+              itemHeight={325}
+            />
+          </View>
         </View>
       </View>
-    </View>
+    </>
   );
 };
 
@@ -173,25 +182,43 @@ const styles = {
   fullscreen: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#000',
+    backgroundColor: COLORS.BLACK,
+  },
+  comingSoonOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1,
+  },
+  comingSoonText: {
+    color: COLORS.OFF_WHITE,
+    fontWeight: 'bold',
+    fontSize: 170,
+    marginBottom: 50,
+    opacity: 0.9,
   },
   bold: {
     fontWeight: 'bold',
   },
   contentMargin: {
-    marginTop: 100,
+    marginTop: 120,
     marginLeft: 90,
+    opacity: 0.25,
   },
   playlistTitle: {
     fontSize: 35,
     fontWeight: 'bold',
-    color: '#FFF',
+    color: COLORS.WHITE,
     paddingBottom: 10,
   },
   popup: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#000',
+    backgroundColor: COLORS.BLACK,
     position: 'absolute',
     top: 90,
     left: 0,

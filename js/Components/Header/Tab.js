@@ -13,7 +13,7 @@ import {
   setIsAppLoaded,
 } from '../../redux/actions/actions';
 import {Image, View, Text, TouchableHighlight} from 'react-native';
-import {IMG} from '../../Constants';
+import {COLORS, IMG} from '../../Constants';
 
 const Tab = React.forwardRef((props, ref) => {
   const isSermons = props.label === 'Sermons';
@@ -87,7 +87,7 @@ const Tab = React.forwardRef((props, ref) => {
       marginTop: 37,
       marginRight: isContact ? 0 : 30,
       fontSize: 32,
-      color: isFocused ? '#88C4DD' : '#F0F0F0',
+      color: COLORS[isFocused ? 'FOCUS_BLUE' : 'OFF_WHITE'],
       fontWeight: isFocused ? '800' : '700',
     },
     searchIcon: {
