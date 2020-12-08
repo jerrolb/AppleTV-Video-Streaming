@@ -12,6 +12,22 @@ const DIMENSIONS = {
   HEIGHT: screenHeight,
 };
 
+const COLORS = {
+  BLACK: '#000',
+  WHITE: '#FFF',
+  OFF_WHITE: '#F0F0F0',
+  GRAY: '#808080',
+  FOCUS_BLUE: '#88C4DD',
+  LIGHT_BLUE: 'lightblue',
+  TRANSPARENT: 'transparent',
+  KEYBOARD: {
+    FOCUSED_BG: '#CECCCE',
+    UNFOCUSED_BG: '#181718',
+    FOCUSED_TEXT: '#1E1D1E',
+    UNFOCUSED_TEXT: '#787678',
+  },
+};
+
 const IMG = {
   CONTACT: 'contact_layout.jpg',
   GIVING: 'give_layout.jpg',
@@ -81,6 +97,7 @@ const WATCH_LIVE_DATA = [
 ];
 
 export {
+  COLORS,
   DIMENSIONS,
   FETCH_TIMEOUT,
   IMG,

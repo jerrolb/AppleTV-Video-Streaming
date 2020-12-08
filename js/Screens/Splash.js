@@ -1,6 +1,6 @@
 import React from 'react';
 import {Image} from 'react-native';
-import {IMG} from '../Constants';
+import {COLORS, IMG} from '../Constants';
 
 const Splash = () => {
   return (
@@ -16,7 +16,7 @@ const styles = {
   fullscreen: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#000',
+    backgroundColor: COLORS.BLACK,
   },
 };
 

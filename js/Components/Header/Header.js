@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {View, ScrollView} from 'react-native';
 import Tab from './Tab';
+import {COLORS} from '../../Constants';
 
 const Header = (props) => {
   const search = useRef(null);
@@ -37,7 +38,7 @@ const styles = {
     width: '100%',
     height: 80,
     zIndex: 3,
-    backgroundColor: 'transparent',
+    backgroundColor: COLORS.TRANSPARENT,
   },
   scrollView: {
     zIndex: 2,
@@ -55,7 +56,7 @@ const styles = {
     top: 12,
     height: 80,
     width: 775,
-    backgroundColor: '#808080',
+    backgroundColor: COLORS.GRAY,
     borderRadius: 50,
     opacity: 0.3,
   },

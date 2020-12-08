@@ -2,7 +2,7 @@ import React, {useEffect, useImperativeHandle, useRef} from 'react';
 import PropTypes from 'prop-types';
 import {Text, Image, View, TouchableHighlight} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import {DIMENSIONS} from '../../Constants';
+import {COLORS, DIMENSIONS} from '../../Constants';
 import * as Player from '../../controllers/Player';
 
 const Playlist = React.forwardRef((props, ref) => {
@@ -73,7 +73,7 @@ const styles = {
     fontSize: 35,
     lineHeight: 100,
     fontWeight: 'bold',
-    color: '#FFF',
+    color: COLORS.WHITE,
   },
   marginLeft: {
     marginLeft: 90,

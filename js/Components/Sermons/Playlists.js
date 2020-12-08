@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import {TouchableHighlight, View} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import Playlist from './Playlist';
-import {DIMENSIONS} from '../../Constants';
+import {COLORS, DIMENSIONS} from '../../Constants';
 
 const Playlists = (props) => {
   const [colIndex, setColIndex] = useState(0);
@@ -158,7 +158,7 @@ const styles = {
     height: 240,
     borderWidth: 5,
     borderRadius: 5,
-    borderColor: 'lightblue',
+    borderColor: COLORS.LIGHT_BLUE,
   },
   hideBehind: {
     position: 'absolute',

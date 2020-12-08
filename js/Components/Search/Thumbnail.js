@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {Image, TouchableHighlight, View} from 'react-native';
 import * as Player from '../../controllers/Player';
 import {setNextUrl} from '../../redux/actions/actions';
+import {COLORS} from '../../Constants';
 
 const Thumbnail = React.forwardRef((props, ref) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -33,7 +34,7 @@ const Thumbnail = React.forwardRef((props, ref) => {
       height: 240,
       borderWidth: 5,
       borderRadius: 5,
-      borderColor: isFocused ? 'lightblue' : 'transparent',
+      borderColor: COLORS[isFocused ? 'LIGHT_BLUE' : 'TRANSPARENT'],
     },
   };
 

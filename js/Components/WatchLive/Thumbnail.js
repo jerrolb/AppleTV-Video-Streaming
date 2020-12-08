@@ -1,25 +1,28 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {Text, TouchableHighlight, View} from 'react-native';
-import * as Player from '../../controllers/Player';
+import {Text, View} from 'react-native';
+// import * as Player from '../../controllers/Player';
+import {COLORS} from '../../Constants';
 
 const Thumbnail = React.forwardRef((props, ref) => {
   const [isFocused, setIsFocused] = useState(false);
-
-  const onFocus = () => {
-    setIsFocused(true);
-    props.setPosition();
-  };
-  const onBlur = () => {
-    setIsFocused(false);
-  };
-  const onPress = () => {
-    if (props.isPopup) {
-      props.setPopup(props.title);
-    } else {
-      Player.init(props.url);
-    }
-  };
+  useEffect(() => {
+    false && setIsFocused(false);
+  }, [isFocused]);
+  // const onFocus = () => {
+  //   setIsFocused(true);
+  //   props.setPosition();
+  // };
+  // const onBlur = () => {
+  //   setIsFocused(false);
+  // };
+  // const onPress = () => {
+  //   if (props.isPopup) {
+  //     props.setPopup(props.title);
+  //   } else {
+  //     Player.init(props.url);
+  //   }
+  // };
 
   const styles = {
     container: {
@@ -27,7 +30,7 @@ const Thumbnail = React.forwardRef((props, ref) => {
       height: 220,
     },
     text: {
-      color: 'white',
+      color: COLORS.WHITE,
       fontSize: 35,
       fontWeight: 'bold',
     },
@@ -36,24 +39,24 @@ const Thumbnail = React.forwardRef((props, ref) => {
       height: 240,
       borderWidth: 5,
       borderRadius: 5,
-      borderColor: isFocused ? 'lightblue' : 'gray',
+      borderColor: COLORS[isFocused ? 'LIGHT_BLUE' : 'GRAY'],
       justifyContent: 'center',
       alignItems: 'center',
     },
   };
 
   return (
-    <TouchableHighlight
-      ref={ref}
-      style={styles.container}
-      onFocus={onFocus}
-      onBlur={onBlur}
-      onPress={onPress}
-    >
-      <View style={styles.thumbnail}>
-        <Text style={styles.text}>{props.title}</Text>
-      </View>
-    </TouchableHighlight>
+    // <TouchableHighlight
+    //   ref={ref}
+    //   style={styles.container}
+    //   onFocus={onFocus}
+    //   onBlur={onBlur}
+    //   onPress={onPress}
+    // >
+    <View style={styles.thumbnail}>
+      <Text style={styles.text}>{props.title}</Text>
+    </View>
+    // </TouchableHighlight>
   );
 });
 

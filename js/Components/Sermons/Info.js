@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Text, View} from 'react-native';
+import {COLORS} from '../../Constants';
 
 const Info = (props) => {
   return (
@@ -22,18 +23,18 @@ const styles = {
     left: 0,
     width: 70,
     height: 420,
-    backgroundColor: '#000',
+    backgroundColor: COLORS.BLACK,
   },
   info: {
     width: 575,
     height: 425,
     paddingLeft: 70,
     zIndex: 2,
-    backgroundColor: '#000',
+    backgroundColor: COLORS.BLACK,
   },
   infoDescription: {
     fontSize: 35,
-    color: '#FFF',
+    color: COLORS.WHITE,
     width: 575,
     height: 245,
   },
@@ -41,7 +42,7 @@ const styles = {
     height: 100,
     fontSize: 40,
     fontWeight: 'bold',
-    color: '#FFF',
+    color: COLORS.WHITE,
     width: 575,
   },
   spacer: {

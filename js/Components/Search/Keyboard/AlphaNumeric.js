@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Text, TouchableHighlight, View} from 'react-native';
 import {setIsReturningFromPlayer} from '../../../redux/actions/actions';
+import {COLORS} from '../../../Constants';
 
 const AlphaNumeric = (props) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -10,13 +11,15 @@ const AlphaNumeric = (props) => {
     container: {
       width: 65,
       height: 65,
-      backgroundColor: isFocused ? '#CECCCE' : '#181718',
+      backgroundColor: COLORS.KEYBOARD[
+        isFocused ? 'FOCUSED_BG' : 'UNFOCUSED_BG'
+      ],
       margin: 2,
       justifyContent: 'center',
       alignItems: 'center',
     },
     text: {
-      color: isFocused ? '#1E1D1E' : '#787678',
+      color: COLORS.KEYBOARD[isFocused ? 'FOCUSED_TEXT' : 'UNFOCUSED_TEXT'],
       fontWeight: 'bold',
       fontSize: 30,
       textAlign: 'center',

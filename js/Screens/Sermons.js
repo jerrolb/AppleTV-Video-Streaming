@@ -5,7 +5,7 @@ import {Image, View} from 'react-native';
 import {Header, Info} from '../components';
 import Playlists from '../components/Sermons/Playlists';
 import Video from 'react-native-video';
-import {DIMENSIONS} from '../Constants';
+import {COLORS, DIMENSIONS} from '../Constants';
 import * as Player from '../controllers/Player';
 
 const Sermons = (props) => {
@@ -66,7 +66,7 @@ const styles = {
   fullscreen: {
     width: DIMENSIONS.WIDTH,
     height: DIMENSIONS.HEIGHT,
-    backgroundColor: '#000',
+    backgroundColor: COLORS.BLACK,
   },
   hidden: {
     position: 'absolute',
@@ -90,7 +90,7 @@ const styles = {
     position: 'absolute',
     top: 0,
     right: 0,
-    backgroundColor: '#000',
+    backgroundColor: COLORS.BLACK,
   },
   imageBackground: {
     width: '100%',

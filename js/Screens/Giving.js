@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, View} from 'react-native';
 import {Header} from '../components';
-import {IMG} from '../Constants';
+import {COLORS, IMG} from '../Constants';
 
 const Giving = () => {
   return (
@@ -23,6 +23,6 @@ const styles = {
   fullscreen: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#000',
+    backgroundColor: COLORS.BLACK,
   },
 };
