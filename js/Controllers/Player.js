@@ -1,10 +1,18 @@
 import {TVMenuControl} from 'react-native';
 import store from '../redux/store/index';
 import {setPlayer, setIsReturningFromPlayer} from '../redux/actions/actions';
+import * as Metrics from '../controllers/Metrics';
 
 const enable = (url) => {
-  TVMenuControl.enableTVMenuKey();
   const nextUrl = store.getState().player.nextUrl;
+  const info = store.getState().info;
+  TVMenuControl.enableTVMenuKey();
+  Metrics.recordView({
+    id: info.id,
+    title: info.title,
+    url: nextUrl,
+  });
+
   store.dispatch(
       setPlayer({
         nextUrl: url || nextUrl,

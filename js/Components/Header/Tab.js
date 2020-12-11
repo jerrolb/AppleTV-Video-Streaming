@@ -60,6 +60,7 @@ const Tab = React.forwardRef((props, ref) => {
   const resetSermonsScreen = () => {
     props.setIsAppLoaded(false);
     props.setInfo({
+      id: props.firstVideo.id,
       title: props.firstVideo.title,
       description: props.firstVideo.description,
       thumbnail: props.firstVideo.thumbnail,
@@ -157,6 +158,7 @@ Tab.propTypes = {
   setIsAppLoaded: PropTypes.func.isRequired,
   setInfo: PropTypes.func.isRequired,
   firstVideo: PropTypes.shape({
+    id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,

@@ -14,6 +14,7 @@ import {
   SET_SHOULD_SERMONS_BE_FOCUSED,
   SET_SHOULD_SEARCH_BE_FOCUSED,
   SET_SHOULD_WATCHLIVE_BE_FOCUSED,
+  SET_APP_START_TIME,
 } from '../actionTypes';
 
 export const setDefaultState = () => {
@@ -117,6 +118,13 @@ export const setShouldSearchBeFocused = (payload) => {
 export const setShouldWatchLiveBeFocused = (payload) => {
   return {
     type: SET_SHOULD_WATCHLIVE_BE_FOCUSED,
+    payload,
+  };
+};
+
+export const setAppStartTime = (payload) => {
+  return {
+    type: SET_APP_START_TIME,
     payload,
   };
 };

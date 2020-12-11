@@ -1,3 +1,4 @@
+export const SET_APP_START_TIME = 'SET_APP_START_TIME';
 export const SET_INFO = 'SET_INFO';
 export const SET_IS_HEADER_FOCUSED = 'SET_IS_HEADER_FOCUSED';
 export const SET_NEXT_URL = 'SET_NEXT_URL';

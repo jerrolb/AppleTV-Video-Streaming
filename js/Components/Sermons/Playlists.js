@@ -34,6 +34,7 @@ const Playlists = (props) => {
   const updateVideoInfo = () => {
     const currVideo = props.playlists[colIndex].videos[rowIndex];
     props.setInfo({
+      id: currVideo.id,
       title: currVideo.title,
       description: currVideo.description,
       background: currVideo.background,
@@ -152,7 +153,7 @@ const styles = {
   },
   highlight: {
     position: 'absolute',
-    top: 190,
+    top: 191,
     left: 80,
     width: 430,
     height: 240,

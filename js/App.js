@@ -1,6 +1,10 @@
 import React, {useEffect, useRef} from 'react';
 import {connect} from 'react-redux';
-import {setDefaultState, setIsAppLoaded} from './redux/actions/actions';
+import {
+  setDefaultState,
+  setIsAppLoaded,
+  setAppStartTime,
+} from './redux/actions/actions';
 import {AppState} from 'react-native';
 import {SCREEN} from './Constants';
 import {
@@ -14,12 +18,18 @@ import {
 } from './screens';
 import * as Remote from './controllers/Remote';
 import * as Feed from './controllers/Feed';
+import * as Metrics from './controllers/Metrics';
 
 const App = (props) => {
   const currAppState = useRef(AppState.currentState);
   const handleAppStateChanged = (nextAppState) => {
+    currAppState.current === 'active' &&
+    ['inactive', 'background'].includes(nextAppState) &&
+    Metrics.recordSession();
+
     ['inactive', 'background'].includes(currAppState.current) &&
-    nextAppState === 'active' && restartApp();
+    nextAppState === 'active' &&
+    restartApp();
 
     currAppState.current = nextAppState;
   };
@@ -56,6 +66,7 @@ const App = (props) => {
     if (!props.isFeedReady) {
       Feed.get();
       Remote.enable();
+      props.setAppStartTime(Date.now());
     }
     AppState.addEventListener('change', handleAppStateChanged);
     return () => {
@@ -77,6 +88,7 @@ const mapDispatch = (dispatch) => {
   return {
     setDefaultState: () => dispatch(setDefaultState()),
     setIsAppLoaded: (isAppLoaded) => dispatch(setIsAppLoaded(isAppLoaded)),
+    setAppStartTime: (appStartTime) => dispatch(setAppStartTime(appStartTime)),
   };
 };
 

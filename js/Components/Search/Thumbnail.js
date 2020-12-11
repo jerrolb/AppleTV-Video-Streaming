@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Image, TouchableHighlight, View} from 'react-native';
 import * as Player from '../../controllers/Player';
-import {setNextUrl} from '../../redux/actions/actions';
+import {setInfo, setNextUrl} from '../../redux/actions/actions';
 import {COLORS} from '../../Constants';
 
 const Thumbnail = React.forwardRef((props, ref) => {
@@ -16,6 +16,11 @@ const Thumbnail = React.forwardRef((props, ref) => {
       currRowIndex: props.index,
     });
     props.setNextUrl(props.item.url);
+    props.setInfo({
+      id: props.item.id,
+      title: props.item.title,
+      description: props.item.description,
+    });
     setIsFocused(true);
   };
   const onBlur = () => {
@@ -64,6 +69,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     setNextUrl: (nextUrl) => dispatch(setNextUrl(nextUrl)),
+    setInfo: (info) => dispatch(setInfo(info)),
   };
 };
 
@@ -74,6 +80,7 @@ export default connect(mapState, mapDispatch, null, {forwardRef: true})(
 
 Thumbnail.propTypes = {
   item: PropTypes.shape({
+    id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
@@ -81,5 +88,6 @@ Thumbnail.propTypes = {
   }),
   onFocused: PropTypes.func.isRequired,
   setNextUrl: PropTypes.func.isRequired,
+  setInfo: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
 };

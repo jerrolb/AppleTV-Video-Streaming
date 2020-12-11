@@ -34,6 +34,7 @@ const initFeed = (feed) => {
         video = feed.shortFormVideos[i];
         if (id === video.id) {
           playlist.videos.push({
+            id: video.id,
             playlistTitle: category.name,
             title: video.title,
             description: video.shortDescription,
@@ -55,6 +56,7 @@ const initFeed = (feed) => {
     store.dispatch(setPlaylists(playlists));
     store.dispatch(
         setInfo({
+          id: currVideo.id,
           title: currVideo.title,
           description: currVideo.description,
           background: currVideo.background,

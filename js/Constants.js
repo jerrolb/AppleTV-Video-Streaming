@@ -67,6 +67,7 @@ const SCREEN = {
 
 const URL = {
   FEED: 'http://nolachurch.com/stream/feed.json',
+  METRICS: 'http://nolachurch.com/stream/appletv/metrics/metrics.php',
 };
 
 const WATCH_LIVE_DATA = [

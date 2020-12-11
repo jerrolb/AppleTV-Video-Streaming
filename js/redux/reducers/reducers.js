@@ -14,10 +14,12 @@ import {
   SET_SHOULD_SERMONS_BE_FOCUSED,
   SET_SHOULD_SEARCH_BE_FOCUSED,
   SET_SHOULD_WATCHLIVE_BE_FOCUSED,
+  SET_APP_START_TIME,
 } from '../actionTypes';
 import {SCREEN} from '../../Constants';
 
 const initialState = {
+  appStartTime: null,
   screen: SCREEN.SPLASH,
   isHeaderFocused: true,
   isReturningFromPlayer: false,
@@ -29,6 +31,7 @@ const initialState = {
   shouldWatchLiveBeFocused: false,
   playlists: [],
   info: {
+    id: undefined,
     title: '',
     description: '',
     thumbnail: undefined,
@@ -76,6 +79,8 @@ const reducer = (state = initialState, {type, payload}) => {
       return setShouldSearchBeFocused(state, payload);
     case SET_SHOULD_WATCHLIVE_BE_FOCUSED:
       return setShouldWatchLiveBeFocused(state, payload);
+    case SET_APP_START_TIME:
+      return setAppStartTime(state, payload);
     case SET_DEFAULT_STATE:
       return initialState;
     default:
@@ -187,6 +192,13 @@ const setShouldWatchLiveBeFocused = (state, payload) => {
   return {
     ...state,
     shouldWatchLiveBeFocused: payload,
+  };
+};
+
+const setAppStartTime = (state, payload) => {
+  return {
+    ...state,
+    appStartTime: payload,
   };
 };
 
