@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Text, TouchableHighlight, View} from 'react-native';
+import {Text, Pressable, View} from 'react-native';
 import {COLORS} from '../Constants';
 
 const Error = (props) => {
   return (
     <View style={styles.fullscreen}>
       <View style={styles.center}>
-        <TouchableHighlight
+        <Pressable
           hasTVPreferredFocus={true}
           onPress={props.restartApp}
         >
@@ -18,7 +18,7 @@ const Error = (props) => {
             <Text>{'if the problem persists.\n\n'}</Text>
             <Text>Press the touchpad to try again.</Text>
           </Text>
-        </TouchableHighlight>
+        </Pressable>
       </View>
     </View>
   );

@@ -5,7 +5,7 @@ import {setIsHeaderFocused} from '../redux/actions/actions';
 import {Text, View} from 'react-native';
 import {TVEventHandler} from 'react-native';
 import {COLORS, REMOTE} from '../Constants';
-import {TouchableHighlight, TVMenuControl} from 'react-native';
+import {Pressable, TVMenuControl} from 'react-native';
 
 const Popup = (props) => {
   const wrapper = useRef(null);
@@ -30,13 +30,13 @@ const Popup = (props) => {
   });
 
   return (
-    <TouchableHighlight ref={wrapper} hasTVPreferredFocus={true}>
+    <Pressable ref={wrapper} hasTVPreferredFocus={true}>
       <View style={styles.fullscreen}>
         <View style={styles.center}>
           <Text style={styles.popupText}>{props.popup}</Text>
         </View>
       </View>
-    </TouchableHighlight>
+    </Pressable>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, {useEffect, useImperativeHandle, useRef} from 'react';
 import PropTypes from 'prop-types';
-import {Text, Image, View, TouchableHighlight} from 'react-native';
+import {Text, Image, View, Pressable} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import {COLORS, DIMENSIONS} from '../../Constants';
 import * as Player from '../../controllers/Player';
@@ -9,7 +9,7 @@ const Playlist = React.forwardRef((props, ref) => {
   const refArr = useRef([]);
   const playlistRow = useRef(null);
   const renderThumbnail = ({item, index}) => (
-    <TouchableHighlight
+    <Pressable
       ref={(e) => (refArr.current[index] = e)}
       style={styles.marginLeft}
       onFocus={() => {
@@ -21,7 +21,7 @@ const Playlist = React.forwardRef((props, ref) => {
         style={styles.thumbnailImage}
         source={{uri: item.thumbnail}}
       />
-    </TouchableHighlight>
+    </Pressable>
   );
 
   useImperativeHandle(ref, () => ({

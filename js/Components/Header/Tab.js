@@ -12,7 +12,7 @@ import {
   setPosition,
   setIsAppLoaded,
 } from '../../redux/actions/actions';
-import {Image, View, Text, TouchableHighlight} from 'react-native';
+import {Image, View, Text, Pressable} from 'react-native';
 import {COLORS, IMG} from '../../Constants';
 
 const Tab = React.forwardRef((props, ref) => {
@@ -104,7 +104,7 @@ const Tab = React.forwardRef((props, ref) => {
   };
 
   return (
-    <TouchableHighlight
+    <Pressable
       ref={tab}
       onFocus={onFocus}
       onBlur={onBlur}
@@ -112,7 +112,7 @@ const Tab = React.forwardRef((props, ref) => {
       hasTVPreferredFocus={props.screen === props.label}
       underlayColor="none">
       {isSearch ? <SearchTab /> : <TextTab />}
-    </TouchableHighlight>
+    </Pressable>
   );
 });
 

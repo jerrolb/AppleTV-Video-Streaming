@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Text, TouchableHighlight, View} from 'react-native';
+import {Text, Pressable, View} from 'react-native';
 import {setIsReturningFromPlayer} from '../../../redux/actions/actions';
 import {COLORS} from '../../../Constants';
 
@@ -40,14 +40,14 @@ const AlphaNumeric = (props) => {
   };
 
   return (
-    <TouchableHighlight
+    <Pressable
       onFocus={onFocus}
       onBlur={onBlur}
       onPress={props.onPress}>
       <View style={styles.container}>
         <Text style={styles.text}>{props.alphaNumeric}</Text>
       </View>
-    </TouchableHighlight>
+    </Pressable>
   );
 };
 

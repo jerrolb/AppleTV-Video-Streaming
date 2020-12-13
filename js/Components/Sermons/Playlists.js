@@ -10,7 +10,7 @@ import {
   setShouldSermonsBeFocused,
 } from '../../redux/actions/actions';
 import PropTypes from 'prop-types';
-import {TouchableHighlight, View} from 'react-native';
+import {Pressable, View} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import Playlist from './Playlist';
 import {COLORS, DIMENSIONS} from '../../Constants';
@@ -85,12 +85,12 @@ const Playlists = (props) => {
 
   return (
     <View style={styles.hideBehind}>
-      <TouchableHighlight
+      <Pressable
         style={styles.focusInterceptWrapper}
         onFocus={onFocusInterceptFocused}
       >
         <View style={styles.focusIntercept} />
-      </TouchableHighlight>
+      </Pressable>
       {!props.isHeaderFocused && <View style={styles.highlight} />}
       <Carousel
         pointerEvents={props.player.visible ? 'none' : 'auto'}

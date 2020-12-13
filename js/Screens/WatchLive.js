@@ -93,12 +93,12 @@ const WatchLive = (props) => {
         <View
           style={styles[!props.player.visible ? {} : 'hidden']}>
 
-          {/* <TouchableHighlight
+          {/* <Pressable
           style={styles.focusInterceptWrapper}
           onFocus={onFocusInterceptFocused}
         >
           <View style={styles.focusIntercept} />
-        </TouchableHighlight> */}
+        </Pressable> */}
 
           <View style={styles.contentMargin}>
             <Carousel

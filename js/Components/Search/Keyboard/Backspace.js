@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {Image, TouchableHighlight} from 'react-native';
+import {Image, Pressable} from 'react-native';
 import {connect} from 'react-redux';
 import {setIsReturningFromPlayer} from '../../../redux/actions/actions';
 
@@ -25,7 +25,7 @@ const Backspace = React.forwardRef((props, ref) => {
   };
 
   return (
-    <TouchableHighlight
+    <Pressable
       ref={ref}
       onFocus={onFocus}
       onBlur={onBlur}
@@ -36,7 +36,7 @@ const Backspace = React.forwardRef((props, ref) => {
           uri: isFocused ? 'focusedBackspace.png' : 'unfocusedBackspace.png',
         }}
       />
-    </TouchableHighlight>
+    </Pressable>
   );
 });
 

@@ -46,7 +46,7 @@ const Thumbnail = React.forwardRef((props, ref) => {
   };
 
   return (
-    // <TouchableHighlight
+    // <Pressable
     //   ref={ref}
     //   style={styles.container}
     //   onFocus={onFocus}
@@ -56,7 +56,7 @@ const Thumbnail = React.forwardRef((props, ref) => {
     <View style={styles.thumbnail}>
       <Text style={styles.text}>{props.title}</Text>
     </View>
-    // </TouchableHighlight>
+    // </Pressable>
   );
 });
 

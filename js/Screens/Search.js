@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState, useRef} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Text, TouchableHighlight, View} from 'react-native';
+import {Text, Pressable, View} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import AlphaNumeric from '../components/Search/Keyboard/AlphaNumeric';
 import Spacebar from '../components/Search/Keyboard/Spacebar';
@@ -208,12 +208,12 @@ const Search = (props) => {
         <Header />
 
         <View style={styles.leftSide}>
-          <TouchableHighlight
+          <Pressable
             style={styles.focusInterceptWrapper}
             onFocus={onFocusInterceptFocused}
           >
             <View style={styles.focusIntercept} />
-          </TouchableHighlight>
+          </Pressable>
 
           <Text
             ellipsizeMode={'tail'}

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Image, TouchableHighlight, View} from 'react-native';
+import {Image, Pressable, View} from 'react-native';
 import * as Player from '../../controllers/Player';
 import {setInfo, setNextUrl} from '../../redux/actions/actions';
 import {COLORS} from '../../Constants';
@@ -44,7 +44,7 @@ const Thumbnail = React.forwardRef((props, ref) => {
   };
 
   return (
-    <TouchableHighlight
+    <Pressable
       ref={ref}
       onFocus={onFocus}
       onBlur={onBlur}
@@ -55,7 +55,7 @@ const Thumbnail = React.forwardRef((props, ref) => {
           source={{uri: props.item.thumbnail}}
         />
       </View>
-    </TouchableHighlight>
+    </Pressable>
   );
 });
 

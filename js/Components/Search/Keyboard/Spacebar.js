@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {Image, TouchableHighlight} from 'react-native';
+import {Image, Pressable} from 'react-native';
 
 const Spacebar = (props) => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <TouchableHighlight
+    <Pressable
       onFocus={() => {
         setIsFocused(true);
       }}
@@ -20,7 +20,7 @@ const Spacebar = (props) => {
           uri: isFocused ? 'focusedSpacebar.png' : 'unfocusedSpacebar.png',
         }}
       />
-    </TouchableHighlight>
+    </Pressable>
   );
 };
 
