@@ -20,7 +20,7 @@ const enable = () => {
             Player.minimize();
             break;
           }
-          if (btn === REMOTE.SELECT) {
+          if (state.screen === SCREEN.SEARCH && btn === REMOTE.SELECT) {
             debugCounter();
             break;
           }

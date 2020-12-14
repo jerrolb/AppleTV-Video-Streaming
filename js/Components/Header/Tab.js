@@ -18,7 +18,6 @@ import {COLORS, IMG} from '../../Constants';
 const Tab = React.forwardRef((props, ref) => {
   const isSermons = props.label === 'Sermons';
   const isSearch = props.label === 'Search';
-  const isContact = props.label === 'Contact';
   const isWatchLive = props.label === 'Watch Live';
   const [isFocused, setIsFocused] = useState(false);
   const tab = useRef(ref);
@@ -86,7 +85,8 @@ const Tab = React.forwardRef((props, ref) => {
   const styles = {
     textStyle: {
       marginTop: 37,
-      marginRight: isContact ? 0 : 30,
+      marginLeft: 15,
+      marginRight: 15,
       fontSize: 32,
       color: COLORS[isFocused ? 'FOCUS_BLUE' : 'OFF_WHITE'],
       fontWeight: isFocused ? '800' : '700',
@@ -99,7 +99,8 @@ const Tab = React.forwardRef((props, ref) => {
     },
     flexDirectionRow: {
       flexDirection: 'row',
-      marginRight: isContact ? 0 : 30,
+      marginLeft: 15,
+      marginRight: 15,
     },
   };
 

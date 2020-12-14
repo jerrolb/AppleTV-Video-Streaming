@@ -57,6 +57,7 @@ const REMOTE = {
 
 const SCREEN = {
   CONTACT: 'Contact',
+  DEBUG: 'Debug',
   ERROR: 'Error',
   GIVING: 'Giving',
   SERMONS: 'Sermons',

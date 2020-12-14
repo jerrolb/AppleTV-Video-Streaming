@@ -15,6 +15,7 @@ import {
   SET_SHOULD_SEARCH_BE_FOCUSED,
   SET_SHOULD_WATCHLIVE_BE_FOCUSED,
   SET_APP_START_TIME,
+  SET_IS_DEBUG,
 } from '../actionTypes';
 
 export const setDefaultState = () => {
@@ -125,6 +126,13 @@ export const setShouldWatchLiveBeFocused = (payload) => {
 export const setAppStartTime = (payload) => {
   return {
     type: SET_APP_START_TIME,
+    payload,
+  };
+};
+
+export const setIsDebug = (payload) => {
+  return {
+    type: SET_IS_DEBUG,
     payload,
   };
 };

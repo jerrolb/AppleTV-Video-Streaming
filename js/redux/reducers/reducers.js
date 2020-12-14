@@ -15,10 +15,12 @@ import {
   SET_SHOULD_SEARCH_BE_FOCUSED,
   SET_SHOULD_WATCHLIVE_BE_FOCUSED,
   SET_APP_START_TIME,
+  SET_IS_DEBUG,
 } from '../actionTypes';
 import {SCREEN} from '../../Constants';
 
 const initialState = {
+  isDebug: false,
   appStartTime: null,
   screen: SCREEN.SPLASH,
   isHeaderFocused: true,
@@ -81,6 +83,8 @@ const reducer = (state = initialState, {type, payload}) => {
       return setShouldWatchLiveBeFocused(state, payload);
     case SET_APP_START_TIME:
       return setAppStartTime(state, payload);
+    case SET_IS_DEBUG:
+      return setIsDebug(state, payload);
     case SET_DEFAULT_STATE:
       return initialState;
     default:
@@ -199,6 +203,13 @@ const setAppStartTime = (state, payload) => {
   return {
     ...state,
     appStartTime: payload,
+  };
+};
+
+const setIsDebug = (state, payload) => {
+  return {
+    ...state,
+    isDebug: payload,
   };
 };
 

@@ -6,7 +6,7 @@ import {COLORS, IMG} from '../Constants';
 const Contact = () => {
   return (
     <View style={styles.fullscreen}>
-      <Header screen={'Contact'} />
+      <Header />
       <Image style={styles.image} source={{uri: IMG.CONTACT}} />
     </View>
   );

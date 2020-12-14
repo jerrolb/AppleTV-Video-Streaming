@@ -6,7 +6,7 @@ import {COLORS, IMG} from '../Constants';
 const Giving = () => {
   return (
     <View style={styles.fullscreen}>
-      <Header screen={'Giving'} />
+      <Header />
       <Image style={styles.image} source={{uri: IMG.GIVING}} />
     </View>
   );

@@ -1,9 +1,9 @@
 import store from '../redux/store/index';
-import {setScreen} from '../redux/actions/actions';
-import {SCREEN} from '../Constants';
+import {setIsDebug} from '../redux/actions/actions';
 
 const THRESHOLD = 2000;
-const limit = 30;
+const LIMIT = 29;
+let isDebug = false;
 let count = 0;
 let timer;
 
@@ -11,9 +11,10 @@ const resetCount = () => count = 0;
 
 const debugCounter = () => {
   clearTimeout(timer);
-  if (count === limit) {
+  if (count === LIMIT) {
     resetCount();
-    store.dispatch(setScreen(SCREEN.DEBUG));
+    isDebug = store.getState().isDebug;
+    store.dispatch(setIsDebug(!isDebug));
     return;
   }
 
