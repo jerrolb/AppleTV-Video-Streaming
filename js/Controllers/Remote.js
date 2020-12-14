@@ -2,6 +2,7 @@ import {TVEventHandler} from 'react-native';
 import store from '../redux/store/index';
 import {REMOTE, SCREEN} from '../Constants';
 import * as Player from './Player';
+import debugCounter from './Debug';
 
 const tvEventHandler = new TVEventHandler();
 const enable = () => {
@@ -17,6 +18,10 @@ const enable = () => {
         case SCREEN.WATCHLIVE:
           if (state.player.visible && btn === REMOTE.MENU) {
             Player.minimize();
+            break;
+          }
+          if (btn === REMOTE.SELECT) {
+            debugCounter();
             break;
           }
         default:

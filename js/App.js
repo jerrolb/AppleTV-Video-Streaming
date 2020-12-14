@@ -9,6 +9,7 @@ import {AppState} from 'react-native';
 import {SCREEN} from './Constants';
 import {
   Contact,
+  Debug,
   Error,
   Giving,
   Sermons,
@@ -54,6 +55,8 @@ const App = (props) => {
         return <WatchLive />;
       case SCREEN.SEARCH:
         return <Search />;
+      case SCREEN.DEBUG:
+        return <Debug />;
       default:
         console.error(
             `[App.js][renderScreen] Screen not found! ${props.screen}`,
