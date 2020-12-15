@@ -224,6 +224,8 @@ PODS:
     - React-Core (= 0.63.1-4)
     - React-cxxreact (= 0.63.1-4)
     - React-jsi (= 0.63.1-4)
+  - RNDeviceInfo (7.3.1):
+    - React-Core
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -253,6 +255,7 @@ DEPENDENCIES:
   - React-RCTSettings (from `../node_modules/react-native/Libraries/Settings`)
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -308,6 +311,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Text"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -337,8 +342,9 @@ SPEC CHECKSUMS:
   React-RCTSettings: e4c39640aa2b094049e09589517d1054caa7efca
   React-RCTText: 521381466615a31502c988ccb282c770557fee12
   ReactCommon: ed04de5258834ff7282705f3a22a2d8fd9aebc96
+  RNDeviceInfo: 57bb2806fb7bd982a1434e9f0b4e6a6ab1f6702e
   Yoga: 9912e6a124481edb4b4d84e56f7357ec52efab25
 
-PODFILE CHECKSUM: 503a328eb06513ec7c639a97b588e8545b363166
+PODFILE CHECKSUM: 665704736410d2cdda652bc07ad57b05e535f414
 
 COCOAPODS: 1.9.3

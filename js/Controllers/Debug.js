@@ -2,7 +2,7 @@ import store from '../redux/store/index';
 import {setIsDebug} from '../redux/actions/actions';
 
 const THRESHOLD = 2000;
-const LIMIT = 29;
+const LIMIT = 20;
 let isDebug = false;
 let count = 0;
 let timer;

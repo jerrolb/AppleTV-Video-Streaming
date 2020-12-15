@@ -1,10 +1,40 @@
-import React from 'react';
+import React, {useState} from 'react';
+import DeviceInfo from 'react-native-device-info';
 import {Platform, TVTextScrollView, ScrollView} from 'react-native';
 import {Text, View} from 'react-native';
 import {COLORS, DIMENSIONS} from '../Constants';
 import {Header} from '../components';
 
 const Debug = () => {
+  const [info, setInfo] = useState(null);
+
+  const getAllPromises = () => {
+    const allPromises = [];
+    for (const prop in DeviceInfo) {
+      if (DeviceInfo[prop]) {
+        const func = DeviceInfo[prop];
+
+        allPromises.push(
+            Promise.resolve(func())
+                .then((res) => {
+                  return (
+                    <Text key={prop}>
+                      {`${prop}: ${typeof res === 'object' ?
+                  JSON.stringify(res) : res}\n`}
+                    </Text>
+                  );
+                })
+                .catch((e) => console.log(e)),
+        );
+      }
+    }
+    return allPromises;
+  };
+
+  Promise.all(getAllPromises()).then((results) => {
+    !info && setInfo(results);
+  });
+
   return (
     <View style={styles.fullscreen}>
       <Header />
@@ -16,6 +46,7 @@ const Debug = () => {
               {`Screen size: ${DIMENSIONS.WIDTH}x${DIMENSIONS.HEIGHT}\n\n`}
             </Text>
             <Text>{`${JSON.stringify(Platform, null, 4)}\n\n`}</Text>
+            {info}
           </Text>
         </ScrollView>
       </TVTextScrollView>
