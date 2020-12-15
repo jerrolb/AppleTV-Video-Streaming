@@ -5,7 +5,7 @@ import {Image, View} from 'react-native';
 import {Header, Info} from '../components';
 import Playlists from '../components/Sermons/Playlists';
 import Video from 'react-native-video';
-import {COLORS, DIMENSIONS} from '../Constants';
+import {COLORS, DIMENSIONS, IMG} from '../Constants';
 import * as Player from '../controllers/Player';
 
 const Sermons = (props) => {
@@ -48,6 +48,8 @@ const Sermons = (props) => {
             paused={props.player.paused}
             onEnd={Player.exit}
             onError={Player.error}
+            poster={IMG.SPINNER}
+            posterResizeMode={'center'}
           />
         </View>
       )}
@@ -66,7 +68,7 @@ export default connect(mapState)(Sermons);
 
 Sermons.propTypes = {
   info: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     background: PropTypes.string.isRequired,

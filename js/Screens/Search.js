@@ -9,7 +9,7 @@ import Backspace from '../components/Search/Keyboard/Backspace';
 import Thumbnail from '../components/Search/Thumbnail';
 import Header from '../components/Header/Header';
 import Video from 'react-native-video';
-import {COLORS, DIMENSIONS} from '../Constants';
+import {COLORS, DIMENSIONS, IMG} from '../Constants';
 import * as Player from '../controllers/Player';
 import {
   setIsHeaderFocused,
@@ -305,6 +305,8 @@ const Search = (props) => {
             paused={props.player.paused}
             onEnd={Player.exit}
             onError={Player.error}
+            poster={IMG.SPINNER}
+            posterResizeMode={'center'}
           />
         </View>
       )}
