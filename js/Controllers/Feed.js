@@ -60,6 +60,7 @@ const initFeed = (feed) => {
           title: currVideo.title,
           description: currVideo.description,
           background: currVideo.background,
+          thumbnail: currVideo.thumbnail,
         }),
     );
     store.dispatch(setNextUrl(currVideo.url));

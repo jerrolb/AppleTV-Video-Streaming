@@ -38,6 +38,7 @@ const Playlists = (props) => {
       title: currVideo.title,
       description: currVideo.description,
       background: currVideo.background,
+      thumbnail: currVideo.thumbnail,
     });
     props.setNextUrl(currVideo.url);
     props.setPosition({

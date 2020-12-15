@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Image, View} from 'react-native';
@@ -9,14 +9,31 @@ import {COLORS, DIMENSIONS} from '../Constants';
 import * as Player from '../controllers/Player';
 
 const Sermons = (props) => {
+  const [didBgImgFail, setDidBgImgFail] = useState(false);
+  const [prevId, setPrevId] = useState(0);
+
+  const fallbackToThumbnail = (id) => {
+    setPrevId(id);
+    setDidBgImgFail(true);
+  };
+
+  useEffect(() => {
+    if (prevId !== props.info.id) {
+      setDidBgImgFail(false);
+    }
+  });
+
   return (
     <View>
       <View style={styles[props.player.visible ? 'hidden' : 'fullscreen']}>
         <Header />
         <View style={styles.heroImageUnderlay}>
           <Image
-            style={styles.heroImage}
-            source={{uri: props.info.background}}
+            style={[styles.heroImage, didBgImgFail ? styles.opaque : {}]}
+            source={{uri: props.info[
+              didBgImgFail ? 'thumbnail' : 'background'
+            ]}}
+            onError={() => fallbackToThumbnail(props.info.id)}
           />
         </View>
         <Info />
@@ -49,6 +66,7 @@ export default connect(mapState)(Sermons);
 
 Sermons.propTypes = {
   info: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     background: PropTypes.string.isRequired,
@@ -101,5 +119,8 @@ const styles = {
   },
   spacer: {
     height: 35,
+  },
+  opaque: {
+    opacity: 0.5,
   },
 };
