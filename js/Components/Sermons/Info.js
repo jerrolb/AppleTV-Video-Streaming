@@ -26,7 +26,7 @@ const styles = {
     backgroundColor: COLORS.BLACK,
   },
   info: {
-    width: 500,
+    width: 515,
     height: 425,
     paddingLeft: 70,
     zIndex: 2,
