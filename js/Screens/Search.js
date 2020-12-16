@@ -294,7 +294,7 @@ const Search = (props) => {
               );
             }}
             sliderWidth={2000}
-            sliderHeight={DIMENSIONS.HEIGHT}
+            sliderHeight={DIMENSIONS.HEIGHT / 2}
             itemWidth={1000}
             itemHeight={240}
           />
