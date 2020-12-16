@@ -143,6 +143,10 @@ const Search = (props) => {
     ].setNativeProps({hasTVPreferredFocus: true});
   };
 
+  const focusFirstThumbnail = () => {
+    thumbnailRefs.current['00'].setNativeProps({hasTVPreferredFocus: true});
+  };
+
   const getMatchedPlaylists = () => {
     return [...matchedPlaylists].reduce((acc, playlist) => {
       acc.push(<Text key={playlist}>{`${playlist} \n`}</Text>);
@@ -187,7 +191,7 @@ const Search = (props) => {
 
     if (props.isHeaderFocused) {
       if (searchResults.length) {
-        focusCurrentSearchThumbnail();
+        focusFirstThumbnail();
       } else {
         backspace.current.setNativeProps({
           hasTVPreferredFocus: true,
@@ -306,7 +310,6 @@ const Search = (props) => {
             onEnd={Player.exit}
             onError={Player.error}
             poster={IMG.SPINNER}
-            posterResizeMode={'center'}
           />
         </View>
       )}
@@ -339,13 +342,13 @@ const styles = {
   focusIntercept: {
     position: 'absolute',
     left: 0,
-    height: 1,
+    height: 5,
     width: '100%',
     paddingTop: 1,
   },
   focusInterceptWrapper: {
-    height: 1,
-    width: '100%',
+    height: 5,
+    width: '75%',
   },
   userInput: {
     color: COLORS.WHITE,

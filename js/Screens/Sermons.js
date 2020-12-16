@@ -35,6 +35,10 @@ const Sermons = (props) => {
             ]}}
             onError={() => fallbackToThumbnail(props.info.id)}
           />
+          <Image
+            style={styles.heroImage}
+            source={{uri: IMG.GRADIENT}}
+          />
         </View>
         <Info />
         <Playlists />
@@ -49,7 +53,6 @@ const Sermons = (props) => {
             onEnd={Player.exit}
             onError={Player.error}
             poster={IMG.SPINNER}
-            posterResizeMode={'center'}
           />
         </View>
       )}
