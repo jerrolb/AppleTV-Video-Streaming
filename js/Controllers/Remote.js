@@ -2,7 +2,7 @@ import {TVEventHandler} from 'react-native';
 import store from '../redux/store/index';
 import {REMOTE, SCREEN} from '../Constants';
 import * as Player from './Player';
-import debugCounter from './Debug';
+import {debugCounter} from './Debug';
 
 const tvEventHandler = new TVEventHandler();
 const enable = () => {

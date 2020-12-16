@@ -4,9 +4,24 @@ import {Platform, TVTextScrollView, ScrollView} from 'react-native';
 import {Text, View} from 'react-native';
 import {COLORS, DIMENSIONS} from '../Constants';
 import {Header} from '../components';
+import {formatBytes} from '../controllers/Debug';
 
 const Debug = () => {
   const [info, setInfo] = useState(null);
+
+  const normalizeText = (prop, res) => {
+    const isMemOrDiskSize = res > 1000;
+    const isObj = typeof res === 'object';
+
+    if (isMemOrDiskSize) {
+      res = formatBytes(res);
+    }
+    if (isObj) {
+      res = JSON.stringify(res);
+    }
+
+    return <Text key={prop}>{`${prop}: ${res}\n`}</Text>;
+  };
 
   const getAllPromises = () => {
     const allPromises = [];
@@ -14,17 +29,9 @@ const Debug = () => {
       if (DeviceInfo[prop]) {
         const func = DeviceInfo[prop];
 
-        allPromises.push(
-            Promise.resolve(func())
-                .then((res) => {
-                  return (
-                    <Text key={prop}>
-                      {`${prop}: ${typeof res === 'object' ?
-                  JSON.stringify(res) : res}\n`}
-                    </Text>
-                  );
-                })
-                .catch((e) => console.log(e)),
+        allPromises.push(Promise.resolve(func())
+            .then((res) => normalizeText(prop, res))
+            .catch((e) => console.log(e)),
         );
       }
     }
