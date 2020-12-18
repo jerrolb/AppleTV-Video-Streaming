@@ -143,10 +143,6 @@ const Search = (props) => {
     ].setNativeProps({hasTVPreferredFocus: true});
   };
 
-  const focusFirstThumbnail = () => {
-    thumbnailRefs.current['00'].setNativeProps({hasTVPreferredFocus: true});
-  };
-
   const getMatchedPlaylists = () => {
     return [...matchedPlaylists].reduce((acc, playlist) => {
       acc.push(<Text key={playlist}>{`${playlist} \n`}</Text>);
@@ -190,9 +186,7 @@ const Search = (props) => {
     }
 
     if (props.isHeaderFocused) {
-      if (searchResults.length) {
-        focusFirstThumbnail();
-      } else {
+      if (!searchResults.length) {
         backspace.current.setNativeProps({
           hasTVPreferredFocus: true,
         });
@@ -213,7 +207,14 @@ const Search = (props) => {
 
         <View style={styles.leftSide}>
           <Pressable
-            style={styles.focusInterceptWrapper}
+            style={[
+              styles.focusInterceptWrapper,
+              styles[
+                ((props.isHeaderFocused && !searchResults.length) ||
+                !props.isHeaderFocused) ?
+                'focusInterceptWide' : 'focusInterceptShort'
+              ],
+            ]}
             onFocus={onFocusInterceptFocused}
           >
             <View style={styles.focusIntercept} />
@@ -348,7 +349,12 @@ const styles = {
   },
   focusInterceptWrapper: {
     height: 5,
+  },
+  focusInterceptWide: {
     width: '75%',
+  },
+  focusInterceptShort: {
+    width: '5%',
   },
   userInput: {
     color: COLORS.WHITE,

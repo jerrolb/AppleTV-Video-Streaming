@@ -2,12 +2,16 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {Image, Pressable} from 'react-native';
 import {connect} from 'react-redux';
-import {setIsReturningFromPlayer} from '../../../redux/actions/actions';
+import {
+  setIsReturningFromPlayer,
+  setIsHeaderFocused,
+} from '../../../redux/actions/actions';
 
 const Backspace = React.forwardRef((props, ref) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const onFocus = () => {
+    props.setIsHeaderFocused(false);
     if (props.player.enabled && props.player.visible) {
       props.restoreFocusReturningFromPlayer();
       return;
@@ -59,6 +63,8 @@ const mapDispatch = (dispatch) => {
   return {
     setIsReturningFromPlayer: (isReturningFromPlayer) =>
       dispatch(setIsReturningFromPlayer(isReturningFromPlayer)),
+    setIsHeaderFocused: (isHeaderFocused) =>
+      dispatch(setIsHeaderFocused(isHeaderFocused)),
   };
 };
 
@@ -79,5 +85,6 @@ Backspace.propTypes = {
   restoreFocusReturningFromPlayer: PropTypes.func.isRequired,
   setIsReturningFromPlayer: PropTypes.func.isRequired,
   isReturningFromPlayer: PropTypes.bool.isRequired,
+  setIsHeaderFocused: PropTypes.func.isRequired,
   clearInfo: PropTypes.func.isRequired,
 };
