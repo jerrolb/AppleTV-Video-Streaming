@@ -37,7 +37,7 @@ const initFeed = (feed) => {
             playlistTitle: category.name,
             title: video.title,
             description: video.shortDescription,
-            thumbnail: `thumbnails/${video.id}thumbnail.jpg`,
+            thumbnail: httpsToHttp(video.thumbnail),
             background: `${URL.BACKGROUNDS}${video.id}background.jpg`,
             url: httpsToHttp(video.content.videos[0].url),
           });
