@@ -2,7 +2,7 @@ import React, {useEffect, useImperativeHandle, useRef} from 'react';
 import PropTypes from 'prop-types';
 import {Text, Image, View, Pressable} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import {COLORS, DIMENSIONS} from '../../Constants';
+import {COLORS, DIMENSIONS, IMG} from '../../Constants';
 import * as Player from '../../controllers/Player';
 
 const Playlist = React.forwardRef((props, ref) => {
@@ -12,13 +12,12 @@ const Playlist = React.forwardRef((props, ref) => {
     <Pressable
       ref={(e) => (refArr.current[index] = e)}
       style={styles.marginLeft}
-      onFocus={() => {
-        props.setFocus(index);
-      }}
+      onFocus={() => { props.setFocus(index); }}
       onPress={Player.playVideo}
     >
       <Image
         style={styles.thumbnailImage}
+        defaultSource={{uri: IMG.DEFAULT}}
         source={{uri: item.thumbnail}}
       />
     </Pressable>

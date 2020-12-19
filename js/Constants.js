@@ -36,6 +36,7 @@ const IMG = {
   SEARCH_BLUE: 'searchBlue.png',
   SPLASH: 'splash.jpg',
   SPINNER: 'spinner.gif',
+  DEFAULT: 'default.png',
 };
 
 const REMOTE = {

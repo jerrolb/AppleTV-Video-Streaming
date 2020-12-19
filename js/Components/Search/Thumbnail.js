@@ -8,7 +8,7 @@ import {
   setNextUrl,
   setIsHeaderFocused,
 } from '../../redux/actions/actions';
-import {COLORS} from '../../Constants';
+import {COLORS, IMG} from '../../Constants';
 
 const Thumbnail = React.forwardRef((props, ref) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -53,6 +53,7 @@ const Thumbnail = React.forwardRef((props, ref) => {
       <View style={styles.highlight}>
         <Image
           style={styles.thumbnailImage}
+          defaultSource={{uri: IMG.DEFAULT }}
           source={{uri: props.item.thumbnail}}
         />
       </View>
