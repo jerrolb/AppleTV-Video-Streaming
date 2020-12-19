@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Image, View} from 'react-native';
@@ -9,14 +9,17 @@ import {COLORS, DIMENSIONS, IMG} from '../Constants';
 import * as Player from '../controllers/Player';
 
 const Sermons = (props) => {
+  const [isBgLoading, setIsBgLoading] = useState(false);
   return (
     <View>
       <View style={styles[props.player.visible ? 'hidden' : 'fullscreen']}>
         <Header />
         <View style={styles.heroImageUnderlay}>
           <Image
-            style={styles.heroImage}
+            style={[styles.heroImage, isBgLoading ? styles.opaque : {}]}
             source={{uri: props.info.background}}
+            onLoadStart={() => setIsBgLoading(true)}
+            onLoadEnd={() => setIsBgLoading(false)}
           />
         </View>
         <Info />
@@ -92,5 +95,8 @@ const styles = {
     top: 0,
     right: 0,
     backgroundColor: COLORS.BLACK,
+  },
+  opaque: {
+    opacity: 0.7,
   },
 };
