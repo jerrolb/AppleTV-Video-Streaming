@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Image, View} from 'react-native';
@@ -9,35 +9,14 @@ import {COLORS, DIMENSIONS, IMG} from '../Constants';
 import * as Player from '../controllers/Player';
 
 const Sermons = (props) => {
-  const [didBgImgFail, setDidBgImgFail] = useState(false);
-  const [prevId, setPrevId] = useState(0);
-
-  const fallbackToThumbnail = (id) => {
-    setPrevId(id);
-    setDidBgImgFail(true);
-  };
-
-  useEffect(() => {
-    if (prevId !== props.info.id) {
-      setDidBgImgFail(false);
-    }
-  });
-
   return (
     <View>
       <View style={styles[props.player.visible ? 'hidden' : 'fullscreen']}>
         <Header />
         <View style={styles.heroImageUnderlay}>
           <Image
-            style={[styles.heroImage, didBgImgFail ? styles.opaque : {}]}
-            source={{uri: props.info[
-              didBgImgFail ? 'thumbnail' : 'background'
-            ]}}
-            onError={() => fallbackToThumbnail(props.info.id)}
-          />
-          <Image
             style={styles.heroImage}
-            source={{uri: IMG.GRADIENT}}
+            source={{uri: props.info.background}}
           />
         </View>
         <Info />
@@ -53,6 +32,7 @@ const Sermons = (props) => {
             onEnd={Player.exit}
             onError={Player.error}
             poster={IMG.SPINNER}
+            posterResizeMode={'cover'}
           />
         </View>
       )}
@@ -99,7 +79,6 @@ const styles = {
     height: 0,
   },
   heroImage: {
-    resizeMode: 'stretch',
     width: 1400,
     height: 575,
     position: 'absolute',
@@ -114,18 +93,5 @@ const styles = {
     top: 0,
     right: 0,
     backgroundColor: COLORS.BLACK,
-  },
-  imageBackground: {
-    width: '100%',
-    height: '100%',
-  },
-  imageOpacity: {
-    opacity: 0.1,
-  },
-  spacer: {
-    height: 35,
-  },
-  opaque: {
-    opacity: 0.5,
   },
 };

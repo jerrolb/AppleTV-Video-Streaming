@@ -311,6 +311,7 @@ const Search = (props) => {
             onEnd={Player.exit}
             onError={Player.error}
             poster={IMG.SPINNER}
+            posterResizeMode={'cover'}
           />
         </View>
       )}

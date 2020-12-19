@@ -70,6 +70,7 @@ const SCREEN = {
 const URL = {
   FEED: 'http://nolachurch.com/stream/feed.json',
   METRICS: 'http://nolachurch.com/stream/appletv/metrics/metrics.php',
+  BACKGROUNDS: 'http://nolachurch.com/stream/appletv/backgrounds/',
 };
 
 const WATCH_LIVE_DATA = [

@@ -1,7 +1,6 @@
-import {SCREEN, URL} from '../Constants';
+import {SCREEN, URL, FETCH_TIMEOUT, MIN_SPLASH_DISPLAY} from '../Constants';
 import store from '../redux/store/index';
 import AbortController from 'abort-controller';
-import {FETCH_TIMEOUT, MIN_SPLASH_DISPLAY} from '../Constants';
 import {
   setPlaylists,
   setInfo,
@@ -39,7 +38,7 @@ const initFeed = (feed) => {
             title: video.title,
             description: video.shortDescription,
             thumbnail: `thumbnails/${video.id}thumbnail.jpg`,
-            background: `backgrounds/${video.id}background.jpg`,
+            background: `${URL.BACKGROUNDS}${video.id}background.jpg`,
             url: httpsToHttp(video.content.videos[0].url),
           });
           break;
