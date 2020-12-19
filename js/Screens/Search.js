@@ -441,4 +441,5 @@ Search.propTypes = {
   setIsHeaderFocused: PropTypes.func.isRequired,
   setShouldSearchBeFocused: PropTypes.func.isRequired,
   playlists: PropTypes.arrayOf(PropTypes.object).isRequired,
+  info: PropTypes.object.isRequired,
 };

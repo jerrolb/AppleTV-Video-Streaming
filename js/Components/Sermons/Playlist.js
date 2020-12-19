@@ -12,7 +12,9 @@ const Playlist = React.forwardRef((props, ref) => {
     <Pressable
       ref={(e) => (refArr.current[index] = e)}
       style={styles.marginLeft}
-      onFocus={() => { props.setFocus(index); }}
+      onFocus={() => {
+        props.setFocus(index);
+      }}
       onPress={Player.playVideo}
     >
       <Image

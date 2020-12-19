@@ -53,7 +53,7 @@ const Thumbnail = React.forwardRef((props, ref) => {
       <View style={styles.highlight}>
         <Image
           style={styles.thumbnailImage}
-          defaultSource={{uri: IMG.DEFAULT }}
+          defaultSource={{uri: IMG.DEFAULT}}
           source={{uri: props.item.thumbnail}}
         />
       </View>
