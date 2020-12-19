@@ -23,7 +23,7 @@ const enable = () => {
           if (
             state.screen === SCREEN.SEARCH &&
             btn === REMOTE.SELECT &&
-            state.isHeaderFocused 
+            state.isHeaderFocused
           ) {
             debugCounter();
             break;
