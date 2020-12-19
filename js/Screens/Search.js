@@ -21,11 +21,10 @@ import {
 const Search = (props) => {
   const [searchResults, setSearchResults] = useState([]);
   const [input, setInput] = useState('');
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
   const [matchedPlaylists, setMatchedPlaylists] = useState([]);
   const [isKeyboardFocused, setIsKeyboardFocused] = useState(false);
   const [isViewReady, setIsViewReady] = useState(false);
+  const [areDetailsVisible, setAreDetailsVisible] = useState(false);
   const [position, setPosition] = useState({
     colIndex: 0,
     rowIndex: 0,
@@ -57,11 +56,6 @@ const Search = (props) => {
   const clearOne = () => {
     const newInput = input.slice(0, -1);
     setInput(newInput);
-  };
-
-  const setInfo = (newTitle, newDescription) => {
-    setTitle(newTitle);
-    setDescription(newDescription);
   };
 
   const getSearchResults = useCallback(() => {
@@ -96,8 +90,7 @@ const Search = (props) => {
     if (!input) {
       setSearchResults([]);
       setMatchedPlaylists([]);
-      setTitle('');
-      setDescription('');
+      setAreDetailsVisible(false);
       return;
     }
     playlists.forEach(searchPlaylist);
@@ -116,7 +109,7 @@ const Search = (props) => {
         key={'backspace'}
         onPress={clearOne}
         restoreFocusReturningFromPlayer={restoreFocusReturningFromPlayer}
-        clearInfo={() => setInfo('', '')}
+        clearInfo={() => setAreDetailsVisible(false)}
       />,
     ];
 
@@ -129,7 +122,7 @@ const Search = (props) => {
             alphaNumeric={alphaNumeric}
             onPress={() => addOne(alphaNumeric)}
             restoreFocusReturningFromPlayer={restoreFocusReturningFromPlayer}
-            clearInfo={() => setInfo('', '')}
+            clearInfo={() => setAreDetailsVisible(false)}
           />,
       );
     }
@@ -195,7 +188,7 @@ const Search = (props) => {
     } else {
       props.setIsHeaderFocused(true);
       props.setShouldSearchBeFocused(true);
-      setInfo('', '');
+      setAreDetailsVisible(false);
     }
     isKeyboardFocused && setIsKeyboardFocused(false);
   };
@@ -230,20 +223,24 @@ const Search = (props) => {
           <View style={styles.keyboard}>{renderKeyboard()}</View>
 
           <View style={styles.info}>
-            <Text
-              ellipsizeMode={'tail'}
-              numberOfLines={2}
-              style={styles.title}
-            >
-              {`${title}`}
-            </Text>
-            <Text
-              ellipsizeMode={'tail'}
-              numberOfLines={5}
-              style={styles.description}
-            >
-              {`${description}`}
-            </Text>
+            {areDetailsVisible &&
+              <>
+                <Text
+                  ellipsizeMode={'tail'}
+                  numberOfLines={2}
+                  style={styles.title}
+                >
+                  {`${props.info.title}`}
+                </Text>
+                <Text
+                  ellipsizeMode={'tail'}
+                  numberOfLines={5}
+                  style={styles.description}
+                >
+                  {`${props.info.description}`}
+                </Text>
+              </>
+            }
             <Text style={styles.matchedPlaylists}>
               {getMatchedPlaylists()}
             </Text>
@@ -280,13 +277,13 @@ const Search = (props) => {
                         }}
                         item={rowItem}
                         index={rowIndex}
-                        onFocused={({newTitle, newDesc, currRowIndex}) => {
+                        onFocused={(currRowIndex) => {
+                          setAreDetailsVisible(true);
                           setPosition({
                             colIndex: colIndex,
                             rowIndex: currRowIndex,
                           });
                           isKeyboardFocused && setIsKeyboardFocused(false);
-                          setInfo(newTitle, newDesc);
                         }}
                       />
                     );
@@ -411,6 +408,7 @@ const mapState = (state) => {
     player: state.player,
     isReturningFromPlayer: state.isReturningFromPlayer,
     isHeaderFocused: state.isHeaderFocused,
+    info: state.info,
   };
 };
 

@@ -16,11 +16,7 @@ const Thumbnail = React.forwardRef((props, ref) => {
   const onFocus = () => {
     setIsFocused(true);
     props.isHeaderFocused && props.setIsHeaderFocused(false);
-    props.onFocused({
-      newTitle: props.item.title,
-      newDesc: props.item.description,
-      currRowIndex: props.index,
-    });
+    props.onFocused(props.index);
     props.setNextUrl(props.item.url);
     props.setInfo({
       id: props.item.id,
