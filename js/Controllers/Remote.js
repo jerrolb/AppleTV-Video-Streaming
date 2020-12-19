@@ -20,7 +20,11 @@ const enable = () => {
             Player.minimize();
             break;
           }
-          if (state.screen === SCREEN.SEARCH && btn === REMOTE.SELECT) {
+          if (
+            state.screen === SCREEN.SEARCH &&
+            btn === REMOTE.SELECT &&
+            state.isHeaderFocused 
+          ) {
             debugCounter();
             break;
           }
