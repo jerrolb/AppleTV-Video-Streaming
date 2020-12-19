@@ -38,7 +38,7 @@ const initFeed = (feed) => {
             title: video.title,
             description: video.shortDescription,
             thumbnail: httpsToHttp(video.thumbnail),
-            background: `${URL.BACKGROUNDS}${video.id}background.jpg`,
+            background: `${URL.BACKGROUNDS}/${video.id}.jpg`,
             url: httpsToHttp(video.content.videos[0].url),
           });
           break;
