@@ -22,11 +22,11 @@ const styles = {
     top: 0,
     left: 0,
     width: 70,
-    height: 420,
+    height: 430,
     backgroundColor: COLORS.BLACK,
   },
   info: {
-    width: 515,
+    width: 525,
     height: 425,
     paddingLeft: 70,
     zIndex: 2,
