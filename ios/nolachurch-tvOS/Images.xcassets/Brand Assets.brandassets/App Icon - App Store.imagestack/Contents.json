@@ -5,10 +5,10 @@
   },
   "layers" : [
     {
-      "filename" : "Layer-1.imagestacklayer"
+      "filename" : "Layer.imagestacklayer"
     },
     {
-      "filename" : "Layer.imagestacklayer"
+      "filename" : "Layer-1.imagestacklayer"
     }
   ]
 }
