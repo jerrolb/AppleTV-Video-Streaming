@@ -5,7 +5,6 @@ import {COLORS, IMG} from '../Constants';
 const Splash = () => {
   return (
     <Image
-      resizeMode={'stretch'}
       style={styles.fullscreen}
       source={{uri: IMG.SPLASH}}
     />

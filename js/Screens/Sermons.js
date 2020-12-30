@@ -21,6 +21,10 @@ const Sermons = (props) => {
             onLoadStart={() => setIsBgLoading(true)}
             onLoadEnd={() => setIsBgLoading(false)}
           />
+          <Image
+            style={styles.heroImage}
+            source={{uri: IMG.GRADIENT}}
+          />
         </View>
         <Info />
         <Playlists />
