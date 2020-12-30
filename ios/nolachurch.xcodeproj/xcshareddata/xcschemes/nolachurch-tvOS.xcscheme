@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
                BuildableName = "NOLA Church.app"
-               BlueprintName = "nolachurch-tvOS"
+               BlueprintName = " hjh"
                ReferencedContainer = "container:nolachurch.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,7 +46,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
             BuildableName = "NOLA Church.app"
-            BlueprintName = "nolachurch-tvOS"
+            BlueprintName = " hjh"
             ReferencedContainer = "container:nolachurch.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -63,7 +63,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
             BuildableName = "NOLA Church.app"
-            BlueprintName = "nolachurch-tvOS"
+            BlueprintName = " hjh"
             ReferencedContainer = "container:nolachurch.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
