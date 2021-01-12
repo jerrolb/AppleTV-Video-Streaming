@@ -140,9 +140,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2D02E47A1E0B4A5D006451C7 /*  hjh */ = {
+		2D02E47A1E0B4A5D006451C7 /* nolachurch-tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget " hjh" */;
+			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "nolachurch-tvOS" */;
 			buildPhases = (
 				9D6C18E27F5DD5FB19E8484F /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
@@ -156,7 +156,7 @@
 			);
 			dependencies = (
 			);
-			name = " hjh";
+			name = "nolachurch-tvOS";
 			productName = "nolachurch-tvOS";
 			productReference = 2D02E47B1E0B4A5D006451C7 /* NOLA Church.app */;
 			productType = "com.apple.product-type.application";
@@ -189,7 +189,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2D02E47A1E0B4A5D006451C7 /*  hjh */,
+				2D02E47A1E0B4A5D006451C7 /* nolachurch-tvOS */,
 			);
 		};
 /* End PBXProject section */
@@ -493,7 +493,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget " hjh" */ = {
+		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "nolachurch-tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4971E0B4A5E006451C7 /* Debug */,
