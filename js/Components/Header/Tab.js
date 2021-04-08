@@ -14,6 +14,7 @@ import {
 } from '../../redux/actions/actions';
 import {Image, View, Text, Pressable} from 'react-native';
 import {COLORS, IMG} from '../../Constants';
+import * as Feed from '../../controllers/Feed';
 
 const Tab = React.forwardRef((props, ref) => {
   const isSermons = props.label === 'Sermons';
@@ -50,6 +51,7 @@ const Tab = React.forwardRef((props, ref) => {
     setIsFocused(false);
   };
   const onPress = () => {
+    Feed.get();
     if (isSermons && props.screen !== props.label) {
       resetSermonsScreen();
     }

@@ -52,19 +52,27 @@ const initFeed = (feed) => {
     console.error('[App.js][initFeed] There are HTTPS calls in the feed!');
   } else {
     const currVideo = playlists[0].videos[0];
+    const currPlaylists = store.getState().playlists;
+    if (JSON.stringify(playlists) === JSON.stringify(currPlaylists)) {
+      return;
+    }
+
     store.dispatch(setPlaylists(playlists));
     store.dispatch(
-        setInfo({
-          id: currVideo.id,
-          title: currVideo.title,
-          description: currVideo.description,
-          background: currVideo.background,
-          thumbnail: currVideo.thumbnail,
-        }),
+      setInfo({
+        id: currVideo.id,
+        title: currVideo.title,
+        description: currVideo.description,
+        background: currVideo.background,
+        thumbnail: currVideo.thumbnail,
+      }),
     );
     store.dispatch(setNextUrl(currVideo.url));
-    store.dispatch(setIsFeedReady(true));
-    store.dispatch(setScreen(SCREEN.SERMONS));
+
+    if (!store.getState().isAppLoaded) {
+      store.dispatch(setIsFeedReady(true));
+      store.dispatch(setScreen(SCREEN.SERMONS));
+    }
   }
 };
 

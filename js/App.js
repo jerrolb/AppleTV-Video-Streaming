@@ -28,15 +28,11 @@ const App = (props) => {
     ['inactive', 'background'].includes(nextAppState) &&
     Metrics.recordSession();
 
-    ['inactive', 'background'].includes(currAppState.current) &&
     nextAppState === 'active' &&
-    restartApp();
+    ['inactive', 'background'].includes(currAppState.current) &&
+    props.setAppStartTime(Date.now());
 
     currAppState.current = nextAppState;
-  };
-  const restartApp = () => {
-    props.setDefaultState();
-    Feed.get();
   };
 
   const renderScreen = () => {
