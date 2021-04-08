@@ -1,7 +1,7 @@
 {
   "name": "nolachurch",
   "author": "Jerrol Brooks <jerrolb@gmail.com>",
-  "version": "0.1.0",
+  "version": "1.18.0",
   "private": true,
   "scripts": {
     "ios": "react-native run-ios --simulator \"Apple TV\" --scheme \"nolachurch-tvOS\"",

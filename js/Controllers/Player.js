@@ -5,13 +5,7 @@ import * as Metrics from '../controllers/Metrics';
 
 const enable = (url) => {
   const nextUrl = store.getState().player.nextUrl;
-  const info = store.getState().info;
   TVMenuControl.enableTVMenuKey();
-  Metrics.recordView({
-    id: info.id,
-    title: info.title,
-    url: nextUrl,
-  });
 
   store.dispatch(
       setPlayer({
@@ -44,6 +38,14 @@ const error = () => {
 };
 
 const init = (url) => {
+  const info = store.getState().info;
+
+  Metrics.recordView({
+    id: info.id,
+    title: info.title,
+    url: store.getState().player.nextUrl,
+  });
+
   if (store.getState().player.enabled) {
     disable();
     enable(url);

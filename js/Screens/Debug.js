@@ -20,7 +20,7 @@ const Debug = () => {
       res = JSON.stringify(res);
     }
 
-    return <Text key={prop}>{`${prop}: ${res}\n`}</Text>;
+    return {[prop]: res};
   };
 
   const getAllPromises = () => {
@@ -39,6 +39,14 @@ const Debug = () => {
   };
 
   Promise.all(getAllPromises()).then((results) => {
+    results = results.reduce((all, result) => {
+      if (result) {
+        const key = Object.keys(result)[0];
+        const val = Object.values(result)[0];
+        all[key] = val;
+      }
+      return all;
+    }, {});
     !info && setInfo(results);
   });
 
@@ -50,10 +58,11 @@ const Debug = () => {
           <Text style={styles.container}>
             <Text>{`Development Mode: ${__DEV__}\n`}</Text>
             <Text>
-              {`Screen size: ${DIMENSIONS.WIDTH}x${DIMENSIONS.HEIGHT}\n\n`}
+              {`Screen size: ${DIMENSIONS.WIDTH}x${DIMENSIONS.HEIGHT}\n`}
             </Text>
-            <Text>{`${JSON.stringify(Platform, null, 4)}\n\n`}</Text>
-            {info}
+            <Text>{`Version: ${info && info.getVersion || '...'}\n\n`}</Text>
+            <Text>{`Platform: ${JSON.stringify(Platform)}\n\n`}</Text>
+            {`Device Info: ${JSON.stringify(info, null, 2)}`}
           </Text>
         </ScrollView>
       </TVTextScrollView>
@@ -70,9 +79,9 @@ const styles = {
     backgroundColor: COLORS.BLACK,
   },
   container: {
-    marginTop: 100,
-    marginLeft: 100,
-    fontSize: 30,
+    marginTop: 50,
+    marginLeft: 50,
+    fontSize: 15,
     color: COLORS.WHITE,
   },
 };

@@ -101,11 +101,17 @@ const WATCH_LIVE_DATA = [
   },
 ];
 
+const METRICS = {
+  VIEW: 'view',
+  SESSION: 'session',
+};
+
 export {
   COLORS,
   DIMENSIONS,
   FETCH_TIMEOUT,
   IMG,
+  METRICS,
   MIN_SPLASH_DISPLAY,
   REMOTE,
   SCREEN,

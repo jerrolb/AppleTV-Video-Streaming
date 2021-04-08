@@ -1,6 +1,8 @@
 import {URL} from '../Constants';
 import store from '../redux/store/index';
 import Token from '../Token';
+import {METRICS} from '../Constants';
+import {getUniqueId} from 'react-native-device-info';
 
 const options = {
   method: 'POST',
@@ -48,9 +50,11 @@ const recordView = ({id, title}) => {
     return;
   }
   const params = generateParams({
+    type: METRICS.VIEW,
     id: id,
     title: title,
     timestamp: getTimestamp(),
+    uniqueId: getUniqueId(),
     token: Token,
   });
   const urlWithParams = `${URL.METRICS}?${params}`;
@@ -62,8 +66,10 @@ const recordSession = () => {
     return;
   }
   const params = generateParams({
+    type: METRICS.SESSION,
     duration: getDuration(),
     timestamp: getTimestamp(),
+    uniqueId: getUniqueId(),
     token: Token,
   });
   const urlWithParams = `${URL.METRICS}?${params}`;
